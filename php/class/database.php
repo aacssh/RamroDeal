@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Defines core functionlity for database
  * 
@@ -14,7 +13,7 @@ class Database
      * Used to store the instance of Database class
      * @var object
      */
-    public static $_instance;
+    private static $dbinstance;
     
     /**
      * Stores the hostname of database
@@ -33,19 +32,25 @@ class Database
      * Optionally the value can be a string
      * @var null
      */
-    private $_pw = null;
+    private $_pw = 'gcespcm';
     
     /**
      * Stores the database name
      * @var string
      */
-    private $_db = 'ramrodeal';
+    private $_dbname = 'ramrodeal';
     
     /**
      * Stores the instance of PDO class
      * @var object
      */
-    private $_pdo;
+    private $_db;
+    
+    /**
+     * Stores the statement of PDO class
+     * @var object
+     */
+    private $_stmt;
     
     /**
      * Creates and store an instance of Database class
@@ -57,11 +62,11 @@ class Database
      * @return Object an object to access other methods of class
      * @param object $instance This is static 
      */
-    public static function getInstance(){
-        if(!isset(self::$instance)){
-            self::$instance = new Database();
+    public static function getDBInstance(){
+        if(!isset(self::$dbinstance)){
+            self::$dbinstance = new Database();
         }
-        return self::$instance;
+        return self::$dbinstance;
     }
     
     /**
@@ -70,14 +75,111 @@ class Database
      * 
      * @param object $pdo This pdo stores an object of PDO class
      */    
-    public function __construct(){
+    private function __construct(){
         try{
-            $this->_pdo = new PDO("mysql:host=$_host;dbname=$_db",$_username,$_pw);
-            $this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->_db = new PDO('mysql:host='.$this->_host.';dbname='.$this->_dbname, $this->_username, $this->_pw);
+            $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
-            echo 'Couldn\'t connect to database';
-            echo '<p><strong>Message:</strong>'.$e-getMessage().'</p>';
+            //echo die('Couldn\'t connect to databases');
+            echo die('<p><strong>Message:</strong>'.$e->getMessage().'</p>');
         }
+    }
+    
+    /**
+     * Performs SQL query with PDO::prepare function
+     * @param  string This parameter contains sql query
+     */
+    public function query($query){
+        $this->stmt = $this->_db->prepare($query);
+    }
+    
+    /**
+     * Performs binding of input parameters using PDO::bindValue() function.
+     * switch statement is used to set the datatype of parameter
+     * 
+     * @param  string  $param  The placeholder value that will be used in SQL statement
+     * @param  string  $value  The actual values that will be bind to the placeholder
+     * @param  string  $type   The datatype of the parameter
+     */
+    public function bind($param, $value, $type = null){
+        if (is_null($type)) {
+            switch (true) {
+                case is_int($value):
+                    $type = PDO::PARAM_INT;
+                    break;
+                case is_bool($value):
+                    $type = PDO::PARAM_BOOL;
+                    break;
+                case is_null($value):
+                    $type = PDO::PARAM_NULL;
+                    break;
+                default:
+                    $type = PDO::PARAM_STR;
+            }
+        }
+        $this->stmt->bindValue($param, $value, $type);
+    }
+    
+    /**
+     * Performs execution of prepared statement using PDO::execute() function
+     */
+    public function execute(){
+        return $this->stmt->execute();
+    }
+    
+    /**
+     * Performs specific task using PDO::fetchAll() function
+     * First, the execute() method is run
+     * 
+     * @return   array   result set of rows
+     */
+    public function fetchAll(){
+        $this->execute();
+        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Performs specific task using PDO::fetchAll() function
+     * First, the execute() method is run
+     * 
+     * @return   array   result set of rows
+     */
+    public function fetchSingle(){
+        $this->execute();
+        return $this->stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    /**
+     * Performs specific task of finding number of affected rows from previous
+     * delete, insert and select statement using PDO::rowCount() function
+     * 
+     * @return   integer   Number of affected rows
+     */
+    public function rowCount(){
+        return $this->stmt->rowCount();
+    }
+    
+    /**
+     * Begins a transcation with PDO::beginTranscation() function
+     */
+    public function beginTransaction(){
+        return $this->dbh->beginTransaction();
+    }
+    
+    /**
+     * Ends a transcation and commits the changes with
+     * PDO::commit() function
+     */
+    public function endTransaction(){
+        return $this->dbh->commit();
+    }
+    
+    /**
+     * Cancels a transcation and roll backs the changes with
+     * PDO::rollBack() function
+     */
+    public function cancelTransaction(){
+        return $this->dbh->rollBack();
     }
 }
 ?>

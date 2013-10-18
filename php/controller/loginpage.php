@@ -18,8 +18,15 @@ login_form();
 
 if (isset($_POST['email']) && isset($_POST['pw']))
 {
-    $email = Validation::getInstance()->filter($_POST['email']);
-    $pw = Validation::getInstance()->filter($_POST['pw']);
+    $filter = Validation::getValidationInstance();
+    $email = $filter->filter($_POST['email']);
+    $pw = $filter->filter($_POST['pw']);
+    
+    $login = Login::getLoginInstance();
+    
+    $login->setProperty($email, $pw, Database::getDBInstance());
+    
+    $login->login();
 }
 
 //Displaying footer of html
