@@ -1,0 +1,35 @@
+body {  
+padding-top: 10px;  
+padding-bottom: 40px;
+
+	font-size: 75%; /*base font size is 14px */
+	font-family: arial, 'Lucide Sans Unicode';
+	line-height: 1.5;
+	text-align:left;
+	
+	margin: 0 auto;
+	clear: both;
+}  
+ 
+.leaderboard {  
+padding: 60px;  
+margin-bottom: 30px;  
+background-image: url('/twitter-bootstrap/images/gridbg.gif');  
+background-repeat:repeat;  
+-webkit-border-radius: 6px;  
+-moz-border-radius: 6px;  
+border-radius: 6px;  
+}
+
+.hero-unit h2 {  
+font-size: 40px;  
+margin-bottom: 5px;  
+line-height: 1;  
+letter-spacing: -1px;  
+color:#FF6600;  
+}  
+.hero-unit p {  
+font-size: 18px;  
+font-weight: 200;  
+line-height: 27px;  
+}

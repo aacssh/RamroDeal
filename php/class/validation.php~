@@ -1,0 +1,16 @@
+<?php
+
+class filterData
+{
+	private $var;
+	
+    public function filter($var)
+    {
+	$this->var = $var;
+        $this->var = strip_tags($this->var);
+        $this->var = htmlentities($this->var, ENT_QUOTES);
+        $this->var = stripslashes($this->var);
+        return trim($this->var);		
+    }
+}
+?>

@@ -1,0 +1,19 @@
+<?php
+
+include '../view/fns.php';
+
+//heading part of html
+ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
+
+//navigation part of html
+nav();
+
+
+/*
+//navigation part of html
+navigation();
+*/
+//footer of html
+ramrodeal_footer();
+
+?>
