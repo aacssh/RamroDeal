@@ -19,7 +19,7 @@ class Validation
      * Used to store the instance of the class
      * @var object
      */
-    private static $validationinstance;
+    private static $_validationinstance;
     
     /**
      * Creates and store an instance of the class
@@ -32,10 +32,10 @@ class Validation
      * @return  object 		   an object to access other methods of class
      */
     public static function getValidationInstance(){
-	if (!isset(self::$alidationinstance)){
-	    self::$validationinstance = new Validation();
+	if (!isset(self::$_validationinstance)){
+	    self::$_validationinstance = new Validation();
 	}
-	return self::$validationinstance;
+	return self::$_validationinstance;
     }
     
     /**

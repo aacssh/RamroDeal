@@ -25,7 +25,7 @@ class Login
      * Used to store the instance of Login class
      * @var object
      */
-    private static $logininstance;
+    private static $_logininstance;
     
     /**
      * Used to store the instance of Database class
@@ -44,10 +44,10 @@ class Login
      * @param object $instance This is static 
      */
      public static function getLoginInstance(){
-	 if(!isset(self::$logininstance)){
-            self::$logininstance = new Login();
+	 if(!isset(self::$_logininstance)){
+            self::$_logininstance = new Login();
         }
-        return self::$logininstance;
+        return self::$_logininstance;
      }
 
     
@@ -76,34 +76,26 @@ class Login
     }
     
     public function login(){
-	echo 'I am at top';
-	
 	if (!empty($this->_username) && !empty($this->_password))
         {
-	    echo 'I am at second';
 	    try{
 		// Look up the username and password in the database
 		$this->_db->query("select email, password from login where email = :uname and password=SHA(:pw)");
-		echo 'I am above bind';
 		$this->_db->bind(':uname', $this->_username);
 		$this->_db->bind(':pw', $this->_password);
 		$this->_db->execute();
-		//$row = $this->_db->fetchAll();
+		$row = $this->_db->fetchAll();
 	    } catch(PDOException $e){
 		echo die($e->getMessage());
 	    }
 	    
-	    echo 'i am third';
             if ($this->_db->rowCount() == 1)
             {
                 // The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
-		echo "i'am fourth";
-		while ($row = $this->_db->fetchAll()){
-			echo $row['email'];
-			echo $row['password'];
-		}
+		echo $row[0]['email'];
+		echo $row[0]['password'];
 		
-                /*
+		/*
                 $_SESSION['id']=$row['user_id'];
                 $_SESSION['username']=$row['user_name'];
                 $con_id = $row['contact_id'];
@@ -113,7 +105,7 @@ class Login
                 #header('Location: ' . $home_url);
                 
                 $result=$this->_db->select("select position from contacts where contact_id='$con_id'");
-               
+               /*
                 if ($result->num_rows == 1)
                 {
                     $row = $result->fetch_array();

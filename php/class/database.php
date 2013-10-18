@@ -13,7 +13,7 @@ class Database
      * Used to store the instance of Database class
      * @var object
      */
-    private static $dbinstance;
+    private static $_dbinstance;
     
     /**
      * Stores the hostname of database
@@ -63,10 +63,10 @@ class Database
      * @param object $instance This is static 
      */
     public static function getDBInstance(){
-        if(!isset(self::$dbinstance)){
-            self::$dbinstance = new Database();
+        if(!isset(self::$_dbinstance)){
+            self::$_dbinstance = new Database();
         }
-        return self::$dbinstance;
+        return self::$_dbinstance;
     }
     
     /**
@@ -134,7 +134,6 @@ class Database
      * @return   array   result set of rows
      */
     public function fetchAll(){
-        $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
@@ -145,7 +144,6 @@ class Database
      * @return   array   result set of rows
      */
     public function fetchSingle(){
-        $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
     
