@@ -22,11 +22,13 @@ if (isset($_POST['email']) && isset($_POST['pw']))
     $email = $filter->filter($_POST['email']);
     $pw = $filter->filter($_POST['pw']);
     
-    $login = Login::getLoginInstance();
+    $login = Log::getLoginInstance();
     
     $login->setProperty($email, $pw, Database::getDBInstance());
     
     $login->login();
+} else{
+    throw new Exception('Couldn\'t login');
 }
 
 //Displaying footer of html
