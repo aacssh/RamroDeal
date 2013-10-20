@@ -91,74 +91,61 @@ class Log
 	    
             if ($this->_db->rowCount() == 1)
             {
+		// The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
+
+		$_SESSION['email'] = $rowlogin[0]['email'];
+		setcookie('email', $rowlogin[0]['email'], time() + (60 * 60));
+		
 		try{
-			// The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
-			echo $rowlogin[0]['email'];
+		    $result=$this->_db->query("select type from person where email = :email");
+		    $this->_db->bind(':email', $this->_email);
+		    $this->_db->execute();
+		    $rowperson = $this->_db->fetchAll();
 			
-			/*$_SESSION['email'] = $row[0]['email'];
-			setcookie('email', $row[0]['email'], time() + (60 * 60 * 24));
+		} catch(PDOException $e){
+		    echo die($e->getMessage());
+		}
+		
+		if($this->_db->rowCount() == 1){
+		    echo $rowperson[0]['type'];
+		    $_SESSION['type'] = $rowperson[0]['type'];
+		    setcookie('type', $rowperson[0]['type'], time() + (60 * 60));
+
+		} else{
+		    try{
+			$result=$this->_db->query("select type from company where email = :email");
+			$this->_db->bind(':email', $this->_email);
+			$this->_db->execute();
+			$rowcompany = $this->_db->fetchAll();
+		    } catch(PDOException $e){
+			echo die($e->getMessage());
+		    }
+		    if($this->_db->rowCount() == 1){
+			echo $rowcompany[0]['type'];
+			/*$_SESSION['type'] = $row[0]['type'];
+			setcookie('type', $row[0]['type'], time() + (60 * 60 * 24));
 			$home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
-			$home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
-			header('Location: ' . $home_url);('Location: ' . $home_url);*/
-			
-			try{
-			    $result=$this->_db->query("select type from person where email = :email");
-			    $this->_db->bind(':email', $this->_email);
-			    $this->_db->execute();
-			    $rowperson = $this->_db->fetchAll();
-				
-			} catch(PDOException $e){
-			    echo die($e->getMessage());
-			}
-			
-			if($this->_db->rowCount() == 1){
-			    echo $rowperson[0]['type'];
-			    /*$_SESSION['type'] = $row[0]['type'];
-			    setcookie('type', $row[0]['type'], time() + (60 * 60 * 24));
-			    $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
-			    header('Location: ' . $home_url);*/
-			} else{
-			    try{
-				$result=$this->_db->query("select type from company where email = :email");
-				$this->_db->bind(':email', $this->_email);
-				$this->_db->execute();
-				$rowcompany = $this->_db->fetchAll();
-			    } catch(PDOException $e){
-				echo die($e->getMessage());
-			    }
-			    if($this->_db->rowCount() == 1){
-				echo $rowcompany[0]['type'];
-				/*$_SESSION['type'] = $row[0]['type'];
-				setcookie('type', $row[0]['type'], time() + (60 * 60 * 24));
-				$home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
-				header('Location: ' . $home_url);
-				*/
-			    }
-			}
-		}catch(Exception $e){
-			echo nl2br($e->getMessage());
-			echo nl2br($e->getCode());
-			echo nl2br($e->getFile());
-			echo $e->getLine();
+			header('Location: ' . $home_url);
+			*/
+		    }
 		}
             }
             else {
                 // The username/password are incorrect so set an error message
-                $error_msg = "<p><div class='control-group info'>
+                return "<p><div class='control-group info'>
                             <h1 class='control-label text-center btn btn-large btn-block'>Incorrect password or username</h1></div></p>";
-                echo $error_msg;
             }
+	    return 'Successfully logged in';
 	}
         else {
             // The username & password weren't entered so set an error message
-            $error_msg = "<p><div class='control-group info'>
+            return "<p><div class='control-group info'>
                         <h1 class='control-label text-center btn btn-large btn-block'>fields are empty</h1></div></p>";
-            echo $error_msg;
         }
     }
     
     public function logout(){
-	if (isset($_SESSION['id']))
+	if (isset($_SESSION['email']))
 	{
 	    // Delete the session vars by clearing the $_SESSION array
 	    $_SESSION = array();
@@ -172,12 +159,9 @@ class Log
 	    session_destroy();
 	    
 	    // Delete the user ID and username cookies by setting their expirations to an hour ago (3600)
-	    setcookie('id', '', time() - 3600);
-	    setcookie('username', '', time() - 3600);
-	}	
-	    //Redirect to the home page
-	    $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php ';
-	    header('Location: ' . $home_url);
+	    setcookie('email', '', time() - 3600);
+	    setcookie('type', '', time() - 3600);
+	}
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include '../view/fns.php';
 
 function __autoload($obj){
@@ -7,15 +7,7 @@ function __autoload($obj){
     include '../class/'.$class.'.php';
 }
 
-//Displaying heading part of html
-ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
-
-//Displaying navigation part of html
-nav();
-
-//Displaying login form
-login_form();
-
+$msg = '';
 if (isset($_POST['email']) && isset($_POST['pw']))
 {
     $filter = Validation::getValidationInstance();
@@ -26,9 +18,46 @@ if (isset($_POST['email']) && isset($_POST['pw']))
     
     $login->setProperty($email, $pw, Database::getDBInstance());
     
-    $login->login();
+    $msg = $login->login();
+}
+
+//Displaying heading part of html
+ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
+
+//Displaying navigation part of html
+nav();
+
+if (empty($_SESSION['email']))
+{
+    //Displaying login form
+    login_form();
+    echo $msg;
 } else{
-    throw new Exception('Couldn\'t login');
+    switch($_SESSION['type']){
+        case 'administrator':
+            $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/admin/adminHomepage.php';
+	    header('Location: ' . $home_url);('Location: ' . $home_url);
+            break;
+        
+        case 'sub-administrator':
+            $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/admin/subAdminHomepage.php';
+	    header('Location: ' . $home_url);('Location: ' . $home_url);
+            break;
+        
+        case 'merchant':
+            $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/merchant/merchantHomepage.php';
+	    header('Location: ' . $home_url);('Location: ' . $home_url);
+            break;
+        
+        case 'agent':
+            $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/agent/agentHomepage.php';
+	    header('Location: ' . $home_url);('Location: ' . $home_url);
+            break;
+        
+        default:
+            $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/customer/customerHomepage.php';
+	    header('Location: ' . $home_url);('Location: ' . $home_url);
+    }
 }
 
 //Displaying footer of html

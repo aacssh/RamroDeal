@@ -4426,7 +4426,7 @@ input[type="submit"].btn.btn-mini {
   margin-left: -20px;
   font-size: 20px;
   font-weight: 200;
-  color: #777777;
+  color: #0088CC;
   text-shadow: 0 1px 0 #ffffff;
 }
 
@@ -4754,8 +4754,8 @@ input[type="submit"].btn.btn-mini {
 .navbar .nav li.dropdown.open > .dropdown-toggle,
 .navbar .nav li.dropdown.active > .dropdown-toggle,
 .navbar .nav li.dropdown.open.active > .dropdown-toggle {
-  color: #555555;
-  background-color: #e5e5e5;
+  color: #FFFFFF;
+  background-color: #2f96b4;
 }
 
 .navbar .nav li.dropdown > .dropdown-toggle .caret {
