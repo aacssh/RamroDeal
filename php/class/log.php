@@ -43,7 +43,7 @@ class Log
      * @return Object an object to access other methods of class
      * @param object $instance This is static 
      */
-     public static function getLoginInstance(){
+     public static function getLogInstance(){
 	 if(!isset(self::$_logininstance)){
             self::$_logininstance = new Log();
         }
@@ -68,74 +68,78 @@ class Log
 	$this->_password = $pw;
 	$this->_db = $db;
     }
+    
+    public function signUp(){
+	try{
+            $this->_db->query("INSERT INTO login (email, password) VALUE (:email, :pass)");
+            $this->_db->bind(':email', $this->_email);
+	    $this->_db->bind(':pass', $this->_password);
+            $this->_db->execute();
+        }
+	catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+    }
 
     public function login(){
-	if (!empty($this->_email) && !empty($this->_password))
-        {
+	try{
+	    // Look up the username and password in the database
+	    $this->_db->query("select email from login where email = :uname and password=SHA(:pw)");
+	    $this->_db->bind(':uname', $this->_email);
+	    $this->_db->bind(':pw', $this->_password);
+	    $this->_db->execute();
+	    $rowlogin = $this->_db->fetchAll();
+	} catch(PDOException $e){
+	    echo die($e->getMessage());
+	}
+	
+	if ($this->_db->rowCount() == 1)
+	{
+	    // The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
+
+	    $_SESSION['email'] = $rowlogin[0]['email'];
+	    setcookie('email', $rowlogin[0]['email'], time() + (60 * 60));
+	    
 	    try{
-		// Look up the username and password in the database
-		$this->_db->query("select email from login where email = :uname and password=SHA(:pw)");
-		$this->_db->bind(':uname', $this->_email);
-		$this->_db->bind(':pw', $this->_password);
+		$result=$this->_db->query("select type from person where email = :email");
+		$this->_db->bind(':email', $this->_email);
 		$this->_db->execute();
-		$rowlogin = $this->_db->fetchAll();
+		$rowperson = $this->_db->fetchAll();
+		    
 	    } catch(PDOException $e){
 		echo die($e->getMessage());
 	    }
 	    
-            if ($this->_db->rowCount() == 1)
-            {
-		// The log-in is OK so set the user ID and username session vars (and cookies), and redirect to the home page
+	    if($this->_db->rowCount() == 1){
+		echo $rowperson[0]['type'];
+		$_SESSION['type'] = $rowperson[0]['type'];
+		setcookie('type', $rowperson[0]['type'], time() + (60 * 60));
 
-		$_SESSION['email'] = $rowlogin[0]['email'];
-		setcookie('email', $rowlogin[0]['email'], time() + (60 * 60));
-		
+	    } else{
 		try{
-		    $result=$this->_db->query("select type from person where email = :email");
+		    $result=$this->_db->query("select type from company where email = :email");
 		    $this->_db->bind(':email', $this->_email);
 		    $this->_db->execute();
-		    $rowperson = $this->_db->fetchAll();
-			
+		    $rowcompany = $this->_db->fetchAll();
 		} catch(PDOException $e){
 		    echo die($e->getMessage());
 		}
-		
 		if($this->_db->rowCount() == 1){
-		    echo $rowperson[0]['type'];
-		    $_SESSION['type'] = $rowperson[0]['type'];
-		    setcookie('type', $rowperson[0]['type'], time() + (60 * 60));
-
-		} else{
-		    try{
-			$result=$this->_db->query("select type from company where email = :email");
-			$this->_db->bind(':email', $this->_email);
-			$this->_db->execute();
-			$rowcompany = $this->_db->fetchAll();
-		    } catch(PDOException $e){
-			echo die($e->getMessage());
-		    }
-		    if($this->_db->rowCount() == 1){
-			echo $rowcompany[0]['type'];
-			/*$_SESSION['type'] = $row[0]['type'];
-			setcookie('type', $row[0]['type'], time() + (60 * 60 * 24));
-			$home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
-			header('Location: ' . $home_url);
-			*/
-		    }
+		    echo $rowcompany[0]['type'];
+		    /*$_SESSION['type'] = $row[0]['type'];
+		    setcookie('type', $row[0]['type'], time() + (60 * 60 * 24));
+		    $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/operatorHomepage.php';
+		    header('Location: ' . $home_url);
+		    */
 		}
-            }
-            else {
-                // The username/password are incorrect so set an error message
-                return "<p><div class='control-group info'>
-                            <h1 class='control-label text-center btn btn-large btn-block'>Incorrect password or username</h1></div></p>";
-            }
-	    return 'Successfully logged in';
+	    }
 	}
-        else {
-            // The username & password weren't entered so set an error message
-            return "<p><div class='control-group info'>
-                        <h1 class='control-label text-center btn btn-large btn-block'>fields are empty</h1></div></p>";
-        }
+	else {
+	    // The username/password are incorrect so set an error message
+	    return "<p><div class='control-group info'>
+			<h1 class='control-label text-center btn btn-large btn-block'>Incorrect password or username</h1></div></p>";
+	}
+	return 'Successfully logged in';
     }
     
     public function logout(){

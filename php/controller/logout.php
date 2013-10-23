@@ -6,7 +6,7 @@ function __autoload($obj){
     include '../class/'.$class.'.php';
 }
 
-$logout = Log::getLoginInstance();
+$logout = Log::getLogInstance();
 
 $logout->logout();
 

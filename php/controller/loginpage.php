@@ -14,7 +14,7 @@ if (isset($_POST['email']) && isset($_POST['pw']))
     $email = $filter->filter($_POST['email']);
     $pw = $filter->filter($_POST['pw']);
     
-    $login = Log::getLoginInstance();
+    $login = Log::getLogInstance();
     
     $login->setProperty($email, $pw, Database::getDBInstance());
     

@@ -7,4 +7,5 @@
 	include 'admin/addCategory.php';
 	include 'admin/addCompany.php';
 	include 'admin/categoryTable.php';
+	include 'admin/companylist.php';
 ?>

@@ -161,7 +161,7 @@ class Database
      * Begins a transcation with PDO::beginTranscation() function
      */
     public function beginTransaction(){
-        return $this->dbh->beginTransaction();
+        return $this->_db->beginTransaction();
     }
     
     /**
@@ -169,7 +169,7 @@ class Database
      * PDO::commit() function
      */
     public function endTransaction(){
-        return $this->dbh->commit();
+        return $this->_db->commit();
     }
     
     /**
@@ -177,7 +177,7 @@ class Database
      * PDO::rollBack() function
      */
     public function cancelTransaction(){
-        return $this->dbh->rollBack();
+        return $this->_db->rollBack();
     }
 }
 ?>

@@ -28,44 +28,49 @@
         $state = $filter->filter($_POST['state']);
         $country = $filter->filter($_POST['country']);
         $zip = $filter->filter($_POST['zip']);
+        $address_id = '';
         
         $add = array(
             'city' => $city, 'state' => $state, 'country' => $country, 'zip' => $zip
         );
         
         try{
-            $address = Address::getAddressInstance($add, Database::getDBInstance());
+            $address = Address::getAddressInstance();
+            $address->setProperty($add, Database::getDBInstance());
             $checkAddress = $address->checkAddress();
             foreach($checkAddress as $deal){
                 foreach($deal as $list){
-                   echo" <tr>
-                        <td>$list</td>
-                    </tr>";
+                   $address_id = $list;
                 }
             }
-            /*
-            if ($checkAddress){
-                $code = RandomCode::getRandomCodeInstance()->randCode(18);
-                $args = array(
-                      'type' => $type, 'name' => $name, 'email' => $email, 'phoneno' => $phoneno,
-                      'mobileno' => $mobileno, 'code' => $code
-                    );
-                try{
-                    $dealcategory = Company::getCompanyInstance($args, Database::getDBInstance());
-                    $msg = $dealcategory->addCompany();
-                    echo $msg;
-                } catch(Exception $e){
-                    echo $e->getMessage();
-                }
-                echo $code;
-            }else
-                echo 'Invalid Address';
-            */    
-        } catch(Exception $e){
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }    
+            
+        try{
+            $code = RandomCode::getRandomCodeInstance()->randCode(18);
+        }
+        catch(Exception $e){
             echo $e->getMessage();
         }
-/*
-        */
+
+        $args = array(
+              'type' => $type, 'name' => $name, 'email' => $email, 'phoneno' => $phoneno,
+              'mobileno' => $mobileno, 'code' => $code, 'address_id' => $address_id
+            );
+        
+        $log = Log::getLogInstance();
+        $log->setProperty($email, $code, Database::getDBInstance());
+        
+        try{
+            $dealcategory = Company::getCompanyInstance();
+            $dealcategory->setProperty($args, Database::getDBInstance());
+            $msg = $dealcategory->addCompany(Log::getLogInstance());
+        }
+        catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
     
     //Displaying footer of html

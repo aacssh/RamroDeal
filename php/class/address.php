@@ -8,7 +8,16 @@ class Address
     private $_db;
     private static $_addressinstance;
     
-    private function __construct($args, $db){
+    private function __construct(){}
+    
+    public function getAddressInstance(){
+        if(empty(self::$_addressinstance)){
+            self::$_addressinstance = new Address();
+        }
+        return self::$_addressinstance;
+    }
+    
+    public function setProperty($args, $db){
         if (is_object($db)){
             $this->_db = $db;
         } else{
@@ -39,13 +48,6 @@ class Address
         } else{
             throw new Exception("Arguments should be an array");
         }
-    }
-    
-    public function getAddressInstance($args, $db){
-        if(empty(self::$_addressinstance)){
-            self::$_addressinstance = new Address($args, $db);
-        }
-        return self::$_addressinstance;
     }
     
     public function checkAddress(){
