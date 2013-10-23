@@ -1,11 +1,18 @@
 <?php
-    //include('../session.php');
+    include('../session.php');
     include('../../view/fns.php');
  
     function __autoload($obj){
         $class = strtolower($obj);
         include '../../class/'.$class.'.php';
     }
+    
+    
+    //Displaying heading part of html
+    ramrodeal_header("RamroDeal - Great Deal, Great Price");
+    
+    //Displaying navigation part of html
+    nav();
     
     //displaying add category form
     addCategory();
@@ -23,11 +30,9 @@
     
     $deallist = $dealcategory->getCategory();
     
-    //foreach($deallist as $deal=>$value){
-        var_dump($deallist);
-        echo '<br />';
-        print_r($deallist);
-        //echo $deal.$value;
-    //}
+    categoryTable($deallist);
+    
+    //Displaying footer of html
+    ramrodeal_footer();
 
 ?>

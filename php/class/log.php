@@ -68,13 +68,7 @@ class Log
 	$this->_password = $pw;
 	$this->_db = $db;
     }
-    
-    public function getProperty(){
-	echo $this->_username;
-	echo $this->_password;
-	echo $this->_db->test();
-    }
-    
+
     public function login(){
 	if (!empty($this->_email) && !empty($this->_password))
         {

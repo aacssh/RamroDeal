@@ -7,7 +7,7 @@
                     <div class="container">
                         <ul class="nav">
                           <?php
-                            switch($_SESSION['type']){
+                                switch($_SESSION['type']){
                                 case "administrator":
                           ?>
                             <li class=""><a href="#">Dashboard</a></li>
