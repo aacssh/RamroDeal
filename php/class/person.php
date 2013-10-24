@@ -1,28 +1,128 @@
 <?php
 class Person
 {
-    protected $first_name;
-    protected $last_name;
-    protected $gender;
+    private $_type;
+    private $_firstname;
+    private $_lastname;
+    private $_gender;
+    private $_email;
+    private $_phoneno;
+    private $_db;
+    private $_address_id;
+    private $_code;
+    private $_log;
+    private static $_personinstance;
     
-    public function __construct($fname, $lname, $gender){
-        parent::__construct();
-        $this->first_name = $fname;
-        $this->last_name = $lname;
-        $this->gender = $gender;
+    private function __construct(){}
+    
+    public function getPersonInstance(){
+        if(empty(self::$_personinstance)){
+            self::$_personinstance = new Person();
+        }
+        return self::$_personinstance;
     }
     
-    public function getName(){
-        return $this->first_name.' '.$this->last_name;
-    }
-    
-    public function getGender(){
-        return $this->gender;
-    }
-    /*
-    public function getBalance(Balance $balance){
-        return $Balance->getDepositBalance();
-    }*/
-}
+    public function setProperty($args, $db){
+        if (is_object($db)){
+            if(isset($db)){
+                $this->_db = $db;
+            }
+        } else{
+            throw new Exception("Parameter passed should be an object");
+        }
 
+        if (is_array($args)){
+            if (isset($args['address_id'])){
+                $this->_address_id = $args['address_id'];
+            }
+            
+            if (isset($args['type'])){
+                $this->_type = $args['type'];
+            }
+
+            if (isset($args['firstname'])){
+                $this->_firstname = $args['firstname'];
+            }
+            
+            if (isset($args['lastname'])){
+                $this->_lastname = $args['lastname'];
+            }
+            
+            if (isset($args['email'])){
+                $this->_email = $args['email'];
+            }
+            
+            if (isset($args['gender'])){
+                $this->_gender = $args['gender'];
+            }
+            
+            if (isset($args['phoneno'])){
+                $this->_phoneno = $args['phoneno'];
+            }
+            
+            if (isset($args['code'])){
+                $this->_code = $args['code'];
+            }
+        } else{
+            throw new Exception("Arguments should be an array");
+        }
+    }
+    
+    public function addPerson($log){
+        $this->_log = $log;
+        try{
+            $this->_db->beginTransaction();
+            $this->_log->signUp();
+            $this->_db->query("INSERT INTO person (person_id, first_name, last_name, gender, contact_no, join_date, type, address_id, email)
+                              VALUE (:id, :fname, :lname, :gender, :contact_no, now(), :type, :address, :email)");
+            $this->_db->bind(':id', $this->_code);
+            $this->_db->bind(':fname', $this->_firstname);
+            $this->_db->bind(':lname', $this->_lastname);
+            $this->_db->bind(':gender', $this->_gender);
+            $this->_db->bind(':contact_no', $this->_phoneno);
+            $this->_db->bind(':type', $this->_type);
+            $this->_db->bind(':address', $this->_address_id);
+            $this->_db->bind(':email', $this->_email);
+            $this->_db->execute();
+            $this->_db->endTransaction();
+        } catch(PDOException $e){
+            $this->_db->cancelTransaction();
+            die($e->getMessage());
+        }
+        return 'Successfully added';
+    }
+    
+    public function getPerson(){
+        try{
+            $this->_db->query("SELECT name FROM person");
+            $this->_db->execute();
+            $personlist = $this->_db->fetchAll();
+            
+            if($this->_db->rowCount() > 0){
+                return $personlist;
+            } else{
+                return 0;
+            }
+        } catch(PDOException $e){
+            die($e->getMessage());
+        }
+    }
+    
+    public function getCustomer(){
+        try{
+            $this->_db->query("SELECT name FROM person WHERE type=':customer'");
+            $this->_db->bind(':customer', 'customer');
+            $this->_db->execute();
+            $customerlist = $this->_db->fetchAll();
+            
+            if($this->_db->rowCount() > 0){
+                return $customerlist;
+            } else{
+                return 0;
+            }
+        } catch(PDOException $e){
+            die($e->getMessage());
+        }
+    }
+}
 ?>

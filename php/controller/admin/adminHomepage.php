@@ -2,10 +2,11 @@
 include('../session.php');
 include '../../view/fns.php';
 
-function __autoload($obj){
+spl_autoload_register(function ($obj)
+{
     $class = strtolower($obj);
     include '../../class/'.$class.'.php';
-}
+});
 
 //Displaying heading part of html
 ramrodeal_header("RamroDeal - Great Deal, Great Price");

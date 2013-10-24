@@ -7,8 +7,9 @@
                     <div class="container">
                         <ul class="nav">
                           <?php
-                                switch($_SESSION['type']){
-                                case "administrator":
+                          if(isset($_SESSION['type'])){
+                               switch($_SESSION['type']){
+                                  case "administrator":
                           ?>
                             <li class=""><a href="#">Dashboard</a></li>
                             <li class="dropdown" id="accountmenu">
@@ -50,8 +51,8 @@
                               <a href="/RamroDeal/php/controller/logout.php" class="btn btn-info"> Logout</a>
                         </div>
                           <?php
-                                break;
-                                case "merchant":
+                                  break;
+                                  case "merchant":
                           ?>
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
@@ -61,8 +62,8 @@
                             <li><a href="#"></a></li>
                         </ul>
                           <?php
-                                break;
-                                case "agent":
+                                  break;
+                                  case "agent":
                           ?>
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
@@ -72,8 +73,8 @@
                             <li><a href="#"></a></li>
                         </ul>
                           <?php
-                                break;
-                                case "sub-administrator":
+                                  break;
+                                  case "sub-administrator":
                           ?>  
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
@@ -100,7 +101,25 @@
                         </div>
                           <?php
                               }
+                          
+                          }else{
                           ?>
+                            <li class=""><a href="#">All Deals</a></li>  
+                            <li><a href="#">Today's deals</a></li>  
+                            <li><a href="#">Beauty & Spas</a></li>
+                            <li><a href="#">Health & Fitness</a></li>  
+                            <li><a href="#">Foods</a></li>
+                            <li><a href="#">Tours & Travels</a></li>
+                        </ul>
+
+                        <div class="pull-right">
+                              <a href="/RamroDeal/php/controller/loginpage.php" class="btn btn-info"> Sign-In</a>
+                              <a href="#" class="btn btn-info"> Sign-up</a>
+                        </div>
+                        <?php
+                          }
+                        ?>
+                               
                     </div>
                 </div>
             </div>

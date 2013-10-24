@@ -10,18 +10,19 @@
     
     
     //Displaying heading part of html
-    ramrodeal_header("RamroDeal - Great Deal, Great Price");
+    ramrodeal_header("Sign Up : RamroDeal - Great Deal, Great Price");
     
     //Displaying navigation part of html
-   // nav();
+   nav();
     
     if (isset($_POST['submit'])){
         $filter = Validation::getValidationInstance();
         $type = $filter->filter($_POST['type']);
-        $name = $filter->filter($_POST['name']);
+        $fname = $filter->filter($_POST['fname']);
+        $lname = $filter->filter($_POST['lname']);
+        $sex = $filter->filter($_POST['sex']);
         $email = $filter->filter($_POST['email']);
         $phoneno = $filter->filter($_POST['phoneno']);
-        $mobileno = $filter->filter($_POST['mobileno']);
         $city = $filter->filter($_POST['city']);
         $state = $filter->filter($_POST['state']);
         $country = $filter->filter($_POST['country']);
@@ -45,37 +46,40 @@
         catch(Exception $e){
             echo $e->getMessage();
         }    
+        
+        if ($address_id == 0){
+            echo 'Invalid address given';
+        } else{
+            try{
+                $code = RandomCode::getRandomCodeInstance()->randCode(18);
+            }
+            catch(Exception $e){
+                echo $e->getMessage();
+            }
+    
+            $args = array(
+                  'type' => $type, 'firstname' => $fname, 'lastname' => $lname, 'gender' => $sex,
+                  'email' => $email, 'phoneno' => $phoneno, 'address_id' => $address_id, 'code' => $code
+                );
             
-        try{
-            $code = RandomCode::getRandomCodeInstance()->randCode(18);
-        }
-        catch(Exception $e){
-            echo $e->getMessage();
-        }
-
-        $args = array(
-              'type' => $type, 'name' => $name, 'email' => $email, 'phoneno' => $phoneno,
-              'mobileno' => $mobileno, 'code' => $code, 'address_id' => $address_id
-            );
-        
-        $log = Log::getLogInstance();
-        $log->setProperty($email, $code, Database::getDBInstance());
-        
-        try{
-            $dealcategory = Company::getCompanyInstance();
-            $dealcategory->setProperty($args, Database::getDBInstance());
-            $msg = $dealcategory->addCompany(Log::getLogInstance());
-            echo $msg;
-        }
-        catch(Exception $e){
-            echo $e->getMessage();
+            $log = Log::getLogInstance();
+            $log->setProperty($email, $code, Database::getDBInstance());
+            
+            try{
+                $signup = Person::getPersonInstance();
+                $signup->setProperty($args, Database::getDBInstance());
+                $msg = $signup->addPerson(Log::getLogInstance());
+                echo $msg;
+            }
+            catch(Exception $e){
+                echo $e->getMessage();
+            }
         }
     }
     
     //displaying add category form
-    addCompany();
+    signUp();
     
     //Displaying footer of html
     ramrodeal_footer();
-
 ?>

@@ -64,7 +64,7 @@ class Address
             if ($this->_db->rowCount() == 1){
                 return $id;
             } else{
-                return 'Invalid Address';
+                return 0;
             }
         } catch(PDOException $e){
             echo $e->getMessage();

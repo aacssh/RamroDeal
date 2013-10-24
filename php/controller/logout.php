@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-function __autoload($obj){
+spl_autoload_register(function ($obj)
+{
     $class = strtolower($obj);
     include '../class/'.$class.'.php';
-}
+});
 
 $logout = Log::getLogInstance();
 
