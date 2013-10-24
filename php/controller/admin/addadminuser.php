@@ -14,9 +14,6 @@
     //Displaying navigation part of html
    // nav();
     
-    //displaying add category form
-    addCompany();
-    
     if (isset($_POST['submit'])){
         $filter = Validation::getValidationInstance();
         $type = $filter->filter($_POST['type']);
@@ -67,11 +64,15 @@
             $dealcategory = Company::getCompanyInstance();
             $dealcategory->setProperty($args, Database::getDBInstance());
             $msg = $dealcategory->addCompany(Log::getLogInstance());
+            echo $msg;
         }
         catch(Exception $e){
             echo $e->getMessage();
         }
     }
+    
+    //displaying add category form
+    addAdminUser();
     
     //Displaying footer of html
     ramrodeal_footer();

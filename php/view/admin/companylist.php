@@ -17,7 +17,7 @@ function companyList($companylist){
                     <td><button class = 'btn btn-min btn-info' type='submit' name='delete' id='delete'>Delete</button>
                         <button class = 'btn btn-min btn-success' type='submit' name='delete' id='delete'>Edit</button>
                         <button class = 'btn btn-min btn-warning' type='submit' name='delete' id='delete'>Change Password</button></td>
-                </tr>";
+                    </tr>";
                 $i = $i +1;
             }
         }

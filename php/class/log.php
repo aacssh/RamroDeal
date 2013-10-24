@@ -71,7 +71,7 @@ class Log
     
     public function signUp(){
 	try{
-            $this->_db->query("INSERT INTO login (email, password) VALUE (:email, :pass)");
+            $this->_db->query("INSERT INTO login (email, password) VALUE (:email, SHA(:pass))");
             $this->_db->bind(':email', $this->_email);
 	    $this->_db->bind(':pass', $this->_password);
             $this->_db->execute();

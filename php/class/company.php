@@ -69,7 +69,7 @@ class Company
             $this->_db->beginTransaction();
             $this->_log->signUp();
             $this->_db->query("INSERT INTO company (company_id, name, office_no, mobile_no, join_date, type, address_id, person_id, email)
-                              VALUE (:id, :name, :office_no,:mobile_no, 'NOW()', :type, :address, 'pkkOkMcBoTMGRvI72T', :email)");
+                              VALUE (:id, :name, :office_no,:mobile_no, now(), :type, :address, 'pkkOkMcBoTMGRvI72T', :email)");
             $this->_db->bind(':id', $this->_code);
             $this->_db->bind(':name', $this->_name);
             $this->_db->bind(':office_no', $this->_phoneno);

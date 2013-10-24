@@ -34,5 +34,4 @@
     
     //Displaying footer of html
     ramrodeal_footer();
-
 ?>
