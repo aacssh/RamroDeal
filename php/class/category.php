@@ -47,5 +47,23 @@ class Category
             return "No data to display";
         }
     }
+    
+    public function getCategoryId(){
+        try{
+            $this->_db->query("SELECT category_id from category where name = :name");
+            $this->_db->bind(':name', $this->_name);
+            $this->_db->execute();
+            $id = $this->_db->fetchAll();
+        } catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+
+        if ($this->_db->rowCount() == 1)
+        {
+            return $id;
+        } else{
+            return 0;
+        }
+    }
 }
 ?>

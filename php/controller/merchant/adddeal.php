@@ -16,9 +16,10 @@
    
     if (isset($_POST['submit'])){
         $filter = Validation::getValidationInstance();
+        $category_name = $filter->filter($_POST['category_name']);
         $name = $filter->filter($_POST['name']);
-        $org_image = $filter->filter($_POST['org_image']);
-        $off_image = $filter->filter($_POST['off_image']);
+        $org_price = $filter->filter($_POST['org_price']);
+        $off_price = $filter->filter($_POST['off_price']);
         $min_people = $filter->filter($_POST['min_people']);
         $max_people = $filter->filter($_POST['max_people']);
         $s_date = $filter->filter($_POST['s_date']);
@@ -35,7 +36,7 @@
         $second_image_type = $_FILES['second_image']['type'];
         $second_image_size = $_FILES['second_image']['size'];
         
-        if (!empty($name) && !empty($org_image) && !empty($off_image) && !empty($min_people) && !empty($max_people) && !empty($s_date) &&
+        if (!empty($category_name) && !empty($name) && !empty($org_image) && !empty($off_image) && !empty($min_people) && !empty($max_people) && !empty($s_date) &&
             !empty($e_date) && !empty($coupon_valid_from) && !empty($coupon_valid_till) && !empty($cover_image) && !empty($first_image) && !empty($second_image)) {
         
             if ((($cover_image_type == 'image/gif') || ($cover_image_type == 'image/jpeg') || ($cover_image_type == 'image/pjpeg')
@@ -59,17 +60,27 @@
                         catch(Exception $e){
                             echo $e->getMessage();
                         }
+                        
+                        $category->setProperty($category_name);
+                        $categoryid = $category->getCategoryId();
+                        
+                        foreach($categoryid as $c_id){
+                            foreach($c_id as $cid){
+                                $id = $cid;
+                            }
+                        }
                 
                         $args = array(
-                              'type' => $type, 'firstname' => $fname, 'lastname' => $lname, 'gender' => $sex,
-                              'email' => $email, 'phoneno' => $phoneno, 'address_id' => $address_id, 'code' => $code
+                              'id' => $id, 'name' => $name, 'org_price' => $org_price, 'off_price' => $off_price, 'min_people' => $min_people, 'max_people' => $max_people,
+                              's_date' => $s_date, 'e_date' => $e_date, 'coupon_valid_from' => $coupon_valid_from, 'coupon_valid_till' => $coupon_valid_till, 'cover_image' => $cover_image,
+                              'first_image' => $first_image, 'second_image' => $second_image
                             );
                         
                         try{
-                            $signup = Person::getPersonInstance();
-                            $signup->setProperty($args, Database::getDBInstance());
-                            $msg = $signup->addPerson(Log::getLogInstance());
-                            echo $msg;
+                            $deal = Deal::getDealInstance();
+                            $deal->setProperty($args, Database::getDBInstance());
+                            $add_deal = $deal->addDeal();
+                            echo $add_deal;
                         }
                         catch(Exception $e){
                             echo $e->getMessage();
@@ -86,9 +97,11 @@
         } 
     }
    
+   $category = Category::getCategoryInstance(Database::getDBInstance());
+   $list = $category->getCategory();
     
     //displaying add category form
-    addDeal();
+    addDeal($list);
     
     //Displaying footer of html
     ramrodeal_footer();

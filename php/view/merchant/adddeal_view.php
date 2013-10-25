@@ -1,10 +1,24 @@
-<?php function addDeal(){ ?>
+<?php function addDeal($categorylist){ ?>
     <form enctype = "multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-horizontal">
         <div class="text-center"><legend>Sign Up</legend></div>
         <div class="row">
            <div class="span6">
                 <input type="hidden" name="max_file_size" value="2097152" />
                 <input type="hidden" name="type" value="customer"/>
+                 <div class="control-group">
+                    <label class="control-label" for="category_name">Category:</label>
+                    <div class="controls">
+                        <select name='category_name' class="input-medium">
+                           <?php
+                           foreach($categorylist as $category){
+                                foreach($category as $list){
+                                    echo'<option>'. $list .'</option>';
+                                }
+                            }
+                        ?>
+                        </select>
+                    </div>
+                </div>
                 <div class="control-group">
                    <label class="control-label" for="name">Name:</label>
                    <div class="controls">
