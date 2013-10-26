@@ -2,6 +2,7 @@
 class Deal
 {
     private $_category_id;
+    private $_deal_id;
     private $_name;
     private $_org_price;
     private $_off_price;
@@ -11,9 +12,8 @@ class Deal
     private $_e_date;
     private $_coupon_valid_from;
     private $_coupon_valid_till;
-    private $_cover_image;
-    private $_first_image;
-    private $_second_image;
+    private $_merchant_id;
+    private $_image_id;
     private $_db;
     private static $_deal_instance;
     
@@ -33,6 +33,9 @@ class Deal
             if (is_array($args)){
                 if(isset($args['id'])){
                     $this->_category_id = $args['id'];
+                }
+                if(isset($args['deal_id'])){
+                    $this->_deal_id = $args['deal_id'];
                 }
                 if(isset($args['name'])){
                     $this->_name = $args['name'];
@@ -61,15 +64,12 @@ class Deal
                 if(isset($args['coupon_valid_till'])){
                     $this->_coupon_valid_till = $args['coupon_valid_till'];
                 }
-                if(isset($args['cover_image'])){
-                    $this->_cover_image = $args['cover_image'];
+                if(isset($args['merchant_id'])){
+                    $this->_merchant_id = $args['merchant_id'];
                 }
-                if(isset($args['first_image'])){
-                    $this->_first_image = $args['first_image'];
+                if(isset($args['image_id'])){
+                    $this->_image_id = $args['image_id'];
                 }
-                if(isset($args['second_image'])){
-                    $this->_second_image = $args['second_image'];
-                }                
             } else{
                 throw new Exception('Argument should be an array');
             }
@@ -79,7 +79,26 @@ class Deal
     }
     
     public function addDeal(){
-        
+        try{
+            $this->_db->query("INSERT INTO deal (deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, coupon_start_date, coupon_end_date, company_id, category_id, image_id) VALUE (:deal_id, :name, :org_price, :off_price, :s_date, :e_date, :min_people, :max_people, :coupon_start, :coupon_end, :merchant_id, :category_id, :image_id)");
+            $this->_db->bind(':deal_id', $this->_deal_id);
+            $this->_db->bind(':name', $this->_name);
+            $this->_db->bind(':org_price', $this->_org_price);
+            $this->_db->bind(':off_price', $this->_off_price);
+            $this->_db->bind(':s_date', $this->_s_date);
+            $this->_db->bind(':e_date', $this->_e_date);
+            $this->_db->bind(':min_people', $this->_min_people);
+            $this->_db->bind(':max_people', $this->_max_people);
+            $this->_db->bind(':coupon_start', $this->_coupon_valid_from);
+            $this->_db->bind(':coupon_end', $this->_coupon_valid_till);
+            $this->_db->bind(':merchant_id', $this->_merchant_id);
+            $this->_db->bind(':category_id', $this->_category_id);
+            $this->_db->bind(':image_id', $this->_image_id);
+            $this->_db->execute();
+        } catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+        return 'Successfully added';
     }
 }
 

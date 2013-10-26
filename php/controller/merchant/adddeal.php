@@ -14,6 +14,10 @@
     //Displaying navigation part of html
    nav();
    
+    $db = Database::getDBInstance();
+   $category = Category::getCategoryInstance($db);
+   $list = $category->getCategory();
+   
     if (isset($_POST['submit'])){
         $filter = Validation::getValidationInstance();
         $category_name = $filter->filter($_POST['category_name']);
@@ -36,7 +40,7 @@
         $second_image_type = $_FILES['second_image']['type'];
         $second_image_size = $_FILES['second_image']['size'];
         
-        if (!empty($category_name) && !empty($name) && !empty($org_image) && !empty($off_image) && !empty($min_people) && !empty($max_people) && !empty($s_date) &&
+        if (!empty($category_name) && !empty($name) && !empty($org_price) && !empty($off_price) && !empty($min_people) && !empty($max_people) && !empty($s_date) &&
             !empty($e_date) && !empty($coupon_valid_from) && !empty($coupon_valid_till) && !empty($cover_image) && !empty($first_image) && !empty($second_image)) {
         
             if ((($cover_image_type == 'image/gif') || ($cover_image_type == 'image/jpeg') || ($cover_image_type == 'image/pjpeg')
@@ -54,37 +58,66 @@
                     if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $target1) &&  move_uploaded_file($_FILES['first_image']['tmp_name'], $target2)
                         && move_uploaded_file($_FILES['second_image']['tmp_name'], $target3)) {
                         
+                        $img = array(
+                                     'cover_image' => $cover_image, 'first_image' => $first_image, 'second_image' => $second_image
+                                     );
+                        
                         try{
-                            $code = RandomCode::getRandomCodeInstance()->randCode(18);
-                        }
-                        catch(Exception $e){
-                            echo $e->getMessage();
-                        }
-                        
-                        $category->setProperty($category_name);
-                        $categoryid = $category->getCategoryId();
-                        
-                        foreach($categoryid as $c_id){
-                            foreach($c_id as $cid){
-                                $id = $cid;
+                            $db->beginTransaction();
+                            $image = Image::getImageInstance();
+                            
+                            $image->setProperty($img, $db);
+                            $image->addImage();
+                            $img_id = $image->getImageId();
+                           
+                            if($img_id == 0){
+                                echo 'Image id couldn\'t be found';
+                            } else{
+                                
+                                try{
+                                    $deal_id = RandomCode::getRandomCodeInstance()->randCode(18);
+                                }
+                                catch(Exception $e){
+                                    echo $e->getMessage();
+                                }
+                                
+                                $category->setProperty($category_name);
+                                $categoryid = $category->getCategoryId();
+                                
+                                foreach($categoryid as $c_id){
+                                    foreach($c_id as $cid){
+                                        $id = $cid;
+                                    }
+                                }
+                                
+                                foreach($img_id as $i_id){
+                                    foreach($i_id as $im_id){
+                                        $image_id = $im_id;
+                                    }
+                                }
+
+                                $args = array(
+                                  'id' => $id, 'name' => $name, 'org_price' => $org_price, 'off_price' => $off_price, 'min_people' => $min_people, 'max_people' => $max_people,
+                                  's_date' => $s_date, 'e_date' => $e_date, 'coupon_valid_from' => $coupon_valid_from, 'coupon_valid_till' => $coupon_valid_till,
+                                  'image_id' => $image_id, 'deal_id' => $deal_id, 'merchant_id' => 'suho8IQ1QatZwtxi9C'
+                                );
+                            
+                                try{
+                                    $deal = Deal::getDealInstance();
+                                    $deal->setProperty($args, $db);
+                                    $add_deal = $deal->addDeal();
+                                    echo $add_deal;
+                                }
+                                catch(Exception $e){
+                                    echo $e->getMessage();
+                                }
                             }
+                            $db->endTransaction();
+                        } catch(PDOException $e){
+                            $db->cancelTransaction();
+                            die($e->getMessage());
                         }
-                
-                        $args = array(
-                              'id' => $id, 'name' => $name, 'org_price' => $org_price, 'off_price' => $off_price, 'min_people' => $min_people, 'max_people' => $max_people,
-                              's_date' => $s_date, 'e_date' => $e_date, 'coupon_valid_from' => $coupon_valid_from, 'coupon_valid_till' => $coupon_valid_till, 'cover_image' => $cover_image,
-                              'first_image' => $first_image, 'second_image' => $second_image
-                            );
                         
-                        try{
-                            $deal = Deal::getDealInstance();
-                            $deal->setProperty($args, Database::getDBInstance());
-                            $add_deal = $deal->addDeal();
-                            echo $add_deal;
-                        }
-                        catch(Exception $e){
-                            echo $e->getMessage();
-                        }    
                     } else{
                         echo 'Images couldn\'t be moved to images folder';
                     }
@@ -97,7 +130,8 @@
         } 
     }
    
-   $category = Category::getCategoryInstance(Database::getDBInstance());
+   $db = Database::getDBInstance();
+   $category = Category::getCategoryInstance($db);
    $list = $category->getCategory();
     
     //displaying add category form
