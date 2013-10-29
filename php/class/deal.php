@@ -100,6 +100,23 @@ class Deal
         }
         return 'Successfully added';
     }
+    
+    public function getAllDeal(){
+        try{
+            $this->_db->query("SELECT name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, image_id FROM deal");
+            $this->_db->execute();
+            $list = $this->_db->fetchAll();
+        } catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+        
+        if ($this->_db->rowCount() >= 1)
+        {
+            return $list;
+        } else{
+            return 0;
+        }
+    }
 }
 
 ?>

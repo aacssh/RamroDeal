@@ -1,6 +1,7 @@
 <?php
 class Image
 {
+    private $_image_id;
     private $_cover_image;
     private $_first_image;
     private $_second_image;
@@ -21,6 +22,9 @@ class Image
             $this->_db = $db;
             
             if (is_array($args)){
+                if(isset($args['image_id'])){
+                    $this->_image_id = $args['image_id'];
+                }
                 if(isset($args['cover_image'])){
                     $this->_cover_image = $args['cover_image'];
                 }
@@ -65,6 +69,22 @@ class Image
         
         if ($this->_db->rowCount() == 1)
             return $id;
+        else
+            return 0;
+    }
+    
+    public function getImage(){
+        try{
+            $this->_db->query("SELECT cover_image FROM image WHERE image_id = :id");
+            $this->_db->bind(':id', $this->_image_id);
+            $this->_db->execute();
+            $cover = $this->_db->fetchAll();
+        } catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+        
+        if ($this->_db->rowCount() == 1)
+            return $cover;
         else
             return 0;
     }

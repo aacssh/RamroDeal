@@ -1,23 +1,19 @@
 <?php
-
-include 'view/fns.php';
+include_once('../view/fns.php');
 
 spl_autoload_register(function ($obj)
 {
     $class = strtolower($obj);
-    include 'class/'.$class.'.php';
+    include '../class/'.$class.'.php';
 });
 
-//heading part of html
-ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price");
+//Displaying heading part of html
+ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
 
-//navigation part of html
+//Displaying navigation part of html
 nav();
 
-//banner part of html
-banner();
-
-$db = Database::getDBInstance();
+ $db = Database::getDBInstance();
  $deallist = Deal::getDealInstance();
  $deallist->setProperty(array(), $db);
  $list= $deallist->getAllDeal();
@@ -42,11 +38,7 @@ $db = Database::getDBInstance();
  
  deallist($deals_list);
 
-/*
-//navigation part of html
-navigation();
-*/
-//footer of html
+//Displaying footer of html
 ramrodeal_footer();
 
 ?>
