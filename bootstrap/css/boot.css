@@ -39,7 +39,7 @@ div.img
   padding: 5px;
   border: 1px solid #0000ff;
   max-width: 100%;
-  max-height: 200px;
+  max-height: 500px;
   height: 200px\9; /* ie8 */
   float: left;
   text-align: center;
@@ -47,13 +47,13 @@ div.img
 div.img img
 {
   max-width: 100%;
-max-height: 200px;
-height: 200px\9; /* ie8 */
+  max-height: 200px;
+  height: 200px\9; /* ie8 */
   display: inline;
   margin: 5px;
   border: 1px solid #ffffff;
 }
-div.img a:hover img {border: 1px solid #0000ff;}
+
 div.desc
 {
   text-align: left;

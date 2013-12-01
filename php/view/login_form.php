@@ -13,11 +13,19 @@
                 </div>
         
                 <div class="control-group">
-                    <label class="control-label" for="pw">Password:</label>
+                    <label class="control-label" for="password">Password:</label>
                     <div class="controls">
-                        <input type="password" id="pw" name = "pw" placeholder="Password" required />
+                        <input type="password" id="password" name = "password" placeholder="Password" required />
                     </div>
                 </div>
+                
+                 <div class="control-group">
+                    <label class="control-label" for="remember"></label>
+                    <div class="controls">
+                        <input type="checkbox" name="remember" id="remember" autocomplete="off" />Remember me
+                    </div>
+                </div>
+                <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
                 <div class="control-group">
                     <div class="controls">
                         <button type="submit" id="submit" name="submit" class="btn btn-info">Submit</button>

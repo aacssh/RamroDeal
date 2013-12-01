@@ -1,13 +1,5 @@
 <?php
-   // include('../session.php');
-    include('../../view/fns.php');
- 
-    spl_autoload_register(function ($obj)
-    {
-        $class = strtolower($obj);
-        include '../../class/'.$class.'.php';
-    });
-    
+    include '../../init.php';
     
     //Displaying heading part of html
     ramrodeal_header("RamroDeal - Great Deal, Great Price");

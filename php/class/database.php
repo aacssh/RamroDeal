@@ -13,32 +13,7 @@ class Database
      * Used to store the instance of Database class
      * @var object
      */
-    private static $_dbinstance;
-    
-    /**
-     * Stores the hostname of database
-     * @var string
-     */
-    private $_host = 'localhost';
-    
-    /**
-     * Stores the username of database
-     * @var string
-     */
-    private $_username = 'root';
-    
-    /**
-     * Stores password for database
-     * Optionally the value can be a string
-     * @var null
-     */
-    private $_pw = 'gcespcm';
-    
-    /**
-     * Stores the database name
-     * @var string
-     */
-    private $_dbname = 'ramrodeal';
+    private static $_dbinstance = null;
     
     /**
      * Stores the instance of PDO class
@@ -50,7 +25,11 @@ class Database
      * Stores the statement of PDO class
      * @var object
      */
-    private $_stmt;
+    private $_query;
+    
+    private $_error = false,
+            $_results,
+            $_count = 0;
     
     /**
      * Creates and store an instance of Database class
@@ -59,8 +38,8 @@ class Database
      * if not created, it create a new instacne of Database class,
      * otherwise returns the previously created instance
      * 
-     * @return Object an object to access other methods of class
-     * @param object $instance This is static 
+     * @return  Object              an object to access other methods of class
+     * @param   Object  $instance   This is static 
      */
     public static function getDBInstance(){
         if(!isset(self::$_dbinstance)){
@@ -71,26 +50,47 @@ class Database
     
     /**
      * Creates an instance of PDO class
-     * Try/catch block is used to handle the possible error
+     * Try/catch block is used to handle the possible errors
      * 
-     * @param object $pdo This pdo stores an object of PDO class
+     * @param       object    $pdo    This pdo stores an object of PDO class
      */    
     private function __construct(){
         try{
-            $this->_db = new PDO('mysql:host='.$this->_host.';dbname='.$this->_dbname, $this->_username, $this->_pw);
+            $this->_db = new PDO('mysql:host='. Config::get('mysql/host') .';dbname='. Config::get('mysql/db') , Config::get('mysql/username'), Config::get('mysql/password'));
             $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
-            //echo die('Couldn\'t connect to databases');
             echo die('<p><strong>Message:</strong>'.$e->getMessage().'</p>');
         }
     }
     
     /**
      * Performs SQL query with PDO::prepare function
-     * @param  string This parameter contains sql query
+     * @param       string      This parameter contains sql query
      */
-    public function query($query){
-        $this->stmt = $this->_db->prepare($query);
+    public function query($sql, $params = array()){
+       /// $this->stmt = $this->_db->prepare($query);
+        
+        $this->_error = false;
+        try{
+            if($this->_query = $this->_db->prepare($sql)){
+                $x = 1;
+                if(count($params)){
+                    foreach($params as $param){
+                        $this->bind($x, $param);
+                        $x++;
+                    }
+                }
+
+                if($this->_query->execute()){
+                    $this->_count = $this->_query->rowCount();
+                }else{
+                    $this->_error = true;
+                }
+            }
+        }catch(PDOException $e){
+            die($e->getMessage());
+        }
+        return $this;
     }
     
     /**
@@ -117,14 +117,96 @@ class Database
                     $type = PDO::PARAM_STR;
             }
         }
-        $this->stmt->bindValue($param, $value, $type);
+        $this->_query->bindValue($param, $value, $type);
     }
     
-    /**
-     * Performs execution of prepared statement using PDO::execute() function
-     */
-    public function execute(){
-        return $this->stmt->execute();
+    public function action($action, $table, $where = array()){
+        if(count($where) === 3){
+            $operators = array('=', '>', '<', '>=', '<=');
+            
+            $field      = $where[0];
+            $operator   = $where[1];
+            $value      = $where[2];
+            
+            if(in_array($operator, $operators)){
+                $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
+                
+                if(!$this->query($sql, array($value))->error()){
+                    return $this;
+                }
+            }
+        } elseif(empty($where)){
+            $sql = "{$action} FROM {$table}";
+            
+            if(!$this->query($sql)){
+                return $this;
+            }
+        }
+        return false;
+    }
+    
+    public function get($table, $values, $where = null){
+        $sql = 'SELECT '. $values;
+        
+        return $this->action($sql, $table, $where);
+    }
+    
+    public function delete($table, $where){
+        return $this->action('DELETE', $table, $where);
+    }
+    
+    public function insert($table, $fields = array()){
+        if(count($fields)){
+            $keys = array_keys($fields);
+            $values = '';
+            $x = 1;
+            
+            foreach($fields as $field){
+                $values .= '?';
+                
+                if($x < count($fields)){
+                    $values .= ', ';
+                }
+                $x++;
+            }
+            
+            $sql = "INSERT INTO {$table} (`". implode('`, `', $keys) ."`) VALUES ({$values})";
+            
+            if(!$this->query($sql, $fields)->error()){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function update($table, $id, $fields){
+        $set = '';
+        $x = 1;
+        
+        foreach($fields as $name => $value){
+            $set .= "{$name} = ?";
+            if($x < count($fields)){
+                $set .= ', ';
+            }
+            $x++;
+        }
+        $sql = "UPDATE {$table} SET {$set} WHERE id = {$id}";
+        
+        if(!$this->query($sql, $fields)->error()){
+            return true;
+        }
+    }
+    
+    public function results(){
+        return $this->_results;
+    }
+    
+    public function error(){
+        return $this->_error;
+    }
+    
+    public function count(){
+        return $this->_count;
     }
     
     /**
@@ -134,7 +216,7 @@ class Database
      * @return   array   result set of rows
      */
     public function fetchAll(){
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->_query->fetchAll(PDO::FETCH_OBJ);
     }
     
     /**
@@ -144,17 +226,7 @@ class Database
      * @return   array   result set of rows
      */
     public function fetchSingle(){
-        return $this->stmt->fetch(PDO::FETCH_ASSOC);
-    }
-    
-    /**
-     * Performs specific task of finding number of affected rows from previous
-     * delete, insert and select statement using PDO::rowCount() function
-     * 
-     * @return   integer   Number of affected rows
-     */
-    public function rowCount(){
-        return $this->stmt->rowCount();
+        return $this->_query->fetch(PDO::FETCH_OBJ);
     }
     
     /**

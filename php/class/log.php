@@ -101,7 +101,7 @@ class Log
 	    setcookie('email', $rowlogin[0]['email'], time() + (60 * 60));
 	    
 	    try{
-		$result=$this->_db->query("select type from person where email = :email");
+		$result = $this->_db->query("SELECT type FROM person WHERE email = :email");
 		$this->_db->bind(':email', $this->_email);
 		$this->_db->execute();
 		$rowperson = $this->_db->fetchAll();
@@ -111,13 +111,12 @@ class Log
 	    }
 	    
 	    if($this->_db->rowCount() == 1){
-		echo $rowperson[0]['type'];
 		$_SESSION['type'] = $rowperson[0]['type'];
 		setcookie('type', $rowperson[0]['type'], time() + (60 * 60));
-
-	    } else{
+	    }
+	    else{
 		try{
-		    $result=$this->_db->query("select type from company where email = :email");
+		    $result = $this->_db->query("SELECT type FROM company WHERE email = :email");
 		    $this->_db->bind(':email', $this->_email);
 		    $this->_db->execute();
 		    $rowcompany = $this->_db->fetchAll();

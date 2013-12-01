@@ -1,7 +1,4 @@
-<?php 
-function ramrodeal_header($title){
-?>
-
+<?php function ramrodeal_header($title){ ?>
 <!DOCTYPE html>
 <html lang="en" >
     <head>

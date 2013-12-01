@@ -52,8 +52,7 @@ class Validation
      */
     public function filter($var)
     {
-	$this->_var = $var;
-        $this->_var = strip_tags($this->_var);
+        $this->_var = strip_tags($var);
         $this->_var = htmlentities($this->_var, ENT_QUOTES);
         $this->_var = stripslashes($this->_var);
 	return trim($this->_var);

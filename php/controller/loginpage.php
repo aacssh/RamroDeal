@@ -1,12 +1,39 @@
 <?php
-session_start();
-include_once('../view/fns.php');
+include '../init.php';
 
-spl_autoload_register(function ($obj)
-{
-    $class = strtolower($obj);
-    include '../class/'.$class.'.php';
-});
+if(Input::exists()){
+    if(Token::check(Input::get('token'))){
+        $validate = new Validate();
+        $validation = $validate->check($_POST, array(
+            'email' => array(
+                'required' => true,
+            ),
+            'password' => array(
+                'required' => true,
+                'min' => 6
+            )
+        ));
+        
+        if($validation->passed()){
+            //user log in
+            $user = new User();
+            
+            $remember = (Input::get('remember') === 'on') ? true : false;
+            $login = $user->login(Input::get('username'), Input::get('password'), $remember);
+            
+            if($login){
+                Redirect::to('index.php');
+            } else{
+                echo '<p>Sorry, logging in failed.</p>';
+            }
+            
+        } else{
+            foreach($validation->errors() as $error){
+                echo $error.'<br />';
+            }
+        }
+    }
+}
 
 $msg = '';
 if (isset($_POST['email']) && isset($_POST['pw']))

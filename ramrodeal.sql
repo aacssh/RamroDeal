@@ -9,10 +9,24 @@ CREATE DATABASE	ramrodeal;
 -- choosing the created database
 USE ramrodeal;
 
+CREATE TABLE groups(
+    id int(10) not null auto_increament,
+    name varchar(20) not null primary key,
+    permissions text not null
+);
+
+CREATE TABLE user_session(
+    id int(10) unsigned not null auto_increament primary,
+    user_id int(20) unsigned not null,
+    hash varchar(64) not null
+);
+
 --creating table login that holds email and password
 CREATE TABLE login(
 	email varchar(42) not null primary key,
-	password varchar(42) not null
+	password varchar(64) not null,
+        salt varchar(32) not null,
+        group int(11) not null
 );
 
 --creating table address_id that holds data for address information

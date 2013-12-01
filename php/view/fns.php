@@ -11,6 +11,7 @@
 	include 'admin/categorytable_view.php';
 	include 'admin/companylist_view.php';
 	include 'admin/addadminuser_view.php';
+	include 'admin/totalcoupon_view.php';
 	include 'customer/signup_view.php';
 	include 'merchant/adddeal_view.php';
 ?>

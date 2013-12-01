@@ -1,11 +1,5 @@
 <?php
-session_start();
-
-spl_autoload_register(function ($obj)
-{
-    $class = strtolower($obj);
-    include '../class/'.$class.'.php';
-});
+include '../init.php';
 
 $logout = Log::getLogInstance();
 

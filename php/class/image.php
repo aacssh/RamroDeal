@@ -8,7 +8,9 @@ class Image
     private $_db;
     private static $_image_instance;
     
-    private function __construct(){}
+    private function __construct(){
+         $this->_db = Database::getDBInstance();
+    }
     
     public function getImageInstance(){
         if(empty(self::$_image_instance)){
@@ -17,28 +19,22 @@ class Image
         return self::$_image_instance;
     }
     
-    public function setProperty($args, $db){
-        if (is_object($db)){
-            $this->_db = $db;
-            
-            if (is_array($args)){
-                if(isset($args['image_id'])){
-                    $this->_image_id = $args['image_id'];
-                }
-                if(isset($args['cover_image'])){
-                    $this->_cover_image = $args['cover_image'];
-                }
-                if(isset($args['first_image'])){
-                    $this->_first_image = $args['first_image'];
-                }
-                if(isset($args['second_image'])){
-                    $this->_second_image = $args['second_image'];
-                }                
-            } else{
-                throw new Exception('Argument should be an array');
+    public function setProperty($args){
+        if (is_array($args)){
+            if(isset($args['image_id'])){
+                $this->_image_id = $args['image_id'];
             }
+            if(isset($args['cover_image'])){
+                $this->_cover_image = $args['cover_image'];
+            }
+            if(isset($args['first_image'])){
+                $this->_first_image = $args['first_image'];
+            }
+            if(isset($args['second_image'])){
+                $this->_second_image = $args['second_image'];
+            }                
         } else{
-            throw new Exception('Argument should be an object');
+            throw new Exception('Argument should be an array');
         }
     }
     
@@ -70,23 +66,22 @@ class Image
         if ($this->_db->rowCount() == 1)
             return $id;
         else
-            return 0;
+            return false;
     }
     
     public function getImage(){
         try{
-            $this->_db->query("SELECT cover_image FROM image WHERE image_id = :id");
-            $this->_db->bind(':id', $this->_image_id);
-            $this->_db->execute();
+            $values = 'cover_image';
+            $this->_db->get('image',$values, array('image_id', '=', $this->_image_id));
             $cover = $this->_db->fetchAll();
         } catch(PDOException $e){
             echo die($e->getMessage());
         }
         
-        if ($this->_db->rowCount() == 1)
+        if ($this->_db->count())
             return $cover;
         else
-            return 0;
+            return false;
     }
 }
 
