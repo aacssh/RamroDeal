@@ -6,7 +6,30 @@ class User {
             $_isLoggedIn,
             $_cookieName;
     
-    public function __construct($user = null){
+    /**
+     * Used to store the instance of Login class
+     * @var object
+     */
+    private static $_userinstance;
+    
+      /**
+     * Creates and store an instance of tje class
+     * Checks whether instance of the class is already created
+     * or not
+     * if not created, it create a new instacne of the class,
+     * otherwise returns the previously created instance
+     * 
+     * @return Object an object to access other methods of class
+     * @param object $instance This is static 
+     */
+     public static function getUserInstance($user = null){
+	 if(!isset(self::$_userinstance)){
+            self::$_userinstance = new User($user = null);
+        }
+        return self::$_userinstance;
+     }
+    
+    private function __construct($user = null){
         $this->_db = DB::getInstance();
         $this->_sessionName = Config::get('session/session_name');
         $this->_cookieName = Config::get('remember/cookie_name');
@@ -45,8 +68,8 @@ class User {
     
     public function find($user = null){
         if($user){
-            $field = (is_numeric($user)) ? 'id' : 'username';
-            $data = $this->_db->get('users', array($field, '=', $user));
+            $field = (!substr_count($user, '@')) ? 'user_id' : 'email';
+            $data = $this->_db->get('users', '*', array($field, '=', $user));
             
             if($data->count()){
                 $this->_data = $data->fetchSingle();
@@ -56,11 +79,11 @@ class User {
         return false;
     }
     
-    public function login($username = null, $password = null, $remember = false){
-        if(!$username && !$password && $this->exists()){
+    public function login($email = null, $password = null, $remember = false){
+        if(!$email && !$password && $this->exists()){
             Session::put($this->_sessionName, $this->data()->id);
         }else{
-            $user = $this->find($username);
+            $user = $this->find($email);
         
             if($user){
                 if($this->data()->password === Hash::make($password, $this->data()->salt)){

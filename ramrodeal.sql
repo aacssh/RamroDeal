@@ -21,16 +21,6 @@ CREATE TABLE user_session(
     hash VARCHAR(64) NOT NULL
 );
 
---creating table login that holds email AND password
-CREATE TABLE login(
-    email VARCHAR(42) NOT NULL PRIMARY KEY,
-    password VARCHAR(64) NOT NULL,
-    salt VARCHAR(32) NOT NULL,
-    groups INT(11) NOT NULL,
-    CONSTRAINT login_groupsFK FOREIGN KEY (groups)
-    REFERENCES groups(id)
-);
-
 --creating table address_id that holds data for address information
 CREATE TABLE address(
     address_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -54,9 +44,7 @@ CREATE TABLE company(
     address INT UNSIGNED  NOT NULL,
     email VARCHAR(42) NOT NULL,
     CONSTRAINT company_addressFK FOREIGN KEY (address)
-    REFERENCES address(address_id),
-    CONSTRAINT company_loginFK FOREIGN KEY (email)
-    REFERENCES login(email)
+    REFERENCES address(address_id)
 );
 
 --creating table Person that holds data for customer, administrator AND sub-administrator
@@ -64,19 +52,22 @@ CREATE TABLE user(
     user_id CHAR(18) NOT NULL PRIMARY KEY,
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    salt VARCHAR(32) NOT NULL,
     gender CHAR(1) NOT NULL,
     contact_no INT(10) NOT NULL,
     address INT UNSIGNED  NOT NULL,
     email VARCHAR(42) NOT NULL,
     join_date DATETIME NOT NULL,
     company CHAR(18) NOT NULL,
+    groups INT(11) NOT NULL,
     CHECK (contact_no>0),
+    CONSTRAINT user_groupsFK FOREIGN KEY (groups)
+    REFERENCES groups(id),
     CONSTRAINT user_addressFK FOREIGN KEY (address)
     REFERENCES address(address_id),
     CONSTRAINT user_companyFK FOREIGN KEY (company)
-    REFERENCES company(company_id),
-    CONSTRAINT user_loginFK FOREIGN KEY (email)
-    REFERENCES login(email)
+    REFERENCES company(company_id)
 );
 
 --creating table account_transcation holds data for merchant AND agent
