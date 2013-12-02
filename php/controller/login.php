@@ -23,36 +23,20 @@ if(Input::exists()){
             $login = $user->login(Input::get('email'), Input::get('password'), $remember);
             
             if($login){
-                Redirect::to('index.php');
-                switch($_SESSION['type']){
-                    case 'administrator':
-                        $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/admin/adminHomepage.php';
-                        header('Location: ' . $home_url);('Location: ' . $home_url);
-                        break;
-                    
-                    case 'sub-administrator':
-                        $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/admin/subAdminHomepage.php';
-                        header('Location: ' . $home_url);('Location: ' . $home_url);
-                        break;
-                    
-                    case 'merchant':
-                        $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/merchant/merchantHomepage.php';
-                        header('Location: ' . $home_url);('Location: ' . $home_url);
-                        break;
-                    
-                    case 'agent':
-                        $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/agent/agentHomepage.php';
-                        header('Location: ' . $home_url);('Location: ' . $home_url);
-                        break;
-                    
-                    default:
-                        $home_url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/customer/customerHomepage.php';
-                        header('Location: ' . $home_url);('Location: ' . $home_url);
+                if($user->hasPermission('admin')){
+                    Redirect::to('/admin/admin _homepage.php');
+                }elseif($user->hasPermission('moderator')){
+                    Redirect::to('/admin/moderator_homepage.php');
+                } elseif($user->hasPermission('mer_admin')){
+                    Redirect::to('/admin/merAdmin _homepage.php');
+                } elseif($user->hasPermission('mer_moderator')){
+                    Redirect::to('/admin/merModerator _homepage.php');
+                } elseif($user->hasPermission('normal_user')){
+                    Redirect::to('/admin/normalUser _homepage.php');
                 }
             } else{
-                $msg = '<p>Incorrect email or password.</p>';
-            }
-            
+                $msg = 'Incorrect email or password.';
+            }  
         } else{
             foreach($validation->errors() as $error){
                 $msg = $error.'<br />';
@@ -61,17 +45,11 @@ if(Input::exists()){
     }
 }
 
-//Displaying heading part of html
-ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
+ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 
-//Displaying navigation part of html
-nav();
+nav();  //Displaying navigation part of html
 
-//Displaying login form
-login_form();
-echo $msg;
+login_form($msg);   //Displaying login form
 
-//Displaying footer of html
-ramrodeal_footer();
-
+ramrodeal_footer(); //Displaying footer of html
 ?>

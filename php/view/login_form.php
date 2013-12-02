@@ -1,5 +1,5 @@
 <?php
-    function login_form(){
+function login_form($msg){
 ?>
 <div class="row">
     <div class="span7">
@@ -32,6 +32,9 @@
                 </div>
             </div>
         </form>
+        <div class='control-group error'>
+            <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
+        </div>
     </div>
 </div>
 <?php } ?>

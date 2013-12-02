@@ -11,10 +11,11 @@ class Redirect {
                     break;
                 }
             }
+            
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . $location;
             header('Location:'. $location);
             exit();
         }
     }
 }
-
 ?>

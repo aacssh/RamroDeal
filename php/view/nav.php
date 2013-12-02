@@ -7,9 +7,8 @@
                     <div class="container">
                         <ul class="nav">
                           <?php
-                          if(isset($_SESSION['type'])){
-                               switch($_SESSION['type']){
-                                  case "administrator":
+                          
+                          if($user->hasPermission('admin')){
                           ?>
                             <li class=""><a href="#">Dashboard</a></li>
                             <li class="dropdown" id="accountmenu">
@@ -50,10 +49,10 @@
                         <div class="pull-right">
                               <a href="/RamroDeal/php/controller/logout.php" class="btn btn-info"> Logout</a>
                         </div>
-                          <?php
-                                  break;
-                                  case "merchant":
-                          ?>
+                        
+                        <?php
+                          }elseif($user->hasPermission('moderator')){
+                        ?>
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
                             <li><a href="#"></a></li>
@@ -61,65 +60,58 @@
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
                         </ul>
-                          <?php
-                                  break;
-                                  case "agent":
-                          ?>
+                        
+                        <?php
+                          } elseif($user->hasPermission('mer_admin')){
+                        ?>
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>  
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
-                        </ul>
-                          <?php
-                                  break;
-                                  case "sub-administrator":
-                          ?>  
+                          </ul>
+                        <?php
+                          } elseif($user->hasPermission('mer_moderator')){
+                        ?>
                             <li class=""><a href="#"></a></li>  
                             <li><a href="#"></a></li>  
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>  
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
-                        </ul>
-                          <?php
-                                break;
-                                default:
-                          ?>
+                          </ul>
+                        <?php
+                          } elseif($user->hasPermission('normal_user')){
+                        ?>
                             <li class=""><a href="#">All Deals</a></li>  
                             <li><a href="#">Today's deals</a></li>  
                             <li><a href="#">Beauty & Spas</a></li>
                             <li><a href="#">Health & Fitness</a></li>  
                             <li><a href="#">Foods</a></li>
                             <li><a href="#">Tours & Travels</a></li>
-                        </ul>
-
-                        <div class="pull-right">
+                          </ul>
+                          <div class="pull-right">
                               <a href="/RamroDeal/php/controller/loginpage.php" class="btn btn-info"> Sign-In</a>
                               <a href="#" class="btn btn-info"> Sign-up</a>
-                        </div>
-                          <?php
-                              }
-                          
-                          }else{
-                          ?>
+                          </div>
+                        <?php
+                          } else{
+                        ?>
                             <li class=""><a href="#">All Deals</a></li>  
                             <li><a href="#">Today's deals</a></li>  
                             <li><a href="#">Beauty & Spas</a></li>
                             <li><a href="#">Health & Fitness</a></li>  
                             <li><a href="#">Foods</a></li>
                             <li><a href="#">Tours & Travels</a></li>
-                        </ul>
-
-                        <div class="pull-right">
-                              <a href="/RamroDeal/php/controller/login.php" class="btn btn-info"> Sign-In</a>
+                          </ul>
+                          <div class="pull-right">
+                              <a href="/RamroDeal/php/controller/loginpage.php" class="btn btn-info"> Sign-In</a>
                               <a href="#" class="btn btn-info"> Sign-up</a>
-                        </div>
+                          </div>
                         <?php
                           }
                         ?>
-                               
                     </div>
                 </div>
             </div>
