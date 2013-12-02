@@ -5,6 +5,7 @@
 	include 'banner.php';
 	include 'footer.php';
 	include 'login_form.php';
+	include 'register_form.php';
 	include 'deallist_view.php';
 	include 'admin/addcategory_view.php';
 	include 'admin/addcompany_view.php';

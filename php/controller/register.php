@@ -50,7 +50,7 @@ ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying
 
 nav();  //Displaying navigation part of html
 
-login_form($msg);   //Displaying login form
+register_form($msg);   //Displaying login form
 
 ramrodeal_footer(); //Displaying footer of html
 ?>

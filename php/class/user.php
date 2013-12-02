@@ -3,7 +3,7 @@ class User {
     private $_db,
             $_data,
             $_sessionName,
-            $_isLoggedIn,
+            $_isLoggedIn = false,
             $_cookieName;
     
     /**
@@ -84,7 +84,7 @@ class User {
             Session::put($this->_sessionName, $this->data()->id);
         }else{
             $user = $this->find($email);
-        
+
             if($user){
                 if($this->data()->password === Hash::make($password, $this->data()->salt)){
                     Session::put($this->_sessionName, $this->data()->id);

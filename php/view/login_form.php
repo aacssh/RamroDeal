@@ -1,6 +1,9 @@
 <?php
 function login_form($msg){
 ?>
+<p>
+<h4>Not a member? <a href="register.php">Sign up</a></h4>
+</p>
 <div class="row">
     <div class="span7">
         <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -32,9 +35,15 @@ function login_form($msg){
                 </div>
             </div>
         </form>
-        <div class='control-group error'>
-            <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
-        </div>
+        <?php
+            if(!empty($msg)){
+        ?>
+                <div class='control-group error'>
+                    <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
+                </div>
+        <?php
+            }
+        ?>
     </div>
 </div>
 <?php } ?>

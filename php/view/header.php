@@ -12,7 +12,7 @@
 		<!-- header content -->
 		<div class="row">
 			<div class="span4">
-				<a href="#"><img src="/RamroDeal/bootstrap/img/abcd.jpg" height="200" width="250" /></a>
+				<a href="/RamroDeal/php/index.php"><img src="/RamroDeal/bootstrap/img/abcd.jpg" height="200" width="250" /></a>
 			</div>
 			<div class="span8">
 
