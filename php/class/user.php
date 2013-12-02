@@ -30,7 +30,7 @@ class User {
      }
     
     private function __construct($user = null){
-        $this->_db = DB::getInstance();
+        $this->_db = Database::getDBInstance();
         $this->_sessionName = Config::get('session/session_name');
         $this->_cookieName = Config::get('remember/cookie_name');
         
@@ -53,7 +53,7 @@ class User {
         if(!$id && $this->isLoggedIn()){
             $id = $this->data()->id;
         }
-        if(!$this->_db->update('users', $id, $fields)){
+        if(!$this->_db->update('user', $id, $fields)){
             throw new Exception('There was a problem updating.');
         } else{
             echo 'Successfully Updated';
@@ -61,7 +61,7 @@ class User {
     }
     
     public function create($fields = array()){
-        if(!$this->_db->insert('users', $fields)){
+        if(!$this->_db->insert('user', $fields)){
             throw new Excepton('There was a problem creating an error');
         }
     }
@@ -69,7 +69,7 @@ class User {
     public function find($user = null){
         if($user){
             $field = (!substr_count($user, '@')) ? 'user_id' : 'email';
-            $data = $this->_db->get('users', '*', array($field, '=', $user));
+            $data = $this->_db->get('user', '*', array($field, '=', $user));
             
             if($data->count()){
                 $this->_data = $data->fetchSingle();

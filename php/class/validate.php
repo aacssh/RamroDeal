@@ -45,7 +45,7 @@ class Validate{
      * Creates an instance
      */
     private function __construct(){
-        $this->_db = DB::getDBInstance();
+        $this->_db = Database::getDBInstance();
     }
     
     public function check($source, $items = array()){
