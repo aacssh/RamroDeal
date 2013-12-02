@@ -1,11 +1,51 @@
 <?php
+/**
+ * Defines core functionlity for data validation
+ * 
+ * Validation class performs specific task in system
+ * via filter() method
+ *
+ * @author Aashish Ghale <aashish.ghale@gmail.com>
+ */
 class Validate{
+    /**
+     * Used to store the string for validation
+     * @var string
+     */
+    private $_var;
+    
     private $_passed = false,
             $_errors = array(),
             $_db = null;
     
-    public function __construct(){
-        $this->_db = DB::getInstance();
+    /**
+     * Used to store the instance of the class
+     * @var object
+     */
+    private static $_validateinstance;
+    
+    /**
+     * Creates and store an instance of the class
+     * Checks whether instance of the class is already created
+     * or not
+     * if not created, it create a new instacne of the class,
+     * otherwise returns the previously created instance
+     * 
+     * @param   object  $instance  This is static
+     * @return  object 		   an object to access other methods of class
+     */
+    public static function getValidateInstance(){
+	if (!isset(self::$_validateinstance)){
+	    self::$_validateinstance = new Validate();
+	}
+	return self::$_validateinstance;
+    }
+    
+    /**
+     * Creates an instance
+     */
+    private function __construct(){
+        $this->_db = DB::getDBInstance();
     }
     
     public function check($source, $items = array()){
@@ -53,6 +93,13 @@ class Validate{
         return $this;
     }
     
+    /**
+     * Perform the key operation of sanitizing the data by the class
+     * Try/catch block is used to handle the possible error
+     * 
+     * @param   string  $var  This var stores string of any length
+     * @return  string        false on failure, true of success
+     */
     public function filter($var)
     {
         $this->_var = strip_tags($var);

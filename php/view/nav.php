@@ -113,7 +113,7 @@
                         </ul>
 
                         <div class="pull-right">
-                              <a href="/RamroDeal/php/controller/loginpage.php" class="btn btn-info"> Sign-In</a>
+                              <a href="/RamroDeal/php/controller/login.php" class="btn btn-info"> Sign-In</a>
                               <a href="#" class="btn btn-info"> Sign-up</a>
                         </div>
                         <?php

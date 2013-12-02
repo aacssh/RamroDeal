@@ -25,7 +25,7 @@
                         <input type="checkbox" name="remember" id="remember" autocomplete="off" />Remember me
                     </div>
                 </div>
-                <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
+                <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>" />
                 <div class="control-group">
                     <div class="controls">
                         <button type="submit" id="submit" name="submit" class="btn btn-info">Submit</button>

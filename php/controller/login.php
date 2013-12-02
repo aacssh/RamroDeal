@@ -3,7 +3,7 @@ include '../init.php';
 
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
-        $validate = new Validate();
+        $validate = Validate::getValidateInstance();
         $validation = $validate->check($_POST, array(
             'email' => array(
                 'required' => true,

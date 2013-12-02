@@ -6,7 +6,7 @@ $GLOBALS['config'] = array(
         'host' => '127.0.0.1',
         'username' => 'root',
         'password' => 'gcespcm',
-        'db' => 'ramrodeal'
+        'db' => 'ramrodeal_test'
     ),
     'remember' => array(
         'cookie_name' => 'hash',
