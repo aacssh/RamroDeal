@@ -14,14 +14,12 @@ function login_form($msg){
                     <input type="email" id="email" name="email" placeholder="email" required>
                 </div>	
             </div>
-    
             <div class="control-group">
                 <label class="control-label" for="password">Password:</label>
                 <div class="controls">
                     <input type="password" id="password" name = "password" placeholder="Password" required />
                 </div>
             </div>
-            
              <div class="control-group">
                 <label class="control-label" for="remember"></label>
                 <div class="controls">

@@ -46,6 +46,11 @@ if(Input::exists()){
     }
 }
 
+$address = Address::getAddressInstance();
+$address->getAddress();
+var_dump($address);
+
+
 ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 
 nav();  //Displaying navigation part of html

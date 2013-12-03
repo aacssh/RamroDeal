@@ -8,7 +8,9 @@ class Address
     private $_db;
     private static $_addressinstance;
     
-    private function __construct(){}
+    private function __construct(){
+        $this->_db = Database::getDBInstance();
+    }
     
     public function getAddressInstance(){
         if(empty(self::$_addressinstance)){
@@ -17,13 +19,7 @@ class Address
         return self::$_addressinstance;
     }
     
-    public function setProperty($args, $db){
-        if (is_object($db)){
-            $this->_db = $db;
-        } else{
-            throw new Exception("Parameter passed should be an object");
-        }
-
+    public function setProperty($args = null){
         if (is_array($args))
         {  
             if (isset($args['city']))
@@ -68,6 +64,16 @@ class Address
             }
         } catch(PDOException $e){
             echo $e->getMessage();
+        }
+    }
+
+    public function getAddress(){
+        $data = $this->_db->get('address', '*');
+        var_dump($data->fetchAll());
+        
+        if($data->count()){
+            $this->_data = $data->fetchAll();
+            return true;
         }
     }
 }
