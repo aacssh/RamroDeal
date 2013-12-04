@@ -1,7 +1,7 @@
 <?php
 include '../init.php';
 
-$msg = '';
+$msg ='';
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
         $validate = Validate::getValidateInstance();
@@ -47,15 +47,15 @@ if(Input::exists()){
 }
 
 $address = Address::getAddressInstance();
-$address->getAddress();
-var_dump($address);
 
+if($address->getAddress()){
+    ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 
-ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
+    nav();  //Displaying navigation part of html
+    
+    register_form($address->data(), $msg);   //Displaying login form
+    
+    ramrodeal_footer(); //Displaying footer of html
+}
 
-nav();  //Displaying navigation part of html
-
-register_form($msg);   //Displaying login form
-
-ramrodeal_footer(); //Displaying footer of html
 ?>

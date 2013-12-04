@@ -6,6 +6,7 @@ class Address
     private $_state;
     private $_city;
     private $_db;
+    private $_data;
     private static $_addressinstance;
     
     private function __construct(){
@@ -60,7 +61,7 @@ class Address
             if ($this->_db->rowCount() == 1){
                 return $id;
             } else{
-                return 0;
+                return false;
             }
         } catch(PDOException $e){
             echo $e->getMessage();
@@ -68,13 +69,18 @@ class Address
     }
 
     public function getAddress(){
-        $data = $this->_db->get('address', '*');
-        var_dump($data->fetchAll());
+        $this->_db->get('address', '*');
         
-        if($data->count()){
-            $this->_data = $data->fetchAll();
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
             return true;
         }
+        
+        return false;
+    }
+    
+    public function data(){
+        return $this->_data;
     }
 }
 ?>

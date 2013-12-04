@@ -5,7 +5,7 @@
            <div class="span6">
                 <input type="hidden" name="max_file_size" value="2097152" />
                 <input type="hidden" name="type" value="customer"/>
-                 <div class="control-group">
+                <div class="control-group">
                     <label class="control-label" for="category_name">Category:</label>
                     <div class="controls">
                         <select name='category_name' class="input-medium">
