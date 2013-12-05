@@ -47,25 +47,24 @@ class Address
         }
     }
     
-    public function checkAddress(){
-        try{
-            $this->_db->query("SELECT address_id FROM address
-                              where city = :city and state = :state and country = :country and zip = :zip");
-            $this->_db->bind(":city", $this->_city);
-            $this->_db->bind(":state", $this->_state);
-            $this->_db->bind(":country", $this->_country);
-            $this->_db->bind(":zip", $this->_zip); 
-            $this->_db->execute();
-            $id = $this->_db->fetchAll();
-            
-            if ($this->_db->rowCount() == 1){
-                return $id;
-            } else{
-                return false;
-            }
-        } catch(PDOException $e){
-            echo $e->getMessage();
+    public function checkAddress($add){
+        $address = array(
+            array(
+                'city', '=', $add[0]
+            ),
+            array(
+                'district', '=', $add[1]
+            ),
+            array(
+                'country', '=', $add[2]
+            )
+        );
+        $data = $this->_db->get('address', 'address_id', $address);
+
+        if($data->count()){
+            return true;
         }
+        return false;
     }
 
     public function getAddress(){
@@ -75,7 +74,6 @@ class Address
             $this->_data = $this->_db->fetchAll();
             return true;
         }
-        
         return false;
     }
     

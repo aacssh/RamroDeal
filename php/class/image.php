@@ -1,7 +1,7 @@
 <?php
 class Image
 {
-    private $_image_id;
+    private $_image_id = array();
     private $_cover_image;
     private $_first_image;
     private $_second_image;
@@ -21,8 +21,10 @@ class Image
     
     public function setProperty($args){
         if (is_array($args)){
-            if(isset($args['image_id'])){
-                $this->_image_id = $args['image_id'];
+            foreach($args as $arg){
+                if(isset($arg['image_id'])){
+                    $this->_image_id[] = $arg['image_id'];
+                }
             }
             if(isset($args['cover_image'])){
                 $this->_cover_image = $args['cover_image'];
@@ -71,8 +73,14 @@ class Image
     
     public function getImage(){
         try{
-            $values = 'cover_image';
-            $this->_db->get('image',$values, array('image_id', '=', $this->_image_id));
+            $where = array();
+            
+            for($i = 0; $i <= count($this->_image_id); $i++){
+                $id = array('image_id', '=', $this->_image_id[$i]);
+                array_push($where, $id);
+            }
+            
+            $this->_db->get('image', 'cover_image', $where);
             $cover = $this->_db->fetchAll();
         } catch(PDOException $e){
             echo die($e->getMessage());

@@ -50,6 +50,13 @@ class Validate{
     
     public function check($source, $items = array()){
         foreach($items as $item => $rules){
+            if($item === 'city' || $item === 'district' || $item === 'country'){
+                $add = array();
+                array_push($add, $this->filter($source[$item]));
+                if(count($add) === 3){
+                    $address = $this->_db->checkAddress($add);
+                }
+            }
             foreach($rules as $rule => $rule_value){
                 $value = $this->filter($source[$item]);
 

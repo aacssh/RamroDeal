@@ -1,6 +1,5 @@
 <?php
 function register_form($address, $msg){
-    echo '<pre>'.print_r($address, true).'</pre>';
 ?>
 <p>
 <h4>Already a member? <a href="../controller/login.php">Sign in</a></h4><hr>
@@ -44,31 +43,19 @@ function register_form($address, $msg){
                     <input type="text" name="contact_no" id="contact_no" value="<?php echo trim (Input::get('contact_no')); ?>" placeholder="Office, Mobile" required/>
                 </div>
             </div>
-            
-            <div class="control-group">
-                <label class="control-label" for="category_name">Category:</label>
-                <div class="controls">
-                    <select name='category_name' class="input-medium">
-                       <?php
-                       /*foreach($categorylist as $category){
-                            foreach($category as $list){
-                                echo'<option>'. $list .'</option>';
-                            }
-                        }*/
-                    ?>
-                    </select>
-                </div>
-            </div>
-            
             <div class="control-group">
                 <label class="control-label" for="city">City:</label>
                 <div class="controls">
                     <select name='city' class="input-medium">
-                       <?php
+                        <?php
+                        $cities = array();
                         foreach($address as $city){
-                            echo'<option>'. $city->city .'</option>';
+                            if(!in_array($city->city, $cities)){
+                                echo'<option>'. $city->city .'</option>';
+                                array_push($cities, $city->city);
+                            }
                         }
-                    ?>
+                        ?>
                     </select>
                 </div>
             </div>
@@ -76,11 +63,15 @@ function register_form($address, $msg){
                 <label class="control-label" for="district">District:</label>
                 <div class="controls">
                     <select name='district' class="input-medium">
-                       <?php
+                        <?php
+                        $districts = array();
                         foreach($address as $district){
-                            echo'<option>'. $district->district .'</option>';
+                            if(!in_array($country->country, $district)){
+                                echo'<option>'. $district->district .'</option>';
+                                array_push($districts, $district->district);
+                            }
                         }
-                    ?>
+                        ?>
                     </select>
                 </div>
             </div>
@@ -88,15 +79,15 @@ function register_form($address, $msg){
                 <label class="control-label" for="country">Country:</label>
                 <div class="controls">
                     <select name='country' class="input-medium">
-                       <?php
-                        $desh = array();
+                        <?php
+                        $countries = array();
                         foreach($address as $country){
-                            if(!in_array($country->country, $desh)){
+                            if(!in_array($country->country, $countries)){
                                 echo'<option>'. $country->country .'</option>';
-                                array_push($desh, $country->country);
+                                array_push($countries, $country->country);
                             }
                         }
-                    ?>
+                        ?>
                     </select>
                 </div>
             </div>

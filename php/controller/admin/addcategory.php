@@ -1,15 +1,9 @@
 <?php
     include '../../init.php';
 
-    //Displaying heading part of html
-    ramrodeal_header("RamroDeal - Great Deal, Great Price");
-    
-    //Displaying navigation part of html
-    nav();
-    
-    //displaying add category form
-    addCategory();
-    
+    ramrodeal_header("RamroDeal - Great Deal, Great Price"); //Displaying heading part of html
+    nav(); //Displaying navigation part of html
+    addCategory(); //displaying add category form
     $dealcategory = Category::getCategoryInstance(Database::getDBInstance());
     
     if (isset($_POST['submit'])){
@@ -22,9 +16,6 @@
     }
     
     $deallist = $dealcategory->getCategory();
-    
     categoryTable($deallist);
-    
-    //Displaying footer of html
-    ramrodeal_footer();
+    ramrodeal_footer(); //Displaying footer of html
 ?>

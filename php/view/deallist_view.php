@@ -1,6 +1,5 @@
 <?php
-function deallist($deals){
-     
+function deallist($deals){   
     $count = count($deals);
     for($i = 0; $i <= $count; $i=$i+4){
         echo '<div class="row">';

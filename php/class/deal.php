@@ -110,9 +110,8 @@ class Deal
         if ($this->_db->count())
         {
             return $list;
-        } else{
-            return 0;
         }
+        return false;
     }
 }
 

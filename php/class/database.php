@@ -68,8 +68,6 @@ class Database
      * @param       string      This parameter contains sql query
      */
     public function query($sql, $params = array()){
-       /// $this->stmt = $this->_db->prepare($query);
-        
         $this->_error = false;
         try{
             if($this->_query = $this->_db->prepare($sql)){
@@ -92,7 +90,7 @@ class Database
         }
         return $this;
     }
-    
+ 
     /**
      * Performs binding of input parameters using PDO::bindValue() function.
      * switch statement is used to set the datatype of parameter
@@ -121,21 +119,37 @@ class Database
     }
     
     public function action($action, $table, $where = array()){
-        if(count($where) === 3){
-            $operators = array('=', '>', '<', '>=', '<=');
-            
-            $field      = $where[0];
-            $operator   = $where[1];
-            $value      = $where[2];
-            
-            if(in_array($operator, $operators)){
-                $sql = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
-                
-                if(!$this->query($sql, array($value))->error()){
-                    return $this;
+        $where_clause = '';
+        $values = array();
+        $i = 1;
+
+        if(!empty($wheres)){
+            foreach($wheres as $where){
+                if(count($where) === 3){
+                    $operators = array('=', '>', '<', '>=', '<=');
+
+                    $field      = $where[0];
+                    $operator   = $where[1];
+                    $value      = $where[2];
+
+                    if(in_array($operator, $operators)){
+                        $where_clause .= $field.' '. $operator.' '.'?';
+                        
+                        array_push($values, $value);
+
+                        if(!$i === count($wheres)){
+                            $where_clause .= ' AND ';
+                        }
+                    }
                 }
+                $i++;
             }
-        } elseif(empty($where)){
+            $sql = "{$action} FROM {$table} WHERE {$where_clause}";
+
+            if(!$this->query($sql, $values)->error()){
+                return $this;
+            }
+        } else{
             $sql = "{$action} FROM {$table}";
             
             if(!$this->query($sql)){
@@ -145,7 +159,47 @@ class Database
         return false;
     }
     
-    public function get($table, $values, $where = null){
+    /*
+    $where_clause = '';
+    $values = array();
+        $i = 1;
+        if(!empty($wheres)){
+            foreach($wheres as $where){
+                if(count($where) === 3){
+                    $operators = array('=', '>', '<', '>=', '<=');
+
+                    $field      = $where[0];
+                    $operator   = $where[1];
+                    $value      = $where[2];
+
+                    if(in_array($operator, $operators)){
+                        $where_clause .= $field.' '. $operator.' '.'?';
+                        
+                        array_push($values, $value);
+
+                        if(!$i === count($wheres)){
+                            $where_clause .= ' AND ';
+                        }
+                    }
+                }
+                $i++;
+            }
+            $sql = "{$action} FROM {$table} WHERE {$where_clause}";
+
+            if(!$this->query($sql, $values)->error()){
+                return $this;
+            }
+        } else{
+            $sql = "{$action} FROM {$table}";
+            
+            if(!$this->query($sql)){
+                return $this;
+            }
+        }
+        return false;
+    */
+    
+    public function get($table, $values, $where = array()){
         $sql = 'SELECT '. $values;
         
         return $this->action($sql, $table, $where);
