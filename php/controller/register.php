@@ -1,6 +1,7 @@
 <?php
 include '../init.php';
 
+$msg = '';
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
         $validate = Validate::getValidateInstance();
@@ -11,7 +12,7 @@ if(Input::exists()){
             ),
             'password' => array(
                 'required' => true,
-                'min' => 6
+                'min' => 5
             ),
             'confirmpassword' => array(
                 'required' => true,
@@ -19,12 +20,12 @@ if(Input::exists()){
             ),
             'fname' => array(
                 'required' => true,
-                'min' => 6,
+                'min' => 3,
                 'max' => 50
             ),
             'lname' => array(
                 'required' => true,
-                'min' => 6,
+                'min' => 3,
                 'max' => 50
             ),
             'contact_no' => array(
@@ -50,10 +51,15 @@ if(Input::exists()){
 
             try{
                 $user->create(array(
-                    'username' => Input::get('username'),
+                    
                     'password' => Hash::make(Input::get('password'), $salt),
                     'salt' => $salt,
-                    'name' => Input::get('name'),
+                    'first_name' => Input::get('fname'),
+                    'last_name' => Input::get('lname'),
+                    'gender' => Input::get('sex'),
+                    'contact_no' => Input::get('contact_no'),
+                    'address' => Address::getAddressInstance()->data()->address_id,
+                    'email' => Input::get('email'),
                     'joined' => date('Y-m-d H:i:s'),
                     'group' => 1
                 ));

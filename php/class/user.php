@@ -62,7 +62,7 @@ class User {
     
     public function create($fields = array()){
         if(!$this->_db->insert('user', $fields)){
-            throw new Excepton('There was a problem creating an error');
+            throw new Excepton('There was a problem registering the user');
         }
     }
     

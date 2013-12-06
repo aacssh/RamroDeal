@@ -118,7 +118,7 @@ class Database
         $this->_query->bindValue($param, $value, $type);
     }
     
-    public function action($action, $table, $where = array()){
+    public function action($action, $table, $wheres = array()){
         $where_clause = '';
         $values = array();
         $i = 1;
@@ -133,17 +133,17 @@ class Database
                     $value      = $where[2];
 
                     if(in_array($operator, $operators)){
-                        $where_clause .= $field.' '. $operator.' '.'?';
-                        
+                        $where_clause .= "{$field} {$operator} ?";
                         array_push($values, $value);
 
-                        if(!$i === count($wheres)){
+                        if($i < count($wheres)){
                             $where_clause .= ' AND ';
                         }
                     }
                 }
                 $i++;
             }
+            
             $sql = "{$action} FROM {$table} WHERE {$where_clause}";
 
             if(!$this->query($sql, $values)->error()){
@@ -158,46 +158,6 @@ class Database
         }
         return false;
     }
-    
-    /*
-    $where_clause = '';
-    $values = array();
-        $i = 1;
-        if(!empty($wheres)){
-            foreach($wheres as $where){
-                if(count($where) === 3){
-                    $operators = array('=', '>', '<', '>=', '<=');
-
-                    $field      = $where[0];
-                    $operator   = $where[1];
-                    $value      = $where[2];
-
-                    if(in_array($operator, $operators)){
-                        $where_clause .= $field.' '. $operator.' '.'?';
-                        
-                        array_push($values, $value);
-
-                        if(!$i === count($wheres)){
-                            $where_clause .= ' AND ';
-                        }
-                    }
-                }
-                $i++;
-            }
-            $sql = "{$action} FROM {$table} WHERE {$where_clause}";
-
-            if(!$this->query($sql, $values)->error()){
-                return $this;
-            }
-        } else{
-            $sql = "{$action} FROM {$table}";
-            
-            if(!$this->query($sql)){
-                return $this;
-            }
-        }
-        return false;
-    */
     
     public function get($table, $values, $where = array()){
         $sql = 'SELECT '. $values;

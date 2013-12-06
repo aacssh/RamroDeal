@@ -1,7 +1,7 @@
 <?php
 class Image
 {
-    private $_image_id = array();
+    private $_image_id;
     private $_cover_image;
     private $_first_image;
     private $_second_image;
@@ -9,7 +9,7 @@ class Image
     private static $_image_instance;
     
     private function __construct(){
-         $this->_db = Database::getDBInstance();
+        $this->_db = Database::getDBInstance();
     }
     
     public function getImageInstance(){
@@ -21,10 +21,8 @@ class Image
     
     public function setProperty($args){
         if (is_array($args)){
-            foreach($args as $arg){
-                if(isset($arg['image_id'])){
-                    $this->_image_id[] = $arg['image_id'];
-                }
+            if(isset($args['image_id'])){
+                $this->_image_id = $args['image_id'];
             }
             if(isset($args['cover_image'])){
                 $this->_cover_image = $args['cover_image'];
@@ -71,25 +69,18 @@ class Image
             return false;
     }
     
-    public function getImage(){
+    public function getImage($image_id){
         try{
-            $where = array();
-            
-            for($i = 0; $i <= count($this->_image_id); $i++){
-                $id = array('image_id', '=', $this->_image_id[$i]);
-                array_push($where, $id);
-            }
-            
-            $this->_db->get('image', 'cover_image', $where);
-            $cover = $this->_db->fetchAll();
+            $id = array('image_id', '=', $image_id);
+            $this->_db->get('image', 'cover_image', $id);
         } catch(PDOException $e){
             echo die($e->getMessage());
         }
-        
-        if ($this->_db->count())
-            return $cover;
-        else
-            return false;
+
+        if ($this->_db->count()){
+            return $this->_db->fetchSingle();
+        }
+        return false;
     }
 }
 

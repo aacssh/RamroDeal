@@ -38,6 +38,15 @@ function register_form($address, $msg){
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label" for="sex">Sex:</label>
+                <div class="controls">
+                    <select name='sex' class="input-medium">
+                        <option value='M'>Male</option>
+                        <option value='F'>Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="contact_no">Contact Number:</label>
                 <div class="controls">
                     <input type="text" name="contact_no" id="contact_no" value="<?php echo trim (Input::get('contact_no')); ?>" placeholder="Office, Mobile" required/>
@@ -48,13 +57,13 @@ function register_form($address, $msg){
                 <div class="controls">
                     <select name='city' class="input-medium">
                         <?php
-                        $cities = array();
-                        foreach($address as $city){
-                            if(!in_array($city->city, $cities)){
-                                echo'<option>'. $city->city .'</option>';
-                                array_push($cities, $city->city);
+                            $city = array();
+                            for($i = 0; $i < count($address); $i++){
+                                if(!in_array($address[$i]->city, $city)){
+                                    echo'<option>'. $address[$i]->city .'</option>';
+                                    array_push($city, $address[$i]->city);
+                                }
                             }
-                        }
                         ?>
                     </select>
                 </div>
@@ -64,13 +73,13 @@ function register_form($address, $msg){
                 <div class="controls">
                     <select name='district' class="input-medium">
                         <?php
-                        $districts = array();
-                        foreach($address as $district){
-                            if(!in_array($country->country, $district)){
-                                echo'<option>'. $district->district .'</option>';
-                                array_push($districts, $district->district);
+                            $district = array();
+                            for($i = 0; $i < count($address); $i++){
+                                if(!in_array($address[$i]->district, $district)){
+                                    echo'<option>'. $address[$i]->district .'</option>';
+                                    array_push($district, $address[$i]->district);
+                                }
                             }
-                        }
                         ?>
                     </select>
                 </div>
@@ -80,13 +89,13 @@ function register_form($address, $msg){
                 <div class="controls">
                     <select name='country' class="input-medium">
                         <?php
-                        $countries = array();
-                        foreach($address as $country){
-                            if(!in_array($country->country, $countries)){
-                                echo'<option>'. $country->country .'</option>';
-                                array_push($countries, $country->country);
+                            $country = array();
+                            for($i = 0; $i < count($address); $i++){
+                                if(!in_array($address[$i]->country, $country)){
+                                    echo'<option>'. $address[$i]->country .'</option>';
+                                    array_push($country, $address[$i]->country);
+                                }
                             }
-                        }
                         ?>
                     </select>
                 </div>

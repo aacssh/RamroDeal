@@ -16,7 +16,8 @@ class Validate{
     
     private $_passed = false,
             $_errors = array(),
-            $_db = null;
+            $_db = null,
+            $_address = array();
     
     /**
      * Used to store the instance of the class
@@ -51,45 +52,51 @@ class Validate{
     public function check($source, $items = array()){
         foreach($items as $item => $rules){
             if($item === 'city' || $item === 'district' || $item === 'country'){
-                $add = array();
-                array_push($add, $this->filter($source[$item]));
-                if(count($add) === 3){
-                    $address = $this->_db->checkAddress($add);
-                }
-            }
-            foreach($rules as $rule => $rule_value){
-                $value = $this->filter($source[$item]);
+                array_push($this->_address, $this->filter($source[$item]));
+                if(count($this->_address) === 3){
+                    $address = Address::getAddressInstance();
+                    $data = $address->checkAddress($this->_address);
 
-                if($rule === 'required' && empty($value)){
-                    $this->addError("{$item} is required");
-                } else if(!empty($value)){
-                   switch($rule){
-                        case 'min':
-                            if(strlen($value) < $rule_value){
-                                $this->addError("{$item} must be a minimum of {$rule_value} characters.");
-                            }
-                        break;
-                        case 'max':
-                            if(strlen($value) > $rule_value){
-                                $this->addError("{$item} must be a maximum of {$rule_value} characters.");
-                            }
-                        break;
-                        case 'email':
-                            if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
-                                $this->addError("Invalid {$item}");
-                            }
-                        case 'matches':
-                            if($value != $source[$rule_value]){
-                                $this->addError("{$rule_value} must match {$item}.");
-                            }
-                        break;
-                        case 'unique':
-                            $check = $this->_db->get($rule_value, array($item, '=', $value));
-                            if($check->count()){
-                                $this->addError("{$item} already exist");
-                            }
-                        break;
-                   }
+                    if(!$data){
+                        $this->addError('Invalid address');
+                    }
+                }
+            } else{
+                foreach($rules as $rule => $rule_value){
+                    $value = $this->filter($source[$item]);
+    
+                    if($rule === 'required' && empty($value)){
+                        $this->addError("{$item} is required");
+                    } else if(!empty($value)){
+                       switch($rule){
+                            case 'min':
+                                if(strlen($value) < $rule_value){
+                                    $this->addError("{$item} must be a minimum of {$rule_value} characters.");
+                                }
+                            break;
+                            case 'max':
+                                if(strlen($value) > $rule_value){
+                                    $this->addError("{$item} must be a maximum of {$rule_value} characters.");
+                                }
+                            break;
+                            case 'email':
+                                if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
+                                    $this->addError("Invalid {$item}");
+                                }
+                            break;
+                            case 'matches':
+                                if($value !== $source[$rule_value]){
+                                    $this->addError("{$rule_value} must match {$item}.");
+                                }
+                            break;
+                            case 'unique':
+                                $check = $this->_db->get($rule_value, array($item, '=', $value));
+                                if($check->count()){
+                                    $this->addError("{$item} already exist");
+                                }
+                            break;
+                       }
+                    }
                 }
             }
         }

@@ -1,35 +1,16 @@
 <?php
 class RandomCode {
-    private $_length;
-    private $_charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    private $_code = '';
-    private $_count;
-    private static $_randominstance;
-    
-    private function __construct(){}
-    
-    public function getRandomCodeInstance(){
-        if(empty(self::$_randominstance)){
-            self::$_randominstance = new RandomCode();
-        }
-        return self::$_randominstance;
-    }
-
-    public function randCode($length)
-    {
+    public static function randCode($length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'){
         if(is_int($length)){
-            $this->_length = $length;
-            $this->_count = strlen($this->_charset)-1;
-            while ($this->_length--)
+            $count = strlen($charset)-1;
+            while ($length--)
             {
-                $this->_code .= $this->_charset[mt_rand(0, $this->_count)];
+                $code .= $charset[mt_rand(0, $count)];
             }
-            return $this->_code;
+            return $code;
         } else{
             throw new Exception('Parameter should be a number');
         }
     }
 }
-
-    
 ?>

@@ -59,9 +59,10 @@ class Address
                 'country', '=', $add[2]
             )
         );
-        $data = $this->_db->get('address', 'address_id', $address);
+        $this->_db->get('address', 'address_id', $address);
 
-        if($data->count()){
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchSingle();
             return true;
         }
         return false;
