@@ -51,7 +51,7 @@ if(Input::exists()){
 
             try{
                 $user->create(array(
-                    
+                    'user_id' => RandomCode::randCode(18),
                     'password' => Hash::make(Input::get('password'), $salt),
                     'salt' => $salt,
                     'first_name' => Input::get('fname'),
