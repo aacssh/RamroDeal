@@ -16,6 +16,7 @@ if(Input::exists()){
         ));
         
         if($validation->passed()){
+            echo 'he';
             //user log in
             $user = User::getUserInstance();
             

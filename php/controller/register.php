@@ -48,23 +48,27 @@ if(Input::exists()){
             $user = User::getUserInstance();
             $salt = Hash::salt(32);
             echo '<br>'.$salt.'<br>'.Hash::make(Input::get('password'), $salt);
+            $email = Input::get('email');
+            $username = explode('@', $email);
 
             try{
                 $user->create(array(
                     'user_id' => RandomCode::randCode(18),
-                    'password' => Hash::make(Input::get('password'), $salt),
-                    'salt' => $salt,
+                    'username' => $username[0],
                     'first_name' => Input::get('fname'),
                     'last_name' => Input::get('lname'),
+                    'password' => Hash::make(Input::get('password'), $salt),
+                    'salt' => $salt,
                     'gender' => Input::get('sex'),
                     'contact_no' => Input::get('contact_no'),
                     'address' => Address::getAddressInstance()->data()->address_id,
-                    'email' => Input::get('email'),
-                    'joined' => date('Y-m-d H:i:s'),
-                    'group' => 1
+                    'email' => $email,
+                    'join_date' => date('Y-m-d H:i:s'),
+                    'company' => 'sheo8IQ1QsvZsefi9C',
+                    'groups' => 1
                 ));
                 Session::flash('home', 'You have been registered and can log in!');
-                Redirect::to(404);
+                Redirect::to('index.php');
             }catch(Exception $e){
                 die($e->getMessage());
             }
