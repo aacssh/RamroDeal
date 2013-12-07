@@ -28,19 +28,25 @@ include 'view/fns.php';
 $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
 $home = 'http://localhost/RamroDeal/php/controller/';
 
-if($url === $home.'admin' || $url === $home.'agent' || $url === $home.'customer' || $url === $home.'merchant'){
-    if(!Session::exists(Config::get('session/session_name'))){
-        Redirect::to('index.php');
-    }
+if(($url === $home.'admin' || $url === $home.'agent' || $url === $home.'customer' || $url === $home.'merchant') && !Session::exists(Config::get('session/session_name'))){
+    Redirect::to('index.php');
 }
-/*
+
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
     $hash = Cookie::get(Config::get('remember/cookie_name'));
-    $hashCheck = DB::getInstance()->get('users_session', array('hash', '=', $hash));
+    
+    $DB = Database::getDBInstance();
+    $DB->get('user_session', 'user_id', array('hash', '=', $hash));
 
-    if($hashCheck->count()){
-        $user = new User($hashCheck->fetchSingle()->user_id);
+    if($DB->count()){
+        $user = new User($DB->fetchSingle()->user_id);
         $user->login();
+        $DB->get('groups', 'name', array('id', '=', $user->data()->groups));
+        
+        if($DB->count()){
+            if($DB->fetchSingle()->name == 'Administrator'){
+                Redirect::to('/controller/admin/admin_homepage.php');
+            }
+        }
     }
 }
-*/

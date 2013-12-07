@@ -1,8 +1,7 @@
 <?php
 include '../init.php';
 
-$logout = User::getUserInstance();
-echo 'help<br>';
+$logout = new User();
 $logout->logout();
 
 //Redirect to the index page

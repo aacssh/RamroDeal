@@ -1,6 +1,6 @@
     <?php 
       function nav(){
-        $user = User::getUserInstance();
+        $user = new User();
     ?>
     <!-- Navigation -->
             <div class="navbar">

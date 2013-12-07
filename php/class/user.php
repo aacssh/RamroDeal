@@ -10,7 +10,7 @@ class User {
      * Used to store the instance of Login class
      * @var object
      */
-    private static $_userinstance;
+    # private static $_userinstance;
     
       /**
      * Creates and store an instance of tje class
@@ -21,15 +21,16 @@ class User {
      * 
      * @return Object an object to access other methods of class
      * @param object $instance This is static 
-     */
+     *
      public static function getUserInstance($user = null){
 	 if(!isset(self::$_userinstance)){
             self::$_userinstance = new User($user = null);
         }
         return self::$_userinstance;
      }
+     */
     
-    private function __construct($user = null){
+    public function __construct($user = null){
         $this->_db = Database::getDBInstance();
         $this->_sessionName = Config::get('session/session_name');
         $this->_cookieName = Config::get('remember/cookie_name');
@@ -88,30 +89,27 @@ class User {
             if($user){
                 if($this->data()->password === Hash::make($password, $this->data()->salt)){
                     Session::put($this->_sessionName, $this->data()->user_id);
-                    
-                    echo 'Below Session';
+
                     if($remember){
                         $hash = Hash::unique();
-                        $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
+                        $hashCheck = $this->_db->get('user_session', 'hash', array('user_id', '=', $this->data()->user_id));
                         
                         if(!$hashCheck->count()){
-                            $this->_db->insert('users_session', array(
-                                'user_id' => $this->data()->id,
+                            $this->_db->insert('user_session', array(
+                                'user_id' => $this->data()->user_id,
                                 'hash' => $hash
                             ));
                         }else{
                             $hash = $hashCheck->fetchSingle()->hash;
                         }
-                        
                         Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
-                        echo 'Below Cookie';
                     }
                     
-                    return 'true';
+                    return true;
                 }
             }
         }
-        return 'false';
+        return false;
     }
     
     public function logout(){

@@ -16,8 +16,7 @@ if(Input::exists()){
         ));
         
         if($validation->passed()){
-            //user log in
-            $user = User::getUserInstance();
+            $user = new User();
             $remember = (Input::get('remember') === 'on') ? true : false;
             $login = $user->login(Input::get('email'), Input::get('password'), $remember);
 
@@ -45,10 +44,7 @@ if(Input::exists()){
 }
 
 ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
-
 nav();  //Displaying navigation part of html
-
 login_form($msg);   //Displaying login form
-
 ramrodeal_footer(); //Displaying footer of html
 ?>
