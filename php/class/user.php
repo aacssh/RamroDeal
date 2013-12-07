@@ -81,14 +81,15 @@ class User {
     
     public function login($email = null, $password = null, $remember = false){
         if(!$email && !$password && $this->exists()){
-            Session::put($this->_sessionName, $this->data()->id);
+            Session::put($this->_sessionName, $this->data()->user_id);
         }else{
             $user = $this->find($email);
 
             if($user){
                 if($this->data()->password === Hash::make($password, $this->data()->salt)){
-                    Session::put($this->_sessionName, $this->data()->id);
+                    Session::put($this->_sessionName, $this->data()->user_id);
                     
+                    echo 'Below Session';
                     if($remember){
                         $hash = Hash::unique();
                         $hashCheck = $this->_db->get('users_session', array('user_id', '=', $this->data()->id));
@@ -103,27 +104,29 @@ class User {
                         }
                         
                         Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
+                        echo 'Below Cookie';
                     }
                     
-                    return true;
+                    return 'true';
                 }
             }
         }
-        return false;
+        return 'false';
     }
     
     public function logout(){
-        $this->_db->delete('users_session', array('user_id', '=', $this->data()->id));
+        
+        echo $this->data()->user_id;
+        $this->_db->delete('user_session', array('user_id', '=', $this->data()->user_id));
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);
     }
     
     public function hasPermission($key){
-        $group = $this->_db->get('groups', array('id', '=', $this->data()->group));
-        
+        $group = $this->_db->get('groups', 'permissions', array('id', '=', $this->data()->groups));
+
         if($group->count()){
             $permissions = json_decode($group->fetchSingle()->permissions, true);
-            
             if($permissions[$key] == true){
                 return true;
             }

@@ -59,7 +59,7 @@ class Database
             $this->_db = new PDO('mysql:host='. Config::get('mysql/host') .';dbname='. Config::get('mysql/db') , Config::get('mysql/username'), Config::get('mysql/password'));
             $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e){
-            echo die('<p><strong>Message:</strong>'.$e->getMessage().'</p>');
+            die('<p><strong>Message:</strong>'.$e->getMessage().'</p>');
         }
     }
     
@@ -122,30 +122,45 @@ class Database
         $where_clause = '';
         $values = array();
         $i = 1;
-
+        
         if(!empty($wheres)){
-            foreach($wheres as $where){
-                if(count($where) === 3){
+            if(is_array($wheres[1])){
+                foreach($wheres as $where){
+                    if(count($where) === 3){
+                        $operators = array('=', '>', '<', '>=', '<=');
+            
+                        $field      = $where[0];
+                        $operator   = $where[1];
+                        $value      = $where[2];
+
+                        if(in_array($operator, $operators)){
+                            $where_clause .= "{$field} {$operator} ?";
+                            array_push($values, $value);
+                            
+                            if($i < count($wheres)){
+                                $where_clause .= ' AND ';
+                            }
+                        }
+                    }
+                    $i++;
+                }
+            } else{
+                if(count($wheres) === 3){
                     $operators = array('=', '>', '<', '>=', '<=');
-
-                    $field      = $where[0];
-                    $operator   = $where[1];
-                    $value      = $where[2];
-
+        
+                    $field      = $wheres[0];
+                    $operator   = $wheres[1];
+                    $value      = $wheres[2];
+        
                     if(in_array($operator, $operators)){
                         $where_clause .= "{$field} {$operator} ?";
                         array_push($values, $value);
-
-                        if($i < count($wheres)){
-                            $where_clause .= ' AND ';
-                        }
                     }
                 }
-                $i++;
             }
-            
+        
             $sql = "{$action} FROM {$table} WHERE {$where_clause}";
-
+        
             if(!$this->query($sql, $values)->error()){
                 return $this;
             }
@@ -161,7 +176,6 @@ class Database
     
     public function get($table, $values, $where = array()){
         $sql = 'SELECT '. $values;
-        
         return $this->action($sql, $table, $where);
     }
     

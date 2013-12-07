@@ -92,7 +92,7 @@ class Deal
             $this->_db->bind(':image_id', $this->_image_id);
             $this->_db->execute();
         } catch(PDOException $e){
-            echo die($e->getMessage());
+            die($e->getMessage());
         }
         return 'Successfully added';
     }
@@ -100,15 +100,13 @@ class Deal
     public function getAllDeal(){
         try{
             $values = 'name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, image_id';
-             
             $this->_db->get('deal',$values);
             $list = $this->_db->fetchAll();
         } catch(PDOException $e){
-            echo die($e->getMessage());
+            die($e->getMessage());
         }
         
-        if ($this->_db->count())
-        {
+        if ($this->_db->count()){
             return $list;
         }
         return false;

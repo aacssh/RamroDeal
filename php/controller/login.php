@@ -16,17 +16,14 @@ if(Input::exists()){
         ));
         
         if($validation->passed()){
-            echo 'he';
             //user log in
             $user = User::getUserInstance();
-            
             $remember = (Input::get('remember') === 'on') ? true : false;
-
             $login = $user->login(Input::get('email'), Input::get('password'), $remember);
-            
+
             if($login){
                 if($user->hasPermission('admin')){
-                    Redirect::to('/admin/admin _homepage.php');
+                    Redirect::to('/admin/admin_homepage.php');
                 }elseif($user->hasPermission('moderator')){
                     Redirect::to('/admin/moderator_homepage.php');
                 } elseif($user->hasPermission('mer_admin')){

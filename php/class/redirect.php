@@ -11,12 +11,13 @@ class Redirect {
                     break;
                 }
             } elseif($location === 'index.php'){
-                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/' . $location;
-                header('Location:'. $location);
+                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/php/' . $location;
+                header('Location:'. $url);
+                exit();
             }
             
             $url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . $location;
-            header('Location:'. $location);
+            header('Location:'. $url);
             exit();
         }
     }

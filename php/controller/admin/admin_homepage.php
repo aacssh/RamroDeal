@@ -1,14 +1,11 @@
 <?php
 include '../../init.php';
 
-//Displaying heading part of html
-ramrodeal_header("RamroDeal - Great Deal, Great Price");
+ramrodeal_header("RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 
-//Displaying navigation part of html
-nav();
+nav();  //Displaying navigation part of html
 
 totalcoupon();
 
-//Displaying footer of html
-ramrodeal_footer();
+ramrodeal_footer(); //Displaying footer of html
 ?>
