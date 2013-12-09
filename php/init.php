@@ -34,19 +34,10 @@ if(($url === $home.'admin' || $url === $home.'agent' || $url === $home.'customer
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
     $hash = Cookie::get(Config::get('remember/cookie_name'));
-    
-    $DB = Database::getDBInstance();
-    $DB->get('user_session', 'user_id', array('hash', '=', $hash));
+    $hash = Database::getDBInstance()->get('user_session', 'user_id', array('hash', '=', $hash));
 
-    if($DB->count()){
-        $user = new User($DB->fetchSingle()->user_id);
+    if($hash->count()){
+        $user = new User($hash->fetchSingle()->user_id);
         $user->login();
-        $DB->get('groups', 'name', array('id', '=', $user->data()->groups));
-        
-        if($DB->count()){
-            if($DB->fetchSingle()->name == 'Administrator'){
-                Redirect::to('/controller/admin/admin_homepage.php');
-            }
-        }
     }
 }

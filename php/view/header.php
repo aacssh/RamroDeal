@@ -15,9 +15,6 @@
 				<a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="/RamroDeal/bootstrap/img/abcd.jpg" height="200" width="250" /></a>
 			</div>
 			<div class="span8">
-
-			<!-- header content -->
-		       
 			<form class="form-search pull-right">
 			    <span class="btn btn-info text-center">Refer Friends. Get bonus*</span>&nbsp;
 			    <div class="input-append">
