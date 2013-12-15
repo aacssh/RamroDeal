@@ -11,7 +11,7 @@ class Redirect {
                     break;
                 }
             } elseif($location === 'index.php'){
-                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/php/' . $location;
+                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/' . $location;
                 header('Location:'. $url);
                 exit();
             }

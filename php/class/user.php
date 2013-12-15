@@ -57,7 +57,7 @@ class User {
         if(!$this->_db->update('user', $id, $fields)){
             throw new Exception('There was a problem updating.');
         } else{
-            echo 'Successfully Updated';
+           return true;
         }
     }
     
@@ -104,7 +104,6 @@ class User {
                         }
                         Cookie::put($this->_cookieName, $hash, Config::get('remember/cookie_expiry'));
                     }
-                    
                     return true;
                 }
             }

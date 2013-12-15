@@ -45,9 +45,8 @@ if(Input::exists()){
         ));
         
         if($validation->passed()){
-            $user = User::getUserInstance();
+            $user = new User();
             $salt = Hash::salt(32);
-            echo '<br>'.$salt.'<br>'.Hash::make(Input::get('password'), $salt);
             $email = Input::get('email');
             $username = explode('@', $email);
 
@@ -81,7 +80,7 @@ if(Input::exists()){
 }
 $address = Address::getAddressInstance();
 
-if($address->getAddress()){
+if($address->getAddress('*')){
     ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
     nav();  //Displaying navigation part of html
     register_form($address->data(), $msg);   //Displaying login form

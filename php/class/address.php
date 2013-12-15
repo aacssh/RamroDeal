@@ -68,12 +68,12 @@ class Address
         return false;
     }
 
-    public function getAddress(){
-        $this->_db->get('address', '*');
+    public function getAddress($values, $where = null){
+        $this->_db->get('address', $values, $where);
         
         if($this->_db->count()){
-            $this->_data = $this->_db->fetchAll();
-            return true;
+            $this->_data = $this->_db->fetchSingle();
+            return $this;
         }
         return false;
     }
