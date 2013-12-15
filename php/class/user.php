@@ -69,7 +69,7 @@ class User {
     
     public function find($user = null){
         if($user){
-            $field = (!substr_count($user, '@')) ? 'user_id' : 'email';
+            $field = (substr_count($user, '@')) ? 'email' : ((strlen($user) == 18 ) ? 'user_id' : 'username');
             $data = $this->_db->get('user', '*', array($field, '=', $user));
             
             if($data->count()){

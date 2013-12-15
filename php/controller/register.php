@@ -2,6 +2,8 @@
 include '../init.php';
 
 $msg = '';
+$address = Address::getAddressInstance();
+
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
         $validate = Validate::getValidateInstance();
@@ -60,7 +62,7 @@ if(Input::exists()){
                     'salt' => $salt,
                     'gender' => Input::get('sex'),
                     'contact_no' => Input::get('contact_no'),
-                    'address' => Address::getAddressInstance()->data()->address_id,
+                    'address' => $address->data()->address_id,
                     'email' => $email,
                     'join_date' => date('Y-m-d H:i:s'),
                     'company' => 'sheo8IQ1QsvZsefi9C',
@@ -78,7 +80,6 @@ if(Input::exists()){
         }
     }
 }
-$address = Address::getAddressInstance();
 
 if($address->getAddress('*')){
     ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
@@ -86,5 +87,4 @@ if($address->getAddress('*')){
     register_form($address->data(), $msg);   //Displaying login form
     ramrodeal_footer(); //Displaying footer of html
 }
-
 ?>

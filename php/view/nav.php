@@ -49,12 +49,15 @@
                                       <ul class="dropdown-menu">
                                           <li><a href="profile.php">Account Setting</a></li>
                                           <li class="divider"></li>
+                                          <li><a href="/RamroDeal/php/controller/logout.php"> Logout</a></li>
                                       </ul>
                                   </li>
                               </ul>
                               
                               <div class="pull-right">
-                                    <a href="/RamroDeal/php/controller/logout.php" class="btn btn-info"> Logout</a>
+                                <div class="nav">
+                                    <li><a href="/RamroDeal/php/controller/profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
+                                    </div>
                               </div>
                               
                           <?php

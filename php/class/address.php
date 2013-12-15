@@ -72,7 +72,7 @@ class Address
         $this->_db->get('address', $values, $where);
         
         if($this->_db->count()){
-            $this->_data = $this->_db->fetchSingle();
+            $this->_data = $this->_db->fetchAll();
             return $this;
         }
         return false;
