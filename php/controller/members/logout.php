@@ -1,5 +1,5 @@
 <?php
-include '../init.php';
+include '../../init.php';
 
 $logout = new User();
 $logout->logout();

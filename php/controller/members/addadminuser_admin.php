@@ -1,6 +1,6 @@
 <?php
-   include '../init.php';
-
+    include '../../init.php';
+    
     ramrodeal_header("RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
     nav();  //Displaying navigation part of html
     
@@ -61,7 +61,7 @@
         }
     }
     
-    addCompany();   //displaying add category form
+    addAdminUser(); //displaying add category form
     ramrodeal_footer(); //Displaying footer of html
 
 ?>

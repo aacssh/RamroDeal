@@ -1,5 +1,5 @@
 <?php
-include '../init.php';
+include '../../init.php';
 
 ramrodeal_header("RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 nav();  //Displaying navigation part of html
