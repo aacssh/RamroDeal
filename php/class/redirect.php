@@ -1,8 +1,6 @@
 <?php
 class Redirect {
-    
     public static function to($location = null){
-        $host = $_SERVER['HTTP_HOST'];
         if($location){
             if(is_numeric($location)){
                 switch($location){
@@ -13,12 +11,12 @@ class Redirect {
                     break;
                 }
             } elseif($location === 'index.php'){
-                $url = 'http://' .$host.'/RamroDeal/' . $location;
+                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/' . $location;
                 header('Location:'. $url);
                 exit();
             }
             
-            $url = 'http://' .$host. dirname($_SERVER['PHP_SELF']) . $location;
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/RamroDeal/php/controller/' . $location;
             header('Location:'. $url);
             exit();
         }

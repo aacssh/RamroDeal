@@ -25,11 +25,14 @@ spl_autoload_register(function ($obj)
 });
 
 include 'view/fns.php';
-
-if(!Cookie::exists(Config::get('remember/cookie_name')) && 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) === 'http://localhost/RamroDeal/php/controller/members'){
+$url = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']);
+$home = 'http://localhost/RamroDeal/php/controller/';
+/*
+if(!Cookie::exists(Config::get('remember/cookie_name')) && ($url !== $home.'public' || $url !== 'http://localhost/RamroDeal')){
     Redirect::to('index.php');
 }
-elseif(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
+*/
+if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
     $hash = Cookie::get(Config::get('remember/cookie_name'));
     $hash = Database::getDBInstance()->get('user_session', 'user_id', array('hash', '=', $hash));
 

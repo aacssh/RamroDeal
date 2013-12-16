@@ -4,7 +4,7 @@ include 'php/init.php';
 $user = new User();
 if($user->isLoggedIn()){
     if($user->hasPermission('admin')){
-        Redirect::to('/php/controller/admin_homepage.php');
+        Redirect::to('members/homepage_admin.php');
     }elseif($user->hasPermission('moderator')){
         Redirect::to('');
     } elseif($user->hasPermission('mer_admin')){

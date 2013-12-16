@@ -22,7 +22,7 @@ if(Input::exists()){
 
             if($login){
                 if($user->hasPermission('admin')){
-                    Redirect::to('/homepage_admin.php');
+                    Redirect::to('members/homepage_admin.php');
                 }elseif($user->hasPermission('moderator')){
                     Redirect::to('/admin/moderator_homepage.php');
                 } elseif($user->hasPermission('mer_admin')){

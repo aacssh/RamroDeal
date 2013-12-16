@@ -16,7 +16,7 @@
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
                                           <li><a href="#">Deal list</a></li>
-                                          <li><a href="../controller/members/addCategory.php">Category list</a></li>
+                                          <li><a href="../controller/addCategory.php">Category list</a></li>
                                           <li class="divider"></li>
                                           <li><a href="#">Add Deal</a></li>
                                           <li><a href="addcategory.php">Add Category</a></li>
@@ -57,7 +57,7 @@
                               <div class="pull-right">
                                 <div class="nav">
                                     <li><a href="/RamroDeal/php/controller/members/profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
-                                </div>
+                                    </div>
                               </div>
                               
                           <?php
