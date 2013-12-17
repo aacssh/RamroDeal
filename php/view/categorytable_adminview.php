@@ -1,22 +1,22 @@
 <?php
-function categoryTable($deallist){
-    $i=1;
+function categoryTable($categorylist){
+    $i=0;
 ?>
 <table border="2" cellpadding="6">
     <tr>
         <th>S.N</th>
         <th>Category</th>
     </tr>
-    <?php
-        foreach($deallist as $deal){
-            foreach($deal as $list){
-               echo" <tr>
-                    <td>$i</td>
-                    <td>$list</td>
-                </tr>";
-                $i = $i +1;
-            }
-        }
-    ?>
+<?php
+    while($i < count($categorylist) ){
+?>
+    <tr>
+        <td><?php echo $i + 1; ?></td>
+        <td><?php echo $categorylist[$i]->name; ?></td>
+    </tr>
+<?php
+        $i++;
+    }
+?>
 </table>
 <?php } ?>

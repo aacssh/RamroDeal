@@ -17,6 +17,7 @@ class Validate{
     private $_passed = false,
             $_errors = array(),
             $_db = null,
+            $_addressInstance = null,
             $_address = array();
     
     /**
@@ -47,6 +48,7 @@ class Validate{
      */
     private function __construct(){
         $this->_db = Database::getDBInstance();
+        $this->_addressInstance = Address::getAddressInstance();
     }
     
     public function check($source, $items = array()){
@@ -54,8 +56,7 @@ class Validate{
             if($item === 'city' || $item === 'district' || $item === 'country'){
                 array_push($this->_address, $this->filter($source[$item]));
                 if(count($this->_address) === 3){
-                    $address = Address::getAddressInstance();
-                    $data = $address->checkAddress($this->_address);
+                    $data = $this->_addressInstance->checkAddress($this->_address);
 
                     if(!$data){
                         $this->addError('Invalid address');

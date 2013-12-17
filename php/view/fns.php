@@ -1,18 +1,19 @@
 <?php
-include 'constants.php';
-include 'header.php';
-include 'nav.php';
-include 'banner.php';
-include 'footer.php';
-include 'login_form.php';
-include 'register_form.php';
-include 'deallist_view.php';
-include 'addcategory_adminview.php';
-include 'addcompany_adminview.php';
-include 'categorytable_adminview.php';
-include 'companylist_adminview.php';
-include 'addadminuser_adminview.php';
-include 'totalcoupon_adminview.php';
-include 'adddeal_view.php';
-include 'profile_view.php';
+require_once 'constants.php';
+require_once 'header.php';
+require_once 'nav.php';
+require_once 'banner.php';
+require_once 'footer.php';
+require_once 'login_form.php';
+require_once 'register_form.php';
+require_once 'deallist_view.php';
+require_once 'addcategory_adminview.php';
+require_once 'addcompany_adminview.php';
+require_once 'categorytable_adminview.php';
+require_once 'companylist_adminview.php';
+require_once 'addadminuser_adminview.php';
+require_once 'totalcoupon_adminview.php';
+require_once 'adddeal_view.php';
+require_once 'profile_view.php';
+require_once 'update_view.php';
 ?>

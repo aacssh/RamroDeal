@@ -1,5 +1,5 @@
 <?php
-include 'php/init.php';
+include 'php/init_index.php';
 
 $user = new User();
 if($user->isLoggedIn()){

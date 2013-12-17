@@ -1,17 +1,18 @@
 <?php
 class Category
 {
-    private $_name;
+    private $_name,
+            $_data;
     
     private static $_categoryinstance;
     
-    private function __construct($db){
-        $this->_db = $db; 
+    private function __construct(){
+        $this->_db = Database::getDBInstance();
     }
     
-    public function getCategoryInstance($db){
+    public function getCategoryInstance(){
         if(!isset(self::$_categoryinstance)){
-            self::$_categoryinstance = new Category($db);
+            self::$_categoryinstance = new Category();
         }
         return self::$_categoryinstance;
     }
@@ -32,20 +33,13 @@ class Category
     }
     
     public function getCategory(){
-        try{
-            $this->_db->query("SELECT name from category");
-            $this->_db->execute();
-            $list = $this->_db->fetchAll();
-        } catch(PDOException $e){
-            echo die($e->getMessage());
+        $this->_db->get('category', 'name');
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
         }
-
-        if ($this->_db->rowCount() >= 1)
-        {
-            return $list;
-        } else{
-            return "No data to display";
-        }
+        return false;
     }
     
     public function getCategoryId(){
@@ -64,6 +58,10 @@ class Category
         } else{
             return 0;
         }
+    }
+    
+    public function data(){
+        return $this->_data;
     }
 }
 ?>

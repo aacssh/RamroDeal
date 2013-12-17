@@ -101,11 +101,11 @@ function register_form($address, $msg){
                 </div>
             </div>
             <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
-             <div class="control-group">
+            <div class="control-group">
                 <div class="controls">
                     <button type="submit" name="register" class="btn btn-info">Submit</button>
                 </div>
-             </div>
+            </div>
         </form>
 <?php
         if(!empty($msg)){
