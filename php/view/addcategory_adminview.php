@@ -7,7 +7,7 @@ function addCategory(){
 <?php } ?>
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-horizontal">
         <input type="hidden" id="hide" name="hide" />
-        <div class="text-center"><legend>Deal Category</legend></div>
+        <div class="text-center"><legend>Category</legend></div>
         <div class="row">
             <div class="span6">
                 <div class="control-group">

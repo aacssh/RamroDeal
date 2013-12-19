@@ -11,7 +11,7 @@ require_once 'addcategory_adminview.php';
 require_once 'addcompany_adminview.php';
 require_once 'categorytable_adminview.php';
 require_once 'companylist_adminview.php';
-require_once 'addadminuser_adminview.php';
+require_once 'addadminuser_view.php';
 require_once 'totalcoupon_adminview.php';
 require_once 'adddeal_view.php';
 require_once 'profile_view.php';

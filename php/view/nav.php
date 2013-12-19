@@ -15,11 +15,10 @@
                                   <li class="dropdown" id="accountmenu">
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
-                                          <li><a href="#">Deal list</a></li>
-                                          <li><a href="categorylist.php">Category list</a></li>
+                                        <li><a href="addcategory.php">Category</a></li>
                                           <li class="divider"></li>
+                                          <li><a href="deallist.php">Deal list</a></li>
                                           <li><a href="adddeal.php">Add Deal</a></li>
-                                          <li><a href="addcategory.php">Add Category</a></li>
                                           <li class="divider"></li>
                                           <li><a href="#">Reviews and Rating</a></li>
                                       </ul>
@@ -39,7 +38,7 @@
                                   <li class="dropdown" id="accountmenu">
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin Users<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
-                                          <li><a href="#">Admin Users list</a></li>
+                                          <li><a href="adminlist.php">Admin list</a></li>
                                           <li class="divider"></li>
                                           <li><a href="addadminuser.php">Add New Admin</a></li>
                                       </ul>

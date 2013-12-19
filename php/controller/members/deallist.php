@@ -1,38 +1,16 @@
 <?php
 include '../../init.php';
 
-//Displaying heading part of html
-ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");
-
-//Displaying navigation part of html
-nav();
-
- $db = Database::getDBInstance();
- $deallist = Deal::getDealInstance();
- $deallist->setProperty(array(), $db);
- $list= $deallist->getAllDeal();
- 
- $deals_list = array();
- foreach($list as $deals){
-    $img_id = array('image_id' => $deals['image_id']);
+$deals_list = array();
+foreach(Deal::getDealInstance()->getAllDeal() as $deals){
     $img = Image::getImageInstance();
-    $img->setProperty($img_id, $db);
-    $cover_list = $img->getImage();
-    $cover = array();
-    
-    foreach($cover_list as $img){
-        foreach($img as $image){
-            $deals['cover'] = UPLOADPATH.$image;
-        }
-    }
-    unset($deals['image_id']);
+    $cover_list = $img->getImage($deals->image_id);
+    $deals->cover = UPLOADPATH.$cover_list->cover_image;
     array_push($deals_list, $deals);
-    
- }
- 
- deallist($deals_list);
+}
 
-//Displaying footer of html
-ramrodeal_footer();
-
+ramrodeal_header("RamroDeal - Great Deal, Great Price"); //Displaying heading part of html
+nav(); //Displaying navigation part of html
+deallist($deals_list); //displaying list of deals
+ramrodeal_footer(); //Displaying footer of html
 ?>

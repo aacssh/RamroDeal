@@ -64,7 +64,7 @@ class Company
         }
     }
     
-    public function getCompany(){
+    public function getCompany($where = array()){
         $this->_db->get('company', 'name');
         
         if($this->_db->count()){
@@ -74,23 +74,16 @@ class Company
         return false;
     }
     
-    public function getAgent(){
-        try{
-            $this->_db->query("SELECT name FROM company WHERE type=':agent'");
-            $this->_db->bind(':agent', 'agent');
-            $this->_db->execute();
-            $agentlist = $this->_db->fetchAll();
-            
-            if($this->_db->rowCount() > 0){
-                return $agentlist;
-            } else{
-                return 0;
-            }
-        } catch(PDOException $e){
-            die($e->getMessage());
+    public function getCompanyId($where = array()){
+        $this->_db->get('company', 'company_id', $where);
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
         }
+        return false;
     }
-    
+
     public function data(){
         return $this->_data;
     }
