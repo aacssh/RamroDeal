@@ -74,18 +74,17 @@
                           <?php
                                 } elseif($user->hasPermission('mer_admin')){
                           ?>
-                                  <li class=""><a href="homepage_admin.php">Dashboard</a></li>
+                                  <li class=""><a href="homepage_merchant.php">Dashboard</a></li>
                                   <li class="dropdown" id="accountmenu">
-                                      <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
+                                      <a class="dropdown-toggle" data-toggle="dropdown" href="">My Deals<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
-                                          <li><a href="#">Deal list</a></li>
-                                          <li class="divider"></li>
                                           <li><a href="adddeal.php">Add Deal</a></li>
                                           <li class="divider"></li>
                                           <li><a href="#">Reviews and Rating</a></li>
                                       </ul>
                                   </li>
-                                  <li><a href="#">Customers</a></li>  
+                                  <li><a href="#">My Customers</a></li>
+                                  <li><a href="#">Transaction Histroy</a></li>
                                   <li class="dropdown" id="accountmenu">
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
