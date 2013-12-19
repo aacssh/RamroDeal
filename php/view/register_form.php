@@ -7,6 +7,7 @@ function register_form($address, $msg){
 <div class="row">
     <div class="span7">
         <form action="" method="post" class="form-horizontal">
+            <input type="hidden" id="hide" name="hide" />
             <div class="control-group">
                 <label for="email" class="control-label">Email:</label>
                 <div class="controls">

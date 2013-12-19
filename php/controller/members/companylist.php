@@ -14,5 +14,4 @@
     nav(); //Displaying navigation part of html
     companyList($companies);
     ramrodeal_footer(); //Displaying footer of html
-
 ?>

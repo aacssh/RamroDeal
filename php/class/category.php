@@ -21,15 +21,8 @@ class Category
         $this->_name = $name;
     }
     
-    public function addCategory(){
-        try{
-            $this->_db->query("INSERT INTO category (name) value (:name)");
-            $this->_db->bind(':name', $this->_name);
-            $this->_db->execute();
-        } catch(PDOException $e){
-            echo die($e->getMessage());
-        }
-        return 'Successfully added';
+    public function addCategory($table, $fields = array()){
+        $this->_db->insert($table, $fields);
     }
     
     public function getCategory(){

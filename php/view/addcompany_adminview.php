@@ -7,8 +7,9 @@
         </div>
 <?php } ?>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-horizontal">
-           <div class="text-center"><legend>New Company</legend></div>
-           <div class="row">
+            <input type="hidden" id="hide" name="hide" />
+            <div class="text-center"><legend>New Company</legend></div>
+            <div class="row">
                <div class="span6">
                    <div class="control-group">
                        <label class="control-label" for="name">Name:</label>
@@ -16,6 +17,18 @@
                            <input type="text" name="name" placeholder="Name" required/>
                        </div>
                    </div>
+                   <div class="control-group">
+                        <label for="password" class="control-label">Password:</label>
+                        <div class="controls">
+                            <input type="password" name="password" id="password" required/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="confirmpassword" class="control-label">Confirm Password:</label>
+                        <div class="controls">
+                            <input type="password" name="confirmpassword" id="confirmpassword" required/>
+                        </div>
+                    </div>
                    <div class="control-group">
                        <label class="control-label" for="email">Email:</label>
                        <div class="controls">

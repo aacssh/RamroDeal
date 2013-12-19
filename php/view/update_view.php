@@ -4,6 +4,7 @@ function update($user){
     <div class="row">
         <div class="span7">
             <form action='' method='post' class="form-horizontal">
+                <input type="hidden" id="hide" name="hide" />
                 <div class="control-group">
                     <label for="username" class="control-label">Username</label>
                     <div class="controls">

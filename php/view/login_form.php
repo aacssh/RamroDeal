@@ -8,6 +8,7 @@ function login_form($msg){
     <div class="span7">
         <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <legend class="control-group text-center">Login:</legend>
+            <input type="hidden" id="hide" name="hide" />
             <div class="control-group">
                 <label class="control-label" for="email">Email:</label>
                 <div class="controls">

@@ -3,6 +3,7 @@ function addDeal($categorylist){
     $i = 0;
 ?>
     <form enctype = "multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-horizontal">
+        <input type="hidden" id="hide" name="hide" />
         <div class="text-center"><legend>Add Deal</legend></div>
         <div class="row">
            <div class="span6">
