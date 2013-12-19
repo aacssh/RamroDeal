@@ -6,30 +6,6 @@ class User {
             $_isLoggedIn = false,
             $_cookieName;
     
-    /**
-     * Used to store the instance of Login class
-     * @var object
-     */
-    # private static $_userinstance;
-    
-      /**
-     * Creates and store an instance of tje class
-     * Checks whether instance of the class is already created
-     * or not
-     * if not created, it create a new instacne of the class,
-     * otherwise returns the previously created instance
-     * 
-     * @return Object an object to access other methods of class
-     * @param object $instance This is static 
-     *
-     public static function getUserInstance($user = null){
-	 if(!isset(self::$_userinstance)){
-            self::$_userinstance = new User($user = null);
-        }
-        return self::$_userinstance;
-     }
-     */
-    
     public function __construct($user = null){
         $this->_db = Database::getDBInstance();
         $this->_sessionName = Config::get('session/session_name');

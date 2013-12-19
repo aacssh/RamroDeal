@@ -10,9 +10,12 @@ class Company
     private $_address_id;
     private $_code;
     private $_log;
+    private $_data;
     private static $_companyinstance;
     
-    private function __construct(){}
+    private function __construct(){
+        $this->_db  = Database::getDBInstance();
+    }
     
     public function getCompanyInstance(){
         if(empty(self::$_companyinstance)){
@@ -21,15 +24,7 @@ class Company
         return self::$_companyinstance;
     }
     
-    public function setProperty($args, $db){
-        if (is_object($db)){
-            if(isset($db)){
-                $this->_db = $db;
-            }
-        } else{
-            throw new Exception("Parameter passed should be an object");
-        }
-
+    public function setProperty($args){
         if (is_array($args)){
             if (isset($args['address_id'])){
                 $this->_address_id = $args['address_id'];
@@ -63,43 +58,20 @@ class Company
         }
     }
     
-    public function addCompany($log){
-        $this->_log = $log;
-        try{
-            $this->_db->beginTransaction();
-            $this->_log->signUp();
-            $this->_db->query("INSERT INTO company (company_id, name, office_no, mobile_no, join_date, type, address_id, person_id, email)
-                              VALUE (:id, :name, :office_no,:mobile_no, now(), :type, :address, 'pkkOkMcBoTMGRvI72T', :email)");
-            $this->_db->bind(':id', $this->_code);
-            $this->_db->bind(':name', $this->_name);
-            $this->_db->bind(':office_no', $this->_phoneno);
-            $this->_db->bind(':mobile_no', $this->_mobileno);
-            $this->_db->bind(':type', $this->_type);
-            $this->_db->bind(':address', $this->_address_id);
-            $this->_db->bind(':email', $this->_email);
-            $this->_db->execute();
-            $this->_db->endTransaction();
-        } catch(PDOException $e){
-            $this->_db->cancelTransaction();
-            die($e->getMessage());
+    public function create($fields = array()){
+        if(!$this->_db->insert('company', $fields)){
+            throw new Excepton('There was a problem registering the company');
         }
-        return 'Successfully added';
     }
     
     public function getCompany(){
-        try{
-            $this->_db->query("SELECT name FROM company");
-            $this->_db->execute();
-            $companylist = $this->_db->fetchAll();
-            
-            if($this->_db->rowCount() > 0){
-                return $companylist;
-            } else{
-                return 0;
-            }
-        } catch(PDOException $e){
-            die($e->getMessage());
+        $this->_db->get('company', 'name');
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
         }
+        return false;
     }
     
     public function getAgent(){
@@ -117,6 +89,10 @@ class Company
         } catch(PDOException $e){
             die($e->getMessage());
         }
+    }
+    
+    public function data(){
+        return $this->_data;
     }
 }
 ?>

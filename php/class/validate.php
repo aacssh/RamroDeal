@@ -54,14 +54,7 @@ class Validate{
     public function check($source, $items = array()){
         foreach($items as $item => $rules){
             if($item === 'city' || $item === 'district' || $item === 'country'){
-                array_push($this->_address, $this->filter($source[$item]));
-                if(count($this->_address) === 3){
-                    $data = $this->_addressInstance->checkAddress($this->_address);
-
-                    if(!$data){
-                        $this->addError('Invalid address');
-                    }
-                }
+                $this->validateAddress($source, $item);
             } else{
                 foreach($rules as $rule => $rule_value){
                     $value = $this->filter($source[$item]);
@@ -106,6 +99,17 @@ class Validate{
             $this->_passed = true;
         }
         return $this;
+    }
+    
+    public function validateAddress($source, $item){
+        array_push($this->_address, $this->filter($source[$item]));
+        if(count($this->_address) === 3){
+            $data = $this->_addressInstance->checkAddress($this->_address);
+
+            if(!$data){
+                $this->addError('Invalid address');
+            }
+        }
     }
     
     /**

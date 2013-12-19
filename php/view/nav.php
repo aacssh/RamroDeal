@@ -1,7 +1,6 @@
     <?php 
       function nav(){
         $user = new User();
-        $dir = '/RamroDeal/php/controller/members/';
     ?>
     <!-- Navigation -->
             <div class="navbar">
@@ -12,15 +11,15 @@
                           if($user->isLoggedIn()){
                               if($user->hasPermission('admin')){
                           ?>
-                                  <li class=""><a href="<?php echo $dir; ?>homepage_admin.php">Dashboard</a></li>
+                                  <li class=""><a href="homepage_admin.php">Dashboard</a></li>
                                   <li class="dropdown" id="accountmenu">
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
                                           <li><a href="#">Deal list</a></li>
-                                          <li><a href="<?php echo $dir; ?>categorylist.php">Category list</a></li>
+                                          <li><a href="categorylist.php">Category list</a></li>
                                           <li class="divider"></li>
-                                          <li><a href="<?php echo $dir; ?>/adddeal.php">Add Deal</a></li>
-                                          <li><a href="<?php echo $dir; ?>addcategory.php">Add Category</a></li>
+                                          <li><a href="adddeal.php">Add Deal</a></li>
+                                          <li><a href="addcategory.php">Add Category</a></li>
                                           <li class="divider"></li>
                                           <li><a href="#">Reviews and Rating</a></li>
                                       </ul>
@@ -48,16 +47,16 @@
                                   <li class="dropdown" id="accountmenu">
                                       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
-                                          <li><a href="<?php echo $dir; ?>update.php">Account Setting</a></li>
+                                          <li><a href="update.php">Account Setting</a></li>
                                           <li class="divider"></li>
-                                          <li><a href="<?php echo $dir; ?>logout.php"> Logout</a></li>
+                                          <li><a href="logout.php"> Logout</a></li>
                                       </ul>
                                   </li>
                               </ul>
                               
                               <div class="pull-right">
                                 <div class="nav">
-                                    <li><a href="<?php echo $dir; ?>profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
+                                    <li><a href="profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
                                     </div>
                               </div>
                               
