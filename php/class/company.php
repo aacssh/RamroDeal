@@ -83,6 +83,15 @@ class Company
         }
         return false;
     }
+    
+    public function deleteCompany($value){
+        $this->_db->delete('company', array('company_id', '=', $value));
+
+        if($this->_db->count()){
+            return true;
+        }
+        return false;
+    }
 
     public function data(){
         return $this->_data;

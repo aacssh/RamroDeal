@@ -8,7 +8,7 @@ function update($user){
                 <div class="control-group">
                     <label for="username" class="control-label">Username</label>
                     <div class="controls">
-                        <input type="text" name="username" id="username" value="<?php echo trim($user->data()->username); ?>" autocomplete="off" />
+                        <input type="text" name="username" id="username" value="<?php echo trim($user->username); ?>" autocomplete="off" />
                     </div>
                 </div>
                 <div class="control-group">

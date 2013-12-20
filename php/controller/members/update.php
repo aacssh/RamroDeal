@@ -56,6 +56,7 @@ if(Session::exists('home')){
     echo '<p>'. Session::flash('home'). '</p>';
 }
 
-update($user);
+echo '<pre>'.print_r($user->data(), true).'</pre>';
+update($user->data());
 ramrodeal_footer(); //Displaying footer of html
 ?>

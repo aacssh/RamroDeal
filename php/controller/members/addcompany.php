@@ -83,9 +83,9 @@ if(Input::exists()){
                   'company' => $company_id,
                   'groups' => 3
                ));
-               
-               Session::flash('home', 'New company has been registered!');
+         
                $db->endTransaction();
+               Session::flash('home', 'New company has been registered!');
             }catch (PDOException $e){
                $db->cancelTransaction();
                die($e->getMessage());

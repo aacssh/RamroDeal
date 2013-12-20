@@ -68,6 +68,15 @@ class User {
         }
     }
     
+    public function delete($value){
+        $this->_db->delete('user', array('company', '=', $value));
+        
+        if($this->_db->count()){
+            return true;
+        }
+        return false;
+    }
+    
     public function login($email = null, $password = null, $remember = false){
         if(!$email && !$password && $this->exists()){
             Session::put($this->_sessionName, $this->data()->user_id);
