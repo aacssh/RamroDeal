@@ -6,6 +6,7 @@
 	<title><?php echo $title; ?></title>
 	<link rel="stylesheet" type="text/css" href="/RamroDeal/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="/RamroDeal/bootstrap/css/boot.css">
+	<link rel="shortcut icon" type="image/x-icon" href="/RamroDeal/favicon.ico" />
     </head>
     <body>
 	<div class="container">
@@ -26,6 +27,6 @@
 				<button type="submit" class="btn btn-info">Search</button>
 			    </div>
 			</form>
-		</div>
-	    </div>
+			</div>
+		    </div>
 <?php } ?>

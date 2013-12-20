@@ -5,11 +5,11 @@ $user = new User();
 if($user->isLoggedIn()){
     if($user->hasPermission('admin')){
         Redirect::to('members/homepage_admin.php');
-    }elseif($user->hasPermission('moderator')){
+    }elseif($user->hasPermission('sub-admin')){
         Redirect::to('');
     } elseif($user->hasPermission('mer_admin')){
         Redirect::to('');
-    } elseif($user->hasPermission('mer_moderator')){
+    } elseif($user->hasPermission('moderator')){
         Redirect::to('');
     } elseif($user->hasPermission('normal_user')){
         Redirect::to('');

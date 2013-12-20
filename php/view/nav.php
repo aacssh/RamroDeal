@@ -58,18 +58,48 @@
                                     <li><a href="profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
                                     </div>
                               </div>
-                              
                           <?php
-                                }elseif($user->hasPermission('moderator')){
+                                }elseif($user->hasPermission('sub-admin')){
                           ?>
-                                  <li class=""><a href="#"></a></li>  
-                                  <li><a href="#"></a></li>  
-                                  <li><a href="#"></a></li>
-                                  <li><a href="#"></a></li>  
-                                  <li><a href="#"></a></li>
-                                  <li><a href="#"></a></li>
+                                  <li class=""><a href="homepage_admin.php">Dashboard</a></li>
+                                  <li class="dropdown" id="accountmenu">
+                                      <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
+                                      <ul class="dropdown-menu">
+                                        <li><a href="addcategory.php">Category</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="deallist.php">Deal list</a></li>
+                                          <li><a href="adddeal.php">Add Deal</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Reviews and Rating</a></li>
+                                      </ul>
+                                  </li>
+                                  
+                                  <li class="dropdown" id="accountmenu">
+                                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Companies<b class="caret"></b></a>
+                                      <ul class="dropdown-menu">
+                                          <li><a href="companylist.php">Company list</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="addcompany.php">Add New Company</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="#">Reviews and Rating</a></li>
+                                      </ul>
+                                  </li>
+                                  <li><a href="#">Customers</a></li>  
+                                  <li class="dropdown" id="accountmenu">
+                                      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Settings<b class="caret"></b></a>
+                                      <ul class="dropdown-menu">
+                                          <li><a href="update.php">Account Setting</a></li>
+                                          <li class="divider"></li>
+                                          <li><a href="logout.php"> Logout</a></li>
+                                      </ul>
+                                  </li>
                               </ul>
                               
+                              <div class="pull-right">
+                                <div class="nav">
+                                    <li><a href="profile.php?user=<?php echo trim($user->data()->username); ?>"><?php echo $user->data()->username; ?></a></li>
+                                    </div>
+                              </div>
                           <?php
                                 } elseif($user->hasPermission('mer_admin')){
                           ?>
@@ -100,7 +130,7 @@
                                     </div>
                               </div>
                           <?php
-                                } elseif($user->hasPermission('mer_moderator')){
+                                } elseif($user->hasPermission('moderator')){
                           ?>
                                   <li class=""><a href="#"></a></li>  
                                   <li><a href="#"></a></li>  
