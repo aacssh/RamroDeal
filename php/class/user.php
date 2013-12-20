@@ -56,6 +56,18 @@ class User {
         return false;
     }
     
+    public function getUsers($values = null, $where = array()){
+        if($values && $where){
+            $data = $this->_db->get('user', $values, $where);
+            
+            if($data->count()){
+                $this->_data = $data->fetchAll();
+                return true;
+            }
+            return false;
+        }
+    }
+    
     public function login($email = null, $password = null, $remember = false){
         if(!$email && !$password && $this->exists()){
             Session::put($this->_sessionName, $this->data()->user_id);

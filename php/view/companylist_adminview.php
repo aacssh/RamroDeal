@@ -15,7 +15,7 @@ function companyList($companylist){
         <td><?php echo $company; ?></td>
         <td>
 <?php
-    if($company !== 'individual'){
+    if($company != 'admins' && $company != 'normal users'){
 ?>
             <button class = 'btn btn-min btn-info' type='submit' name='delete' id='delete'>Delete</button>
             <button class = 'btn btn-min btn-success' type='submit' name='delete' id='delete'>Edit</button>
