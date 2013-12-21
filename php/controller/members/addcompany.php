@@ -81,7 +81,7 @@ if(Input::exists()){
                   'email' => $email,
                   'join_date' => date('Y-m-d H:i:s'),
                   'company' => $company_id,
-                  'groups' => 3
+                  'groups' => 4
                ));
          
                $db->endTransaction();

@@ -68,8 +68,8 @@ class User {
         }
     }
     
-    public function delete($value){
-        $this->_db->delete('user', array('company', '=', $value));
+    public function delete($value = array()){
+        $this->_db->delete('user', $value);
         
         if($this->_db->count()){
             return true;

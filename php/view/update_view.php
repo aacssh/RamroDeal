@@ -1,5 +1,4 @@
-<?php
-function update($user){
+<?php function update($user) {
 ?>
     <div class="row">
         <div class="span7">

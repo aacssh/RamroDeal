@@ -105,8 +105,9 @@
                           ?>
                                   <li class=""><a href="homepage_merchant.php">Dashboard</a></li>
                                   <li class="dropdown" id="accountmenu">
-                                      <a class="dropdown-toggle" data-toggle="dropdown" href="">My Deals<b class="caret"></b></a>
+                                      <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
                                       <ul class="dropdown-menu">
+                                          <li><a href="adddeal.php">My Deals</a></li>
                                           <li><a href="adddeal.php">Add Deal</a></li>
                                           <li class="divider"></li>
                                           <li><a href="#">Reviews and Rating</a></li>

@@ -6,6 +6,10 @@ if(!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
 
+if (Input::get('company_id')){
+    $user->getUsers('*', array('company', '=', Input::get('company_id')));
+}
+
 if(Input::exists()){
     if(Input::get('hide') === ''){
         if(Token::check(Input::get('token'))){
@@ -27,7 +31,7 @@ if(Input::exists()){
             
             if($validation->passed()){
                 if(Hash::make(Input::get('password_current'), $user->data()->salt) !== $user->data()->password){
-                    echo 'Your current password is wrong';
+                    Session::flash('home', 'Your current password is wrong');
                 }else{
                     $salt = Hash::salt(32);
                     
@@ -36,7 +40,7 @@ if(Input::exists()){
                         'salt' => $salt
                     ));
                     Session::flash('home', 'Your details have been updated');
-                    Redirect::to('index.php');
+                   // Redirect::to('index.php');
                 }
             }else{
                 foreach($validation->errors() as $error){
@@ -56,7 +60,12 @@ if(Session::exists('home')){
     echo '<p>'. Session::flash('home'). '</p>';
 }
 
-echo '<pre>'.print_r($user->data(), true).'</pre>';
-update($user->data());
+if(is_array($user->data())){
+    foreach($user->data() as $client){
+        update($client);
+    }
+} else{
+    update($user->data());
+}
 ramrodeal_footer(); //Displaying footer of html
 ?>

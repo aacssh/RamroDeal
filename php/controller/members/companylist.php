@@ -12,7 +12,7 @@ if(Input::exists()){
         $user = new User();
         try{
             $db->beginTransaction();
-            $user->delete($id[0]->company_id);
+            $user->delete(array('company', '=', $id[0]->company_id));
             $company->deleteCompany($id[0]->company_id);
             Session::flash('home', 'New company has been deleted!');
             $db->endTransaction();
@@ -21,7 +21,7 @@ if(Input::exists()){
             die($e->getMessage());
         }
     } elseif(Input::get('change_pw') != ''){
-        Redirect::to('members/update.php', 'company_id='.Input::get($id[0]->company_id));
+        Redirect::to('members/update.php', 'company_id='.$id[0]->company_id);
     }
 }
 

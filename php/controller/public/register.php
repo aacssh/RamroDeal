@@ -66,8 +66,8 @@ if(Input::exists()){
                         'address' => $address->data()->address_id,
                         'email' => $email,
                         'join_date' => date('Y-m-d H:i:s'),
-                        'company' => 'sheo8IQ1QsvZsefi9C',
-                        'groups' => 1
+                        'company' => 'suho8IQ1QatZwtxi9C',
+                        'groups' => 4
                     ));
                     Session::flash('home', 'You have been registered and can log in!');
                     Redirect::to('index.php');

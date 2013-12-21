@@ -218,7 +218,7 @@ class Database
             }
             $x++;
         }
-        echo $sql = "UPDATE {$table} SET {$set} WHERE user_id = '{$id}'";
+        $sql = "UPDATE {$table} SET {$set} WHERE user_id = '{$id}'";
         
         if(!$this->query($sql, $fields)->error()){
             return true;
