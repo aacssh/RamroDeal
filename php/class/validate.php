@@ -18,7 +18,9 @@ class Validate{
             $_errors = array(),
             $_db = null,
             $_addressInstance = null,
-            $_address = array();
+            $_imageInstance = null,
+            $_address = array(),
+            $_image = array();
     
     /**
      * Used to store the instance of the class
@@ -49,13 +51,16 @@ class Validate{
     private function __construct(){
         $this->_db = Database::getDBInstance();
         $this->_addressInstance = Address::getAddressInstance();
+        $this->_imageInstance = Image::getImageInstance();
     }
     
     public function check($source, $items = array()){
         foreach($items as $item => $rules){
             if($item === 'city' || $item === 'district' || $item === 'country'){
                 $this->validateAddress($source, $item);
-            } else{
+            } elseif($item === 'cover_image' || $item === 'first_image' || $item === 'second_image'){
+                $this->validateImage($item, $_FILES);
+            }else{
                 foreach($rules as $rule => $rule_value){
                     $value = $this->filter($source[$item]);
     
@@ -101,13 +106,24 @@ class Validate{
         return $this;
     }
     
-    public function validateAddress($source, $item){
+    protected function validateAddress($source, $item){
         array_push($this->_address, $this->filter($source[$item]));
         if(count($this->_address) === 3){
             $data = $this->_addressInstance->checkAddress($this->_address);
 
             if(!$data){
                 $this->addError('Invalid address');
+            }
+        }
+    }
+    
+    protected function validateImage($item, $source){
+        array_push($this->_image, $source[$item]);
+        if(count($this->_image) === 3){
+            $data = $this->_imageInstance->checkImage($this->_image);
+
+            if(!$data){
+                $this->addError($this->_imageInstance->_error);
             }
         }
     }
@@ -119,7 +135,7 @@ class Validate{
      * @param   string  $var  This var stores string of any length
      * @return  string        false on failure, true of success
      */
-    public function filter($var)
+    protected function filter($var)
     {
         $this->_var = strip_tags($var);
         $this->_var = htmlentities($this->_var, ENT_QUOTES);
@@ -127,7 +143,7 @@ class Validate{
 	return trim($this->_var);
     }
     
-    public function addError($error){ 
+    protected function addError($error){ 
         $this->_errors[] = $error;
     }
     

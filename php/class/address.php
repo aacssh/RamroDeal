@@ -7,13 +7,14 @@ class Address
     private $_city;
     private $_db;
     private $_data;
+    private $_address = array();
     private static $_addressinstance;
     
     private function __construct(){
         $this->_db = Database::getDBInstance();
     }
     
-    public function getAddressInstance(){
+    public static function getAddressInstance(){
         if(empty(self::$_addressinstance)){
             self::$_addressinstance = new Address();
         }
@@ -47,8 +48,8 @@ class Address
         }
     }
     
-    public function checkAddress($add){
-        $address = array(
+    public function checkAddress($add = array()){
+        $this->_address = array(
             array(
                 'city', '=', $add[0]
             ),
@@ -59,7 +60,7 @@ class Address
                 'country', '=', $add[2]
             )
         );
-        $this->_db->get('address', 'address_id', $address);
+        $this->_db->get('address', 'address_id', $this->_address);
 
         if($this->_db->count()){
             $this->_data = $this->_db->fetchSingle();

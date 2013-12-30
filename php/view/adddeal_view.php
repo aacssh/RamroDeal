@@ -55,25 +55,25 @@ function addDeal($categorylist){
                <div class="control-group">
                    <label class="control-label" for="s_date">Start Date:</label>
                    <div class="controls">
-                       <input type="date" name="s_date" required/>
+                       <input type="text"  name="s_date" class="date-pick" required/>
                    </div>
                </div>
                <div class="control-group">
                    <label class="control-label" for="e_date">End Date:</label>
                    <div class="controls">
-                       <input type="date" name="e_date" required/>
+                       <input type="date" name="e_date" class="date-pick" required/>
                    </div>
                </div>
                 <div class="control-group">
                    <label class="control-label" for="coupon_valid_from">Coupon Valid From:</label>
                    <div class="controls">
-                       <input type="date" name="coupon_valid_from" required/>
+                       <input type="date" name="coupon_valid_from" class="date-pick" required/>
                    </div>
                </div>
                 <div class="control-group">
                    <label class="control-label" for="coupon_valid_till">Coupon Valid Till:</label>
                    <div class="controls">
-                       <input type="date" name="coupon_valid_till" required/>
+                       <input type="date" name="coupon_valid_till" class="date-pick" required/>
                    </div>
                </div>
                 <div class="control-group">
@@ -94,6 +94,7 @@ function addDeal($categorylist){
                        <input type="file" id="second_image" name="second_image" required/>
                    </div>
                </div>
+                <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
                <div class="control-group">
                    <div class="controls">
                        <button type="submit" name="submit" id="submit" class="btn btn-large btn-primary input-large"/>Submit</button>

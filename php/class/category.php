@@ -10,7 +10,7 @@ class Category
         $this->_db = Database::getDBInstance();
     }
     
-    public function getCategoryInstance(){
+    public static function getCategoryInstance(){
         if(!isset(self::$_categoryinstance)){
             self::$_categoryinstance = new Category();
         }

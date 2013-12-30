@@ -21,7 +21,7 @@ class Deal
         $this->_db = Database::getDBInstance();
     }
     
-    public function getDealInstance(){
+    public static function getDealInstance(){
         if(empty(self::$_deal_instance)){
             self::$_deal_instance = new Deal();
         }

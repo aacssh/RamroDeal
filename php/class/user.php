@@ -59,7 +59,7 @@ class User {
     public function getUsers($values = null, $where = array()){
         if($values && $where){
             $data = $this->_db->get('user', $values, $where);
-            
+
             if($data->count()){
                 $this->_data = $data->fetchAll();
                 return true;
@@ -121,7 +121,7 @@ class User {
 
         if($group->count()){
             $permissions = json_decode($group->fetchSingle()->permissions, true);
-            if($permissions[$key] == true){
+            if(@$permissions[$key] == true){
                 return true;
             }
         }

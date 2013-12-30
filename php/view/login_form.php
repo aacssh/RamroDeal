@@ -12,13 +12,19 @@ function login_form($msg){
             <div class="control-group">
                 <label class="control-label" for="email">Email:</label>
                 <div class="controls">
-                    <input type="email" id="email" name="email" placeholder="email" required>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-envelope"></i></span>
+                        <input type="email" id="email" name="email" placeholder="email" required>
+                    </div>
                 </div>	
             </div>
             <div class="control-group">
                 <label class="control-label" for="password">Password:</label>
                 <div class="controls">
-                    <input type="password" id="password" name = "password" placeholder="Password" required />
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-pencil"></i></span>
+                        <input type="password" id="password" name = "password" placeholder="Password" required />
+                    </div>
                 </div>
             </div>
              <div class="control-group">
