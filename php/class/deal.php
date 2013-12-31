@@ -74,7 +74,10 @@ class Deal
         }
     }
     
-    public function addDeal(){
+    public function add($fields = array()){
+        if(!$this->_db->insert($this->_table, $fields)){
+            throw new Excepton('There was a problem registering the company');
+        }
         try{
             $this->_db->query("INSERT INTO deal (deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, coupon_start_date, coupon_end_date, company_id, category_id, image_id) VALUE (:deal_id, :name, :org_price, :off_price, :s_date, :e_date, :min_people, :max_people, :coupon_start, :coupon_end, :merchant_id, :category_id, :image_id)");
             $this->_db->bind(':deal_id', $this->_deal_id);

@@ -2,6 +2,7 @@
 class Category
 {
     private $_name,
+            $_table = 'category',
             $_data;
     
     private static $_categoryinstance;
@@ -16,13 +17,11 @@ class Category
         }
         return self::$_categoryinstance;
     }
-    
-    public function setProperty($name){
-        $this->_name = $name;
-    }
-    
-    public function addCategory($table, $fields = array()){
-        $this->_db->insert($table, $fields);
+
+    public function addCategory($fields = array()){
+        if(!$this->_db->insert($this->_table, $fields)){
+            throw new Excepton('There was a problem registering the company');
+        }
     }
     
     public function getCategory(){
@@ -35,22 +34,14 @@ class Category
         return false;
     }
     
-    public function getCategoryId(){
-        try{
-            $this->_db->query("SELECT category_id from category where name = :name");
-            $this->_db->bind(':name', $this->_name);
-            $this->_db->execute();
-            $id = $this->_db->fetchAll();
-        } catch(PDOException $e){
-            echo die($e->getMessage());
+    public function getCategoryId($categoryName = null){
+        $this->_db->get($this->_table, 'name');
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
         }
-
-        if ($this->_db->rowCount() == 1)
-        {
-            return $id;
-        } else{
-            return 0;
-        }
+        return false;
     }
     
     public function data(){

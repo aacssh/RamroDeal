@@ -2,15 +2,13 @@
 class Image
 {
     private $_image_id;
-    private $_image;
-    private $_cover_image;
-    private $_first_image;
-    private $_second_image;
+    private $_image = array();
     private $_type = array();
     private $_size = array();
     private $_filename = array();
     private $_path = array();
     public $_error = array();
+    protected $_table = 'image';
     private $_db;
     private static $_image_instance;
     
@@ -23,25 +21,6 @@ class Image
             self::$_image_instance = new Image();
         }
         return self::$_image_instance;
-    }
-    
-    public function setProperty($args){
-        if (is_array($args)){
-            if(isset($args['image_id'])){
-                $this->_image_id = $args['image_id'];
-            }
-            if(isset($args['cover_image'])){
-                $this->_cover_image = $args['cover_image'];
-            }
-            if(isset($args['first_image'])){
-                $this->_first_image = $args['first_image'];
-            }
-            if(isset($args['second_image'])){
-                $this->_second_image = $args['second_image'];
-            }                
-        } else{
-            throw new Exception('Argument should be an array');
-        }
     }
 
     // Make sure there are no errors
@@ -90,6 +69,7 @@ class Image
     public function attach_file($item = array()) {
         $x = 0;
         foreach($item as $file){
+            
             if(!$file || empty($file) || !is_array($file)) {
                 $this->addError('No file was uploaded.');
                 return false;
@@ -100,6 +80,7 @@ class Image
                 if((($file['type'] == 'image/gif') || ($file['type'] == 'image/jpeg') ||
                     ($file['type'] == 'image/pjpeg') || ($file['type'] == 'image/png')) &&
                     ($file['size'] > 0) && ($file['size'] <= MAXFILESIZE)){
+                    $this->_image[$x] = $file;
                     $this->_type[$x] = $file['type'];
                     $this->_size[$x] = $file['size'];
                     $this->_temp_path[$x]  = $file['tmp_name'];
@@ -114,35 +95,21 @@ class Image
         return true;
     }
     
-    public function addImage(){
-        try{
-            $this->_db->query("INSERT INTO image VALUE (0, :cover_image, :first_image, :second_image)");
-            $this->_db->bind(':cover_image', $this->_cover_image);
-            $this->_db->bind(':first_image', $this->_first_image);
-            $this->_db->bind(':second_image', $this->_second_image);
-            $this->_db->execute();
-        } catch(PDOException $e){
-            echo die($e->getMessage());
+    public function add(){
+        if(!$this->_db->insert($this->_table, $fields)){
+            throw new Excepton('There was a problem registering the company');
         }
-        return 'Successfully added';
+        return true;
     }
     
-    public function getImageId(){
-        try{
-            $this->_db->query("SELECT image_id FROM image WHERE cover_image = :cover_image and image1 = :first_image and image2 = :second_image");
-            $this->_db->bind(':cover_image', $this->_cover_image);
-            $this->_db->bind(':first_image', $this->_first_image);
-            $this->_db->bind(':second_image', $this->_second_image);
-            $this->_db->execute();
-            $id = $this->_db->fetchAll();
-        } catch(PDOException $e){
-            echo die($e->getMessage());
+    public function getSingleId($where = array()){
+        $this->_db->get($this->_table, 'image_id', (empty($where)) ? $this->_image : $where);
+
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchSingle();
+            return $this;
         }
-        
-        if ($this->_db->rowCount() == 1)
-            return $id;
-        else
-            return false;
+        return false;
     }
     
     public function addError($error){
@@ -152,7 +119,7 @@ class Image
     public function getImage($image_id){
         try{
             $id = array('image_id', '=', $image_id);
-            $this->_db->get('image', 'cover_image', $id);
+            $this->_db->get($this->_table, 'cover_image', $id);
         } catch(PDOException $e){
             echo die($e->getMessage());
         }

@@ -7,21 +7,24 @@ class Company
     private $_mobileno;
     private $_phoneno;
     private $_db;
-    private $_address_id;
+    private $_addressId;
     private $_code;
     private $_log;
     private $_data;
-    private static $_companyinstance;
+    private $_table = 'company';
+    protected $_companyId = 'company_id';
+    protected $_companyName = 'name';
+    private static $_companyInstance;
     
     private function __construct(){
         $this->_db  = Database::getDBInstance();
     }
     
-    public function getCompanyInstance(){
-        if(empty(self::$_companyinstance)){
-            self::$_companyinstance = new Company();
+    public static function getCompanyInstance(){
+        if(empty(self::$_companyInstance)){
+            self::$_companyInstance = new Company();
         }
-        return self::$_companyinstance;
+        return self::$_companyInstance;
     }
     
     public function setProperty($args){
@@ -59,13 +62,13 @@ class Company
     }
     
     public function create($fields = array()){
-        if(!$this->_db->insert('company', $fields)){
+        if(!$this->_db->insert($this->_table, $fields)){
             throw new Excepton('There was a problem registering the company');
         }
     }
     
     public function getCompany($where = array()){
-        $this->_db->get('company', 'name');
+        $this->_db->get($this->_table, $this->companyName);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -74,8 +77,8 @@ class Company
         return false;
     }
     
-    public function getCompanyId($where = array()){
-        $this->_db->get('company', 'company_id', $where);
+    public function getId($where = array()){
+        $this->_db->get($this->_table, $this->_company_id, $where);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -85,7 +88,7 @@ class Company
     }
     
     public function deleteCompany($value){
-        $this->_db->delete('company', array('company_id', '=', $value));
+        $this->_db->delete($this->_table, array($this->_company_id, '=', $value));
 
         if($this->_db->count()){
             return true;

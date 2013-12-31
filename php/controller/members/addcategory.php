@@ -15,7 +15,7 @@ if(Input::exists()){
          
          if($validation->passed()){
             try{
-               $category->addCategory('category', array(
+               $category->addCategory(array(
                     'name' => Input::get('name')
                ));
                Session::flash('home', 'New category has been added!');

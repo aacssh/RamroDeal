@@ -31,7 +31,6 @@ if($user->isLoggedIn()){
         $deals->cover = UPLOADPATH.$cover_list->cover_image;
         array_push($deals_list, $deals);
     }
-    
     deallist($deals_list);
     ramrodeal_footer(); //footer of html
     }

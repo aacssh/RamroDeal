@@ -4,6 +4,7 @@ include '../../init.php';
 if(Input::exists()){
    if(Input::get('hide') === ''){
       if(Token::check(Input::get('token'))){
+         $user = new User();
          $validate = Validate::getValidateInstance();
          $validation = $validate->check($_POST, array(
             'name' => array(
@@ -50,14 +51,33 @@ if(Input::exists()){
          ));
    
          if($validation->passed()){
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
-            echo 'passed';
+            $img = Image::getImageInstance();
+            $db = Database::getDBInstance();
+            $db->beginTransaction();
+            $result = $img->add();
+            if($result){
+                $img_id = $img->getSingleId();
+                $deal_id = RandomCode::getRandomCode()->randCode(18);
+                $category_id = Company::getCompanyInstance()->getId(array('name', '=', Input::get('category_name')));
+                
+                $deal = Deal::getDealInstance()->add(array(
+                        'deal_id' => $deal_id,
+                        'name' => Input::get('name'),
+                        'actual_price' => Input::get('org_price'),
+                        'offered_price' => Input::get(''),
+                        'start_date' => Input::get(''),
+                        'end_date' => Input::get(''),
+                        'minimum_purchase_requirement' => Input::get(''),
+                        'maximum_purchase_requirement' => Input::get(''),
+                        'coupon_start_date' => Input::get(''),
+                        'coupon_end_date' => Input::get(''),
+                        'company_id' => $user->data()->company,
+                        
+                        'offered_price, , , , , , , company_id, category_id, image_id'
+                    ));
+                $db->endTransaction();
+                Session::flash('home', 'New deal has been added');
+            }
             
             /*
             $company = Company::getCompanyInstance();
@@ -107,7 +127,7 @@ if(Input::exists()){
             */
          } else{
             foreach($validation->errors() as $error){
-               $msg = (string)$error.'<br />';
+               $msg = $error.'<br />';
             }
          }
       }

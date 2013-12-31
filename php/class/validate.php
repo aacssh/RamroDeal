@@ -60,6 +60,7 @@ class Validate{
                 $this->validateAddress($source, $item);
             } elseif($item === 'cover_image' || $item === 'first_image' || $item === 'second_image'){
                 $this->validateImage($item, $_FILES);
+                echo 'check1';
             }else{
                 foreach($rules as $rule => $rule_value){
                     $value = $this->filter($source[$item]);
@@ -123,7 +124,9 @@ class Validate{
             $data = $this->_imageInstance->checkImage($this->_image);
 
             if(!$data){
-                $this->addError($this->_imageInstance->_error);
+                foreach($this->_imageInstance->_error as $error){
+                    $this->addError($error);
+                }
             }
         }
     }
