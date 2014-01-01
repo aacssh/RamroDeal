@@ -15,6 +15,7 @@ class Deal
     private $_merchant_id;
     private $_image_id;
     private $_db;
+    private $_allValues = 'name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, company_id, image_id';
     private static $_deal_instance;
     
     private function __construct(){
@@ -78,39 +79,30 @@ class Deal
         if(!$this->_db->insert($this->_table, $fields)){
             throw new Excepton('There was a problem registering the company');
         }
-        try{
-            $this->_db->query("INSERT INTO deal (deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, coupon_start_date, coupon_end_date, company_id, category_id, image_id) VALUE (:deal_id, :name, :org_price, :off_price, :s_date, :e_date, :min_people, :max_people, :coupon_start, :coupon_end, :merchant_id, :category_id, :image_id)");
-            $this->_db->bind(':deal_id', $this->_deal_id);
-            $this->_db->bind(':name', $this->_name);
-            $this->_db->bind(':org_price', $this->_org_price);
-            $this->_db->bind(':off_price', $this->_off_price);
-            $this->_db->bind(':s_date', $this->_s_date);
-            $this->_db->bind(':e_date', $this->_e_date);
-            $this->_db->bind(':min_people', $this->_min_people);
-            $this->_db->bind(':max_people', $this->_max_people);
-            $this->_db->bind(':coupon_start', $this->_coupon_valid_from);
-            $this->_db->bind(':coupon_end', $this->_coupon_valid_till);
-            $this->_db->bind(':merchant_id', $this->_merchant_id);
-            $this->_db->bind(':category_id', $this->_category_id);
-            $this->_db->bind(':image_id', $this->_image_id);
-            $this->_db->execute();
-        } catch(PDOException $e){
-            die($e->getMessage());
-        }
-        return 'Successfully added';
     }
     
     public function getAllDeal(){
         try{
-            $values = 'name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, image_id';
-            $this->_db->get('deal',$values);
-            $list = $this->_db->fetchAll();
+            $this->_db->get('deal',$this->_allValues);
         } catch(PDOException $e){
             die($e->getMessage());
         }
         
         if ($this->_db->count()){
-            return $list;
+            return $this->_db->fetchAll();;
+        }
+        return false;
+    }
+    
+    public function getSingleDeal($where =  array()){
+        try{
+            $this->_db->get('deal',$this->_allValues, $where);
+        } catch(PDOException $e){
+            die($e->getMessage());
+        }
+        
+        if ($this->_db->count()){
+            return $this->_db->fetchSingle();
         }
         return false;
     }

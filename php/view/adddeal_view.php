@@ -1,6 +1,13 @@
 <?php
-function addDeal($categorylist){
+function addDeal($categorylist, $msg = ''){
     $i = 0;
+    if(!empty($msg)){
+?>
+        <div class='control-group error'>
+            <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
+        </div>
+<?php
+    }
 ?>
     <form enctype = "multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="form-horizontal">
         <input type="hidden" id="hide" name="hide" />

@@ -48,7 +48,7 @@ class Image
                 $target_path[$i] = UPLOADPATH. $this->_filename[$i];
         
                 if(file_exists($target_path[$i])) {
-                    $this->addError('The file {$this->filename} already exists.');
+                    $this->addError("The file {$this->_filename[$i]} already exists.");
                     return false;
                 }
                 
@@ -95,7 +95,7 @@ class Image
         return true;
     }
     
-    public function add(){
+    public function add($fields = array()){
         if(!$this->_db->insert($this->_table, $fields)){
             throw new Excepton('There was a problem registering the company');
         }
@@ -116,10 +116,27 @@ class Image
         $this->_error[] = $error;
     }
     
-    public function getImage($image_id){
+    public function error(){
+        return $this->_error;
+    }
+    
+    public function getCoverImage($image_id){
         try{
             $id = array('image_id', '=', $image_id);
             $this->_db->get($this->_table, 'cover_image', $id);
+        } catch(PDOException $e){
+            echo die($e->getMessage());
+        }
+
+        if ($this->_db->count()){
+            return $this->_db->fetchSingle();
+        }
+        return false;
+    }
+    
+    public function getAllImage($where = array()){
+        try{
+            $this->_db->get($this->_table, 'cover_image, image1, image2', $where);
         } catch(PDOException $e){
             echo die($e->getMessage());
         }

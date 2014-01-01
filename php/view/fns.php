@@ -16,4 +16,5 @@ require_once 'adddeal_view.php';
 require_once 'profile_view.php';
 require_once 'update_view.php';
 require_once 'adminlist_view.php';
+require_once 'deals_view.php';
 ?>

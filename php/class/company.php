@@ -67,8 +67,18 @@ class Company
         }
     }
     
-    public function getCompany($where = array()){
-        $this->_db->get($this->_table, $this->companyName);
+    public function getSingleCompany($where = array()){
+        $this->_db->get($this->_table, $this->_companyName, $where);
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchSingle();
+            return $this;
+        }
+        return false;
+    }
+    
+    public function getAllCompany(){
+        $this->_db->get($this->_table, $this->_companyName);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();

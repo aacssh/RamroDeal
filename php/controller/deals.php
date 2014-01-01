@@ -1,5 +1,5 @@
 <?php
-include 'php/init_index.php';
+include '../init_index.php';
 
 $user = new User();
 if($user->isLoggedIn()){
@@ -22,17 +22,15 @@ if($user->isLoggedIn()){
         echo '<p>'. Session::flash('home'). '</p>';
     }
     
-    banner();   //banner part of html
-    $list= Deal::getDealInstance()->getAllDeal();
-    $deals_list = array();
-    foreach($list as $deals){
-        $img = Image::getImageInstance();
-        $cover_list = $img->getCoverImage($deals->image_id);
-        $deals->cover = UPLOADPATH.$cover_list->cover_image;
-        array_push($deals_list, $deals);
-    }
-    //echo '<pre>'.print_r($deals_list, true).'</pre>';
-    deallist($deals_list);
+    $deals= Deal::getDealInstance()->getSingleDeal(array('name', '=', Input::get('deal')));
+    $img = Image::getImageInstance();
+    $allImageList = $img->getAllImage(array('image_id', '=', $deals->image_id));
+    $company = Company::getCompanyInstance()->getSingleCompany(array('company_id', '=', $deals->company_id));
+    $deals->company = $company->data()->name;
+    $deals->cover = UPLOADPATH.$allImageList->cover_image;
+    $deals->firstImage = UPLOADPATH.$allImageList->image1;
+    $deals->secondImage = UPLOADPATH.$allImageList->image2;
+    deals($deals);
     ramrodeal_footer(); //footer of html
     }
 ?>

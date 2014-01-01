@@ -1,5 +1,5 @@
 <?php
-function deallist($deals){   
+function deallist($deals){
     $count = count($deals);
     for($i = 0; $i <= $count; $i=$i+4){
         echo '<div class="row">';
@@ -10,12 +10,13 @@ function deallist($deals){
 ?>
     <div class="span3">
         <div class="img">
+            <?php echo $deals[$j]->cover; ?>
             <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" />
             <div class="desc"><h4><?php echo $deals[$j]->name ?></h4></div>
             <div class="desc"><strong>Start Date:<?php echo $deals[$j]->start_date; ?></strong></div>
             <div class="desc"><strong>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></strong></div>
             <div class="desc"><strong>Offered price: Rs. <?php echo $deals[$j]->offered_price; ?></strong></div>
-            <div class="desc" style=" text-align: center;"><button type="submit" name="buy" class="btn btn-info">View</button></div>
+            <div class="desc" style=" text-align: center;"><a href="php/controller/deals.php?deal=<?php echo $deals[$j]->name; ?>"><button type="submit" name="buy" class="btn btn-info">View</button></a></div>
         </div>
     </div>    
 <?php

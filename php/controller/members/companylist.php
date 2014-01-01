@@ -25,7 +25,7 @@ if(Input::exists()){
     }
 }
 
-$list = $company->getCompany();
+$list = $company->getAllCompany();
 $companies = array();
 foreach($list->data() as $datalist){
     foreach($datalist as $data){
