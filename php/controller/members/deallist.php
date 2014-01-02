@@ -4,7 +4,7 @@ include '../../init.php';
 $deals_list = array();
 foreach(Deal::getDealInstance()->getAllDeal() as $deals){
     $img = Image::getImageInstance();
-    $cover_list = $img->getImage($deals->image_id);
+    $cover_list = $img->getAllImage(array($deals->image_id));
     $deals->cover = UPLOADPATH.$cover_list->cover_image;
     array_push($deals_list, $deals);
 }

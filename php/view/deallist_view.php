@@ -7,11 +7,11 @@ function deallist($deals){
         if($i > $count) break;
         for($j = $i; $j <= $k; $j++){
             if ($j >= $count) break;
+            $img = explode('/var/www',$deals[$j]->cover);
 ?>
     <div class="span3">
         <div class="img">
-            <?php echo $deals[$j]->cover; ?>
-            <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" />
+            <img src="<?php echo $img[1]; ?>" alt="Klematis" />
             <div class="desc"><h4><?php echo $deals[$j]->name ?></h4></div>
             <div class="desc"><strong>Start Date:<?php echo $deals[$j]->start_date; ?></strong></div>
             <div class="desc"><strong>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></strong></div>

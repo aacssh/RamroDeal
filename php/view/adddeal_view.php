@@ -84,6 +84,12 @@ function addDeal($categorylist, $msg = ''){
                    </div>
                </div>
                 <div class="control-group">
+                   <label class="control-label" for="coupon_valid_till">Description:</label>
+                   <div class="controls">
+                       <textarea name='desc' rows='6'></textarea>
+                   </div>
+               </div>
+                <div class="control-group">
                    <label class="control-label" for="cover_image">Cover Image:</label>
                    <div class="controls">
                        <input type="file" id="cover_image" name="cover_image" required/>

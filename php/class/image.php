@@ -2,7 +2,6 @@
 class Image
 {
     private $_image_id;
-    private $_image = array();
     private $_type = array();
     private $_size = array();
     private $_filename = array();
@@ -10,6 +9,7 @@ class Image
     public $_error = array();
     protected $_table = 'image';
     private $_db;
+    private $_data = array();
     private static $_image_instance;
     
     private function __construct(){
@@ -80,7 +80,6 @@ class Image
                 if((($file['type'] == 'image/gif') || ($file['type'] == 'image/jpeg') ||
                     ($file['type'] == 'image/pjpeg') || ($file['type'] == 'image/png')) &&
                     ($file['size'] > 0) && ($file['size'] <= MAXFILESIZE)){
-                    $this->_image[$x] = $file;
                     $this->_type[$x] = $file['type'];
                     $this->_size[$x] = $file['size'];
                     $this->_temp_path[$x]  = $file['tmp_name'];
@@ -103,7 +102,7 @@ class Image
     }
     
     public function getSingleId($where = array()){
-        $this->_db->get($this->_table, 'image_id', (empty($where)) ? $this->_image : $where);
+        $this->_db->get($this->_table, 'image_id', $where);
 
         if($this->_db->count()){
             $this->_data = $this->_db->fetchSingle();
@@ -129,12 +128,16 @@ class Image
         }
 
         if ($this->_db->count()){
-            return $this->_db->fetchSingle();
+            $this->_data = $this->_db->fetchSingle();
+            return $this;
         }
         return false;
     }
     
-    public function getAllImage($where = array()){
+    public function getAllImage($value){
+        $where = array(
+            'image_id', '=', $value
+        );
         try{
             $this->_db->get($this->_table, 'cover_image, image1, image2', $where);
         } catch(PDOException $e){
@@ -142,9 +145,14 @@ class Image
         }
 
         if ($this->_db->count()){
-            return $this->_db->fetchSingle();
+            $this->_data =  $this->_db->fetchSingle();
+            return $this;
         }
         return false;
+    }
+    
+    public function data(){
+        return $this->_data;
     }
 }
 ?>

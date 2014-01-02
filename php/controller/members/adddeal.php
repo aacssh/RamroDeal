@@ -63,10 +63,13 @@ if(Input::exists()){
                        'image2' => Input::get('second_image')
                    ));
                    if($result){
-                       $img_id = $img->getSingleId();
-                       $deal_id = RandomCode::getRandomCode()->randCode(18);
-                       $category_id = Company::getCompanyInstance()->getId(array('name', '=', Input::get('category_name')));
-                       
+                       $img_id = $img->getSingleId(array('cover_image', '=', Input::get('cover_image')));
+                       $deal_id = RandomCode::randCode(18);
+                       echo Input::get('category_name');
+                       $category_id = Category::getCategoryInstance()->getSingleId(array('name', '=', Input::get('category_name')));
+                       echo '<br>';
+                       echo 'below code<br>';
+                       echo '<pre>'.print_r($category_id->data(), true).'</pre>';
                        $deal = Deal::getDealInstance()->add(array(
                            'deal_id' => $deal_id,
                            'name' => Input::get('name'),
@@ -79,10 +82,10 @@ if(Input::exists()){
                            'coupon_start_date' => Input::get('coupon_valid_from'),
                            'coupon_end_date' => Input::get('coupon_valid_till'),
                            'company_id' => $user->data()->company,
-                           'category_id' => $category_id,
-                           'image_id' => $img_id
+                           'category_id' => $category_id->data()->category_id,
+                           'image_id' => $img_id->data()->image_id
                        ));
-                       $db->endTransaction();
+                      $db->endTransaction();
                        Session::flash('home', 'New deal has been added');
                     } else{
                         Session::flash('home', 'Image couldn\'t be uploaded.');

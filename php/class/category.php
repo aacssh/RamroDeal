@@ -1,8 +1,9 @@
 <?php
 class Category
 {
-    private $_name,
+    private $_nameField = 'name',
             $_table = 'category',
+            $_categoryId = 'category_id',
             $_data;
     
     private static $_categoryinstance;
@@ -25,7 +26,7 @@ class Category
     }
     
     public function getCategory(){
-        $this->_db->get('category', 'name');
+        $this->_db->get($this->_table, $this->_nameField);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -34,11 +35,10 @@ class Category
         return false;
     }
     
-    public function getCategoryId($categoryName = null){
-        $this->_db->get($this->_table, 'name');
-        
+    public function getSingleId($where = array()){
+        $this->_db->get($this->_table, $this->_categoryId, $where);
         if($this->_db->count()){
-            $this->_data = $this->_db->fetchAll();
+            $this->_data = $this->_db->fetchSingle();
             return $this;
         }
         return false;
