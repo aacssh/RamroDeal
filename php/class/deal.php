@@ -15,7 +15,8 @@ class Deal
     private $_merchant_id;
     private $_image_id;
     private $_db;
-    private $_allValues = 'name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, company_id, image_id';
+    private $_data;
+    private $_allValues = 'deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, description, company_id, image_id';
     private static $_deal_instance;
     
     private function __construct(){
@@ -89,22 +90,33 @@ class Deal
         }
         
         if ($this->_db->count()){
-            return $this->_db->fetchAll();;
+            $this->_data = $this->_db->fetchAll();
+            return  $this;
         }
         return false;
     }
     
     public function getSingleDeal($where =  array()){
-        try{
-            $this->_db->get('deal',$this->_allValues, $where);
-        } catch(PDOException $e){
-            die($e->getMessage());
-        }
+        $this->_db->get('deal',$this->_allValues, $where);
         
         if ($this->_db->count()){
-            return $this->_db->fetchSingle();
+            $this->_data = $this->_db->fetchSingle();
+            return  $this;
         }
         return false;
+    }
+
+    public function countAll(){
+        $this->_db->get('deal','COUNT(*)');
+        
+        if ($this->_db->count()){
+            $this->_data = $this->_db->fetchSingle();
+            return  $this;
+        }
+        return false;
+    }
+    public function data(){
+        return $this->_data;
     }
 }
 

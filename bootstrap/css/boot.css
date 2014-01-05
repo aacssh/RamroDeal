@@ -1,11 +1,62 @@
-body {  
-    padding-top: 10px;  
+/*fonts*/
+@font-face {
+	font-family: 'Cantarell';
+	src: url('../_fonts/Cantarell-Regular-webfont.eot');
+	src: url('../_fonts/Cantarell-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../_fonts/Cantarell-Regular-webfont.woff') format('woff'), url('../_fonts/Cantarell-Regular-webfont.ttf') format('truetype'), url('../_fonts/Cantarell-Regular-webfont.svg#webfont9UOzsjXz') format('svg');
+	font-weight: normal;
+	font-style:normal;
+}
+
+@font-face {
+	font-family: 'Cantarell';
+	src: url('../_fonts/Cantarell-Oblique-webfont.eot');
+	src: url('../_fonts/Cantarell-Oblique-webfont.eot?#iefix') format('embedded-opentype'), url('../_fonts/Cantarell-Oblique-webfont.woff') format('woff'), url('../_fonts/Cantarell-Oblique-webfont.ttf') format('truetype'), url('../_fonts/Cantarell-Oblique-webfont.svg#webfontRl4nowrT') format('svg');
+	font-weight: normal;
+	font-style:italic;
+}
+
+@font-face {
+	font-family: 'Cantarell';
+	src: url('../_fonts/Cantarell-Bold-webfont.eot');
+	src: url('../_fonts/Cantarell-Bold-webfont.eot?#iefix') format('embedded-opentype'), url('../_fonts/Cantarell-Bold-webfont.woff') format('woff'), url('../_fonts/Cantarell-Bold-webfont.ttf') format('truetype'), url('../_fonts/Cantarell-Bold-webfont.svg#webfontKr2CkGZp') format('svg');
+	font-weight: bold;
+	font-style:normal;
+}
+
+@font-face {
+	font-family: 'Cantarell';
+	src: url('../_fonts/Cantarell-BoldOblique-webfont.eot');
+	src: url('../_fonts/Cantarell-BoldOblique-webfont.eot?#iefix') format('embedded-opentype'), url('../_fonts/Cantarell-BoldOblique-webfont.woff') format('woff'), url('../_fonts/Cantarell-BoldOblique-webfont.ttf') format('truetype'), url('../_fonts/Cantarell-BoldOblique-webfont.svg#webfontQ1aSR0ux') format('svg');
+	font-weight: bold;
+	font-style:italic;
+}
+
+@font-face {
+	font-family: "Cardo";
+	src: url("../_fonts/Cardo99s-webfont.eot");
+	src: url("../_fonts/Cardo99s-webfont.eot?#iefix") format("embedded-opentype"), url("../_fonts/Cardo99s-webfont.woff") format("woff"), url("../_fonts/Cardo99s-webfont.ttf") format("truetype"), url("../_fonts/Cardo99s-webfont.svg#webfontQ5EXXZTZ") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'OstrichSansBold';
+	src: url('../_fonts/ostrich-bold-webfont.eot');
+	src: url('../_fonts/ostrich-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../_fonts/ostrich-bold-webfont.woff') format('woff'), url('../_fonts/ostrich-bold-webfont.ttf') format('truetype'), url('../_fonts/ostrich-bold-webfont.svg#OstrichSansBold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html{
+    /*background: -moz-linear-gradient(top, rgb(85, 85, 85) 50%, white 50%);*/
+}
+body {
+    
     padding-bottom: 40px;
     font-size: 75%; /*base font size is 14px */
     font-family: arial, 'Lucide Sans Unicode';
     line-height: 1.5;
     text-align:left;
-    
     margin: 0 auto;
     clear: both;
 }  
@@ -33,31 +84,95 @@ body {
     line-height: 27px;  
 }
 
-div.img
+section.img
 {
   margin: 5px;
   padding: 5px;
   border: 1px solid #0000ff;
   max-width: 100%;
   max-height: 500px;
-  height: 200px\9; /* ie8 */
   float: left;
   text-align: center;
 }	
-div.img img
+section.img img
 {
   max-width: 100%;
   max-height: 200px;
-  height: 200px\9; /* ie8 */
   display: inline;
   margin: 5px;
   border: 1px solid #ffffff;
 }
 
-div.desc
+section.desc
 {
   text-align: left;
   font-weight: normal;
   max-width: 200px;
   margin: 5px;
+}
+
+body header.row{
+}
+
+.photos {
+    -moz-column-count: 3;
+    -moz-column-gap: 1em;
+    -webkit-column-count: 3;
+    -webkit-column-gap: 1em;
+    column-count: 3;
+    column-gap: 1em;
+    margin-bottom: 2em;
+}
+
+header.span12{
+    background: rgb(255, 255, 255);
+    margin-top: 20px;
+}
+
+header h1{
+    text-decoration: none;
+    font-family: Cantarell sans-serif serif monospace;
+}
+
+section h3{
+    background: #08C;
+    color: white;
+    font: 2em sans-serif, serif;
+    padding: 3px;
+    text-align: center;
+    border-radius: 4px 4px;
+    margin: 0;
+}
+
+header div{
+    background: rgb(255, 255, 255);
+}
+
+header p{
+    font: 1.3em sans-serif, serif;
+    padding: 20px;
+    text-align: justify;
+    border-radius: 4px 4px;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+section table{
+    border-radius: 10px 10px 10px;
+    background: white;
+    widht: 1;
+}
+
+#offer{
+    font: 2em monospace, sans-serif, serif;
+    font-weight: bold;
+}
+
+section table tr td{
+    font-size:1.3em;
+    text-align:center;
+    padding:15px;
+    font-family: Cantarell monospace sans-serif serif;
+}
+section table tr:nth-child(odd) {
 }

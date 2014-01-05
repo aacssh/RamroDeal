@@ -43,10 +43,10 @@ class User {
         }
     }
     
-    public function find($user = null){
+    public function find($user = null, $values = null){
         if($user){
             $field = (substr_count($user, '@')) ? 'email' : ((strlen($user) == 18 ) ? 'user_id' : 'username');
-            $data = $this->_db->get('user', '*', array($field, '=', $user));
+            $data = $this->_db->get('user', (empty($values) ? '*' : $values), array($field, '=', $user));
             
             if($data->count()){
                 $this->_data = $data->fetchSingle();
@@ -57,7 +57,6 @@ class User {
     }
     
     public function getUsers($values = null, $where = array()){
-        if($values && $where){
             $data = $this->_db->get('user', $values, $where);
 
             if($data->count()){
@@ -65,7 +64,6 @@ class User {
                 return true;
             }
             return false;
-        }
     }
     
     public function delete($value = array()){

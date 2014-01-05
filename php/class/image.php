@@ -119,10 +119,9 @@ class Image
         return $this->_error;
     }
     
-    public function getCoverImage($image_id){
+    public function getCoverImage($where){
         try{
-            $id = array('image_id', '=', $image_id);
-            $this->_db->get($this->_table, 'cover_image', $id);
+            $this->_db->get($this->_table, 'cover_image', $where);
         } catch(PDOException $e){
             echo die($e->getMessage());
         }
@@ -134,10 +133,7 @@ class Image
         return false;
     }
     
-    public function getAllImage($value){
-        $where = array(
-            'image_id', '=', $value
-        );
+    public function getAllImage($where){
         try{
             $this->_db->get($this->_table, 'cover_image, image1, image2', $where);
         } catch(PDOException $e){
@@ -145,7 +141,7 @@ class Image
         }
 
         if ($this->_db->count()){
-            $this->_data =  $this->_db->fetchSingle();
+            $this->_data =  $this->_db->fetchAll();
             return $this;
         }
         return false;

@@ -23,12 +23,13 @@ if($user->isLoggedIn()){
     }
     
     banner();   //banner part of html
-    $list= Deal::getDealInstance()->getAllDeal();
+    $deal = Deal::getDealInstance()->getAllDeal();
+    $list = $deal->data();
     $deals_list = array();
     foreach($list as $deals){
         $img = Image::getImageInstance();
-        $cover_list = $img->getCoverImage($deals->image_id);
-        $deals->cover = UPLOADPATH.$cover_list->cover_image;
+        $cover_list = $img->getCoverImage(array('image_id', '=', $deals->image_id));
+        $deals->cover = UPLOADPATH.$cover_list->data()->cover_image;
         array_push($deals_list, $deals);
     }
     //echo '<pre>'.print_r($deals_list, true).'</pre>';

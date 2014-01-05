@@ -25,7 +25,10 @@ class Database
      * Stores the statement of PDO class
      * @var object
      */
-    private $_query;
+    private $_query,
+            $_where_clause = '',
+            $_order_clause = '',
+            $_limit_clause = '';
     
     private $_error = false,
             $_results,
@@ -118,10 +121,19 @@ class Database
         $this->_query->bindValue($param, $value, $type);
     }
     
-    public function action($action, $table, $wheres = array()){
-        $where_clause = '';
+    public function action($action, $table, $wheres = array(), $order = array(), $limit = array()){
         $values = array();
         $i = 1;
+        if(is_array($order) && !empty($order)){
+            $this->_order_clause = 'ORDER BY';
+            foreach($order as $value){
+                $this->_order_clause .= ' '.$value;
+            }
+        }
+        
+        if(is_array($limit) && !empty($limit)){
+            $this->_limit_clause = "LIMIT {$limit[0]} OFFSET {$limit[1]}";
+        }
         
         if(!empty($wheres)){
             if(is_array($wheres[1])){
@@ -134,11 +146,11 @@ class Database
                         $value      = $where[2];
 
                         if(in_array($operator, $operators)){
-                            $where_clause .= "{$field} {$operator} ?";
+                            $this->_where_clause .= "{$field} {$operator} ?";
                             array_push($values, $value);
                             
                             if($i < count($wheres)){
-                                $where_clause .= ' AND ';
+                                $this->_where_clause .= ' AND ';
                             }
                         }
                     }
@@ -153,19 +165,19 @@ class Database
                     $value      = $wheres[2];
         
                     if(in_array($operator, $operators)){
-                        $where_clause .= "{$field} {$operator} ?";
+                        $this->_where_clause .= "{$field} {$operator} ?";
                         array_push($values, $value);
                     }
                 }
             }
         
-            $sql = "{$action} FROM {$table} WHERE {$where_clause}";
+            $sql = "{$action} FROM {$table} WHERE {$this->_where_clause} {$this->_order_clause} {$this->_limit_clause}";
         
             if(!$this->query($sql, $values)->error()){
                 return $this;
             }
         } else{
-            $sql = "{$action} FROM {$table}";
+            $sql = "{$action} FROM {$table} {$this->_order_clause} {$this->_limit_clause}";
             
             if(!$this->query($sql)){
                 return $this;
@@ -174,9 +186,9 @@ class Database
         return false;
     }
     
-    public function get($table, $values, $where = array()){
+    public function get($table, $values, $where = array(), $order = array(), $limit = array()){
         $sql = 'SELECT '. $values;
-        return $this->action($sql, $table, $where);
+        return $this->action($sql, $table, $where, $order, $limit);
     }
     
     public function delete($table, $where){
@@ -198,7 +210,7 @@ class Database
                 $x++;
             }
             
-            echo $sql = "INSERT INTO {$table} (`". implode('`, `', $keys) ."`) VALUES ({$values})";
+            $sql = "INSERT INTO {$table} (`". implode('`, `', $keys) ."`) VALUES ({$values})";
 
             if(!$this->query($sql, $fields)->error()){
                 return true;

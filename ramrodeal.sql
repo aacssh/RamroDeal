@@ -158,3 +158,15 @@ CREATE TABLE coupon(
     CONSTRAINT coupon_userFK FOREIGN KEY (user_id)
     REFERENCES user(user_id)
 );
+
+CREATE TABLE comments(
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    deal_id CHAR(18) NOT NULL,
+    created DATETIME NOT NULL,
+    user_id CHAR(18) NOT NULL,
+    body TEXT NOT NULL,
+    CONSTRAINT comments_dealFK FOREIGN KEY (deal_id)
+    REFERENCES deal(deal_id),
+    CONSTRAINT comments_userFK FOREIGN KEY (user_id)
+    REFERENCES user(user_id)
+);

@@ -26,7 +26,7 @@ spl_autoload_register(function ($obj)
 
 include 'view/fns.php';
 
-define('UPLOADPATH', '/var/www/RamroDeal/images/'); # upload path for image
+define('UPLOADPATH', '/RamroDeal/images/'); # upload path for image
 define('MAXFILESIZE', 2097152);      // 2 MB
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){

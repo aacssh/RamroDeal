@@ -11,31 +11,46 @@ function register_form($address, $msg){
             <div class="control-group">
                 <label for="email" class="control-label">Email:</label>
                 <div class="controls">
-                    <input type="email" name="email" id="email" value="<?php echo trim(Input::get('email')); ?>" autocomplete="off" required/>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-envelope"></i></span>
+                        <input type="email" name="email" id="email" value="<?php echo trim(Input::get('email')); ?>" autocomplete="off" required/>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
                 <label for="password" class="control-label">Password:</label>
                 <div class="controls">
-                    <input type="password" name="password" id="password" required/>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-pencil"></i></span>
+                        <input type="password" name="password" id="password" required/>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
                 <label for="confirmpassword" class="control-label">Confirm Password:</label>
                 <div class="controls">
-                    <input type="password" name="confirmpassword" id="confirmpassword" required/>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-pencil"></i></span>
+                        <input type="password" name="confirmpassword" id="confirmpassword" required/>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
                 <label for="fname" class="control-label">First Name:</label>
                 <div class="controls">
-                    <input type="text" name="fname" id="fname" value="<?php echo trim (Input::get('fname')); ?>" required/>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        <input type="text" name="fname" id="fname" value="<?php echo trim (Input::get('fname')); ?>" required/>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
                 <label for="lname" class="control-label">Last Name:</label>
                 <div class="controls">
-                    <input type="text" name="lname" id="lname" value="<?php echo trim (Input::get('lname')); ?>" required/>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        <input type="text" name="lname" id="lname" value="<?php echo trim (Input::get('lname')); ?>" required/>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
@@ -56,33 +71,39 @@ function register_form($address, $msg){
             <div class="control-group">
                 <label class="control-label" for="city">City:</label>
                 <div class="controls">
-                    <select name='city' class="input-medium">
-                        <?php
-                            $city = array();
-                            for($i = 0; $i < count($address); $i++){
-                                if(!in_array($address[$i]->city, $city)){
-                                    echo'<option>'. $address[$i]->city .'</option>';
-                                    array_push($city, $address[$i]->city);
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-map-marker"></i></span>
+                        <select name='city' class="input-medium">
+                            <?php
+                                $city = array();
+                                for($i = 0; $i < count($address); $i++){
+                                    if(!in_array($address[$i]->city, $city)){
+                                        echo'<option>'. $address[$i]->city .'</option>';
+                                        array_push($city, $address[$i]->city);
+                                    }
                                 }
-                            }
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="district">District:</label>
                 <div class="controls">
-                    <select name='district' class="input-medium">
-                        <?php
-                            $district = array();
-                            for($i = 0; $i < count($address); $i++){
-                                if(!in_array($address[$i]->district, $district)){
-                                    echo'<option>'. $address[$i]->district .'</option>';
-                                    array_push($district, $address[$i]->district);
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-map-marker"></i></span>
+                        <select name='district' class="input-medium">
+                            <?php
+                                $district = array();
+                                for($i = 0; $i < count($address); $i++){
+                                    if(!in_array($address[$i]->district, $district)){
+                                        echo'<option>'. $address[$i]->district .'</option>';
+                                        array_push($district, $address[$i]->district);
+                                    }
                                 }
-                            }
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="control-group">

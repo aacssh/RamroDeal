@@ -15,22 +15,66 @@ if($user->isLoggedIn()){
         Redirect::to('');
     }
 } else{
+    
+    $comment = Comment::getCommentInstance();
+    if(Input::exists()){
+        if(Input::get('hide') === ''){
+           if(Token::check(Input::get('token'))){
+              $validate = Validate::getValidateInstance();
+              $validation = $validate->check($_POST, array(
+                 'comment' => array(
+                    'required' => true,
+                 )
+              ));
+              
+              if($validation->passed()){
+                 try{
+                    $comment->add(array(
+                        'deal_id' => Input::get('deal'),
+                        'created' => strftime("%Y-%m-%d %I:%M:%S", time()),
+                        'user_id' => 'mIh5V7wsHE7LAfS90I',
+                        'body' => Input::get('comment')
+                    ));
+                    Session::flash('home', 'Comment added!');
+                 }catch (Exception $e){
+                    die($e->getMessage());
+                 }
+              } else{
+                 foreach($validation->errors() as $error){
+                    $msg = $error.'<br />';
+                 }
+              }
+           }
+        } else{
+           die();
+        }
+     }
+    
+    $deals= Deal::getDealInstance()->getSingleDeal(array('deal_id', '=', Input::get('deal')));
+    $img = Image::getImageInstance();
+    $deal = $deals->data();
+    $allImageList = $img->getAllImage(array('image_id', '=', $deal->image_id));
+    $images = $allImageList->data();
+    $company = Company::getCompanyInstance()->getSingleCompany(array('company_id', '=', $deal->company_id));
+    $deal->company = $company->data()->name;
+    $deal->cover = UPLOADPATH.$images[0]->cover_image;
+    $deal->firstImage = UPLOADPATH.$images[0]->image1;
+    $deal->secondImage = UPLOADPATH.$images[0]->image2;
+    $comment->getAll(
+        array('deal_id','=', Input::get('deal')),
+        array('order by' => 'created', 'order' => 'DESC')
+    );
+    $commentUser = $comment->data();
+    $x = 0;
+    while($x < count($commentUser)){
+        $user->getUsers('username', array('user_id', '=', $commentUser[$x]->user_id));
+        $data = $user->data();
+        $commentUser[$x]->username = $data[0]->username;
+        $x++;
+    }
     ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
     nav();  //navigation part of html
-    
-    if(Session::exists('home')){
-        echo '<p>'. Session::flash('home'). '</p>';
-    }
-    
-    $deals= Deal::getDealInstance()->getSingleDeal(array('name', '=', Input::get('deal')));
-    $img = Image::getImageInstance();
-    $allImageList = $img->getAllImage(array('image_id', '=', $deals->image_id));
-    $company = Company::getCompanyInstance()->getSingleCompany(array('company_id', '=', $deals->company_id));
-    $deals->company = $company->data()->name;
-    $deals->cover = UPLOADPATH.$allImageList->cover_image;
-    $deals->firstImage = UPLOADPATH.$allImageList->image1;
-    $deals->secondImage = UPLOADPATH.$allImageList->image2;
-    deals($deals);
+    deals($deal, $commentUser);
     ramrodeal_footer(); //footer of html
-    }
+}
 ?>

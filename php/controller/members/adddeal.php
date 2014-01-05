@@ -65,11 +65,7 @@ if(Input::exists()){
                    if($result){
                        $img_id = $img->getSingleId(array('cover_image', '=', Input::get('cover_image')));
                        $deal_id = RandomCode::randCode(18);
-                       echo Input::get('category_name');
                        $category_id = Category::getCategoryInstance()->getSingleId(array('name', '=', Input::get('category_name')));
-                       echo '<br>';
-                       echo 'below code<br>';
-                       echo '<pre>'.print_r($category_id->data(), true).'</pre>';
                        $deal = Deal::getDealInstance()->add(array(
                            'deal_id' => $deal_id,
                            'name' => Input::get('name'),
