@@ -52,12 +52,6 @@ function deals($dealDetails, $commentList){
         <section class="row">
             <header class= "span12">       
                 <h3>Description</h3>
-                <table>
-                    <tr>
-                        <td>Offered By:</td>
-                        <td><?php echo strtoupper($dealDetails->company); ?></td>
-                    </tr>
-                </table>
                 <p><?php echo $dealDetails->description; ?></p>
             </header>
         </section>

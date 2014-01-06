@@ -27,11 +27,11 @@ class Pagination{
     }
     
     public function hasPreviousPage(){
-        return $this->_currentPage >=1 ? true : false;
+        return $this->_currentPage > 1 ? true : false;
     }
     
     public function hasNextPage(){
-        return ($this->_currentPage <= $this->totalPage()) ? true : false;
+        return ($this->_currentPage < $this->totalPage()) ? true : false;
     }
 }
 ?>

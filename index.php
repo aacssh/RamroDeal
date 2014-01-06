@@ -17,23 +17,37 @@ if($user->isLoggedIn()){
 } else{
     ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
     nav();  //navigation part of html
-    
-    if(Session::exists('home')){
-        echo '<p>'. Session::flash('home'). '</p>';
-    }
-    
     banner();   //banner part of html
-    $deal = Deal::getDealInstance()->getAllDeal();
+    
+    $deal = Deal::getDealInstance();
+    $currentPage = Input::get('page');
+    $currentPage = empty($currentPage) ? 1 : $currentPage;
+    $perPage = 2;
+    $totalCount = $deal->countAll();
+    foreach($totalCount->data() as $count){
+        $totalCount = $count;
+    }
+    $pagination = new Pagination($currentPage, $perPage, $totalCount);
+    $deal->getAllDeal(array(
+        'limit_clause' => array(
+            'LIMIT' => $perPage,
+            'OFFSET' => $pagination->offset()
+        ),
+        'where_clause' => array()
+    ));
     $list = $deal->data();
     $deals_list = array();
     foreach($list as $deals){
-        $img = Image::getImageInstance();
-        $cover_list = $img->getCoverImage(array('image_id', '=', $deals->image_id));
-        $deals->cover = UPLOADPATH.$cover_list->data()->cover_image;
+        $img = Image::getImageInstance()->getCoverImage(array(
+            'where_clause' => array(
+                'image_id', '=', $deals->image_id
+            )
+        ));
+        $deals->cover = UPLOADPATH.$img->data()->cover_image;
         array_push($deals_list, $deals);
     }
-    //echo '<pre>'.print_r($deals_list, true).'</pre>';
     deallist($deals_list);
+    pagination($pagination);
     ramrodeal_footer(); //footer of html
     }
 ?>

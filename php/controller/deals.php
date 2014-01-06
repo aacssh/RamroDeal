@@ -50,24 +50,45 @@ if($user->isLoggedIn()){
         }
      }
     
-    $deals= Deal::getDealInstance()->getSingleDeal(array('deal_id', '=', Input::get('deal')));
+    $deals= Deal::getDealInstance()->getSingleDeal(array(
+        'where_clause' => array(
+            'deal_id', '=', Input::get('deal')
+        )
+    ));
     $img = Image::getImageInstance();
     $deal = $deals->data();
-    $allImageList = $img->getAllImage(array('image_id', '=', $deal->image_id));
+    $allImageList = $img->getAllImage(array(
+        'where_clause' => array(
+            'image_id', '=', $deal->image_id
+        )
+    ));
     $images = $allImageList->data();
-    $company = Company::getCompanyInstance()->getSingleCompany(array('company_id', '=', $deal->company_id));
+    $company = Company::getCompanyInstance()->getSingleCompany(array(
+        'where_clause' => array(
+            'company_id', '=', $deal->company_id
+        )
+    ));
     $deal->company = $company->data()->name;
     $deal->cover = UPLOADPATH.$images[0]->cover_image;
     $deal->firstImage = UPLOADPATH.$images[0]->image1;
     $deal->secondImage = UPLOADPATH.$images[0]->image2;
-    $comment->getAll(
-        array('deal_id','=', Input::get('deal')),
-        array('order by' => 'created', 'order' => 'DESC')
-    );
+    $comment->getAll(array(
+        'order_clause' => array(
+            'order by' => 'created',
+            'order' => 'DESC'
+        ),
+        'where_clause' => array(
+            'deal_id','=', Input::get('deal')
+        )
+    ));
     $commentUser = $comment->data();
     $x = 0;
     while($x < count($commentUser)){
-        $user->getUsers('username', array('user_id', '=', $commentUser[$x]->user_id));
+        $user->getUsers('username', array(
+            'where_clause' => array(
+                'user_id', '=', $commentUser[$x]->user_id
+            )
+        ));
         $data = $user->data();
         $commentUser[$x]->username = $data[0]->username;
         $x++;

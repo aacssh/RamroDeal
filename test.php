@@ -21,5 +21,17 @@ $limit = 'limit gere';
 echo '<br>';
 echo $sql = "{$action} FROM {$table} {$where_clause} {$order_clause} {$limit}";
 
-
+$deal->getAllDeal(array(
+        'where_clause' => array(
+            'name', '=', 'Aashish'
+        ),
+        'limit_clause' => array(
+            'LIMIT' => $perPage,
+            'OFFSET' => $pagination->offset()
+        ),
+        'order_clause' => array(
+            'order by' => 'created',
+            'order' => 'DESC'
+        )
+    ));
 ?>

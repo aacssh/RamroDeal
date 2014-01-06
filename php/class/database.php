@@ -25,10 +25,7 @@ class Database
      * Stores the statement of PDO class
      * @var object
      */
-    private $_query,
-            $_where_clause = '',
-            $_order_clause = '',
-            $_limit_clause = '';
+    private $_query;
     
     private $_error = false,
             $_results,
@@ -121,64 +118,82 @@ class Database
         $this->_query->bindValue($param, $value, $type);
     }
     
-    public function action($action, $table, $wheres = array(), $order = array(), $limit = array()){
+    public function action($action, $table, $clause = array()){
+        $where_clause ='';
+        $order_clause = '';
+        $limit_clause = '';
         $values = array();
-        $i = 1;
-        if(is_array($order) && !empty($order)){
-            $this->_order_clause = 'ORDER BY';
-            foreach($order as $value){
-                $this->_order_clause .= ' '.$value;
-            }
-        }
-        
-        if(is_array($limit) && !empty($limit)){
-            $this->_limit_clause = "LIMIT {$limit[0]} OFFSET {$limit[1]}";
-        }
-        
-        if(!empty($wheres)){
-            if(is_array($wheres[1])){
-                foreach($wheres as $where){
-                    if(count($where) === 3){
-                        $operators = array('=', '>', '<', '>=', '<=');
-            
-                        $field      = $where[0];
-                        $operator   = $where[1];
-                        $value      = $where[2];
-
-                        if(in_array($operator, $operators)){
-                            $this->_where_clause .= "{$field} {$operator} ?";
-                            array_push($values, $value);
-                            
-                            if($i < count($wheres)){
-                                $this->_where_clause .= ' AND ';
+        if(!empty($clause)){
+            foreach($clause as $rule => $item){
+                switch($rule){
+                    case 'limit_clause':
+                        foreach($item as $type => $value){
+                            $limit_clause .= ' '.$type.' '.$value;
+                        }
+                        break;
+                    case 'order_clause':
+                        if(is_array($item) && !empty($item)){
+                            $order_clause = 'ORDER BY';
+                            foreach($item as $value){
+                                $order_clause .= ' '.$value;
                             }
                         }
-                    }
-                    $i++;
-                }
-            } else{
-                if(count($wheres) === 3){
-                    $operators = array('=', '>', '<', '>=', '<=');
-        
-                    $field      = $wheres[0];
-                    $operator   = $wheres[1];
-                    $value      = $wheres[2];
-        
-                    if(in_array($operator, $operators)){
-                        $this->_where_clause .= "{$field} {$operator} ?";
-                        array_push($values, $value);
-                    }
+                        break;
+                    case 'where_clause':
+                        if(!empty($item)){
+                            $where_clause ='WHERE ';
+                            if(is_array($item[1])){
+                                foreach($item as $where){
+                                    if(count($where) === 3){
+                                        $operators = array('=', '>', '<', '>=', '<=');
+                            
+                                        $field      = $where[0];
+                                        $operator   = $where[1];
+                                        $value      = $where[2];
+                
+                                        if(in_array($operator, $operators)){
+                                            $where_clause .= "{$field} {$operator} ?";
+                                            array_push($values, $value);
+                                            
+                                            if($i < count($item)){
+                                                $where_clause .= ' AND ';
+                                            }
+                                        }
+                                    }
+                                    $i++;
+                                }
+                            } else{
+                                if(count($item) === 3){
+                                    $operators = array('=', '>', '<', '>=', '<=');
+                        
+                                    $field      = $item[0];
+                                    $operator   = $item[1];
+                                    $value      = $item[2];
+                        
+                                    if(in_array($operator, $operators)){
+                                        $where_clause .= "{$field} {$operator} ?";
+                                        array_push($values, $value);
+                                    }
+                                }
+                            }
+
+                            $sql = "{$action} FROM {$table} {$where_clause} {$order_clause} {$limit_clause}";
+                            if(!$this->query($sql, $values)->error()){
+                                return $this;
+                            }
+                        }else{
+                            $sql = "{$action} FROM {$table} {$order_clause} {$limit_clause}";
+                
+                            if(!$this->query($sql)){
+                                return $this;
+                            }
+        }
+                        break;
                 }
             }
-        
-            $sql = "{$action} FROM {$table} WHERE {$this->_where_clause} {$this->_order_clause} {$this->_limit_clause}";
-        
-            if(!$this->query($sql, $values)->error()){
-                return $this;
-            }
-        } else{
-            $sql = "{$action} FROM {$table} {$this->_order_clause} {$this->_limit_clause}";
-            
+        }else{
+            $sql = "{$action} FROM {$table}";
+
             if(!$this->query($sql)){
                 return $this;
             }
@@ -186,9 +201,9 @@ class Database
         return false;
     }
     
-    public function get($table, $values, $where = array(), $order = array(), $limit = array()){
+    public function get($table, $values, $clause = array()){
         $sql = 'SELECT '. $values;
-        return $this->action($sql, $table, $where, $order, $limit);
+        return $this->action($sql, $table, $clause);
     }
     
     public function delete($table, $where){

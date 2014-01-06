@@ -82,9 +82,9 @@ class Deal
         }
     }
     
-    public function getAllDeal(){
+    public function getAllDeal($where = array()){
         try{
-            $this->_db->get('deal',$this->_allValues);
+            $this->_db->get('deal',$this->_allValues, $where);
         } catch(PDOException $e){
             die($e->getMessage());
         }
@@ -115,6 +115,7 @@ class Deal
         }
         return false;
     }
+    
     public function data(){
         return $this->_data;
     }
