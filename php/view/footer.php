@@ -7,8 +7,8 @@
 		       <p>&copy; RamroDeal 2013</p>
 		 </footer>
 	</div>
-	<script type="text/javascript" src="/RamroDeal/bootstrap/js/jquery.js"></script>
-	<script type="text/javascript" src="/RamroDeal/bootstrap/js/bootstrap.js"></script>
+	<script type="text/javascript" src="<?php echo BASE_URL; ?>bootstrap/js/jquery.js"></script>
+	<script type="text/javascript" src="<?php echo BASE_URL; ?>bootstrap/js/bootstrap.js"></script>
 	<script>
 		function contTime(unix_timestamp){
 			// create a new javascript Date object based on the timestamp

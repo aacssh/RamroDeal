@@ -24,7 +24,7 @@ if(Input::exists()){
             }
          } else{
             foreach($validation->errors() as $error){
-               $msg = $error.'<br />';
+               Session::flash('home', $error.'<br />');
             }
          }
       }

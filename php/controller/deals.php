@@ -35,7 +35,8 @@ if($user->isLoggedIn()){
                         'user_id' => 'mIh5V7wsHE7LAfS90I',
                         'body' => Input::get('comment')
                     ));
-                    Session::flash('home', 'Comment added!');
+                    //Session::flash('home', 'Comment added!');
+                    echo "<script>alert('Comment added');</script>";
                  }catch (Exception $e){
                     die($e->getMessage());
                  }

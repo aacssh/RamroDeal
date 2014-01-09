@@ -2,7 +2,11 @@
 include '../../init.php';
 
 $admin = new User();
-$admin->getUsers('user_id, first_name, last_name', array('groups', '=', 2));
+$admin->getUsers('user_id, first_name, last_name', array(
+    'where_clause' => array(
+        'groups', '=', 2
+    )
+));
 $admins = $admin->data();
 
 if(Input::exists()){

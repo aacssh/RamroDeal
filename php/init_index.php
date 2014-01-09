@@ -18,11 +18,21 @@ $GLOBALS['config'] = array(
     )
 );
 
+define('BASE_URL', '/RamroDeal/');
+
 spl_autoload_register(function ($obj)
 {
     $class = strtolower($obj);
     include 'class/'.$class.'.php';
 });
+
+/*
+ * Server Configuration Details:
+ * $mysql_host = "mysql10.000webhost.com";
+ * $mysql_database = "a7977676_project";
+ * $mysql_user = "a7977676_project";
+ * $mysql_password = "gces16";
+*/
 
 include 'view/fns.php';
 

@@ -5,7 +5,11 @@ $company = Company::getCompanyInstance();
 
 if(Input::exists()){
     $db = Database::getDBInstance();
-    $company->getCompanyId(array('name', '=', Input::get('company_name')));
+    $company->getCompanyId(array(
+        'where_clause' => array(
+            'name', '=', Input::get('company_name')
+        )
+    ));
     $id = $company->data();
     
     if(Input::get('delete') != ''){

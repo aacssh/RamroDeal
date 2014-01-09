@@ -122,6 +122,7 @@ class Database
         $where_clause ='';
         $order_clause = '';
         $limit_clause = '';
+        $i = 1;
         $values = array();
         if(!empty($clause)){
             foreach($clause as $rule => $item){
@@ -142,7 +143,7 @@ class Database
                     case 'where_clause':
                         if(!empty($item)){
                             $where_clause ='WHERE ';
-                            if(is_array($item[1])){
+                            if(is_array($item[$i])){
                                 foreach($item as $where){
                                     if(count($where) === 3){
                                         $operators = array('=', '>', '<', '>=', '<=');

@@ -46,7 +46,11 @@ class User {
     public function find($user = null, $values = null){
         if($user){
             $field = (substr_count($user, '@')) ? 'email' : ((strlen($user) == 18 ) ? 'user_id' : 'username');
-            $data = $this->_db->get('user', (empty($values) ? '*' : $values), array($field, '=', $user));
+            $data = $this->_db->get('user', (empty($values) ? '*' : $values), array(
+                'where_clause' => array(
+                    $field, '=', $user
+                )
+            ));
             
             if($data->count()){
                 $this->_data = $data->fetchSingle();
@@ -59,8 +63,8 @@ class User {
     public function getUsers($values = null, $where = array()){
             $data = $this->_db->get('user', $values, $where);
 
-            if($data->count()){
-                $this->_data = $data->fetchAll();
+            if($this->_db->count()){
+                $this->_data = $this->_db->fetchAll();
                 return true;
             }
             return false;
@@ -87,7 +91,11 @@ class User {
 
                     if($remember){
                         $hash = Hash::unique();
-                        $hashCheck = $this->_db->get('user_session', 'hash', array('user_id', '=', $this->data()->user_id));
+                        $hashCheck = $this->_db->get('user_session', 'hash', array(
+                            'where_clause' => array(
+                                'user_id', '=', $this->data()->user_id
+                            )
+                        ));
                         
                         if(!$hashCheck->count()){
                             $this->_db->insert('user_session', array(
@@ -109,13 +117,21 @@ class User {
     public function logout(){
         
         echo $this->data()->user_id;
-        $this->_db->delete('user_session', array('user_id', '=', $this->data()->user_id));
+        $this->_db->delete('user_session', array(
+            'where_clause' => array(
+                'user_id', '=', $this->data()->user_id
+            )
+        ));
         Session::delete($this->_sessionName);
         Cookie::delete($this->_cookieName);
     }
     
     public function hasPermission($key){
-        $group = $this->_db->get('groups', 'permissions', array('id', '=', $this->data()->groups));
+        $group = $this->_db->get('groups', 'permissions', array(
+            'where_clause' => array(
+                'id', '=', $this->data()->groups
+            )
+        ));
 
         if($group->count()){
             $permissions = json_decode($group->fetchSingle()->permissions, true);

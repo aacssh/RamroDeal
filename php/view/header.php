@@ -4,14 +4,14 @@
     <head>
 	<meta charset="utf-8">
 	<title><?php echo $title; ?></title>
-	<link rel="stylesheet" type="text/css" href="/RamroDeal/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="/RamroDeal/bootstrap/css/boot.css">
-	<link rel="shortcut icon" type="image/x-icon" href="/RamroDeal/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>bootstrap/css/boot.css">
+	<link rel="shortcut icon" type="image/x-icon" href="<?php echo BASE_URL; ?>favicon.ico" />
     </head>
     <body class="container">
 	<header class="row">
 	    <section class="span4">
-		<a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="/RamroDeal/bootstrap/img/abcd.jpg" height="200" width="250" /></a>
+		<a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="<?php echo BASE_URL; ?>bootstrap/img/abcd.jpg" height="200" width="250" /></a>
 	    </section>
 	    <section class="span8">
 		<form class="form-search pull-right">

@@ -4,7 +4,7 @@
 <section class="hero-unit">
     <section class="row">
         <section class="span3">
-            <img src = "/RamroDeal/bootstrap/img/greatdealhere.jpg" height="200" width="250" />
+            <img src = "<?php echo BASE_URL; ?>bootstrap/img/greatdealhere.jpg" height="200" width="250" />
         </section>
 	<section class="span6 pull-right">
             <section class="pull-right">

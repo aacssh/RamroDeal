@@ -133,7 +133,7 @@ class Image
         return false;
     }
     
-    public function getAllImage($where){
+    public function getAllImage($where = array()){
         try{
             $this->_db->get($this->_table, 'cover_image, image1, image2', $where);
         } catch(PDOException $e){

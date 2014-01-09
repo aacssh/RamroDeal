@@ -78,7 +78,7 @@ class Company
     }
     
     public function getAllCompany(){
-        $this->_db->get($this->_table, $this->_companyName);
+        $this->_db->get($this->_table, 'company_id, name, address');
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();

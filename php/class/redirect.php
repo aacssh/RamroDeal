@@ -11,17 +11,17 @@ class Redirect {
                     break;
                 }
             } elseif($location === 'index.php'){
-                $url = 'http://' . $_SERVER['HTTP_HOST'].'/RamroDeal/' . $location;
+                $url = 'http://' . $_SERVER['HTTP_HOST'].BASE_URL . $location;
                 header('Location:'. $url);
                 exit();
             }
             
             if($data){
-                $url = 'http://' . $_SERVER['HTTP_HOST'] . '/RamroDeal/php/controller/' . $location.'?'.$data;
+                $url = 'http://' . $_SERVER['HTTP_HOST'] . BASE_URL.'php/controller/' . $location.'?'.$data;
                 header('Location:'. $url);
                 exit();
             }else{
-                $url = 'http://' . $_SERVER['HTTP_HOST'] . '/RamroDeal/php/controller/' . $location;
+                $url = 'http://' . $_SERVER['HTTP_HOST'] . BASE_URL.'php/controller/' . $location;
                 header('Location:'. $url);
                 exit();
             }

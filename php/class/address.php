@@ -50,14 +50,16 @@ class Address
     
     public function checkAddress($add = array()){
         $this->_address = array(
-            array(
-                'city', '=', $add[0]
-            ),
-            array(
-                'district', '=', $add[1]
-            ),
-            array(
-                'country', '=', $add[2]
+            'where_clause' => array(
+                array(
+                    'city', '=', $add[0]
+                ),
+                array(
+                    'district', '=', $add[1]
+                ),
+                array(
+                    'country', '=', $add[2]
+                )
             )
         );
         $this->_db->get('address', 'address_id', $this->_address);
@@ -78,9 +80,20 @@ class Address
         }
         return false;
     }
+
+    public function getAllAddress($where = null){
+        $this->_db->get('address', '*', $where);
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
+        }
+        return false;
+    }
     
     public function data(){
         return $this->_data;
     }
+
 }
 ?>

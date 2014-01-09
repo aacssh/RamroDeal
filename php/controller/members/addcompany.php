@@ -38,10 +38,10 @@ if(Input::exists()){
               'required' => true 
             ),
             'district' => array(
-                'required' => true
+               'required' => true
             ),
             'country' => array(
-                'required' => true
+               'required' => true
             )
          ));
    
@@ -92,7 +92,7 @@ if(Input::exists()){
             }
          } else{
             foreach($validation->errors() as $error){
-               $msg = $error.'<br />';
+               $msg .= $error.'<br />';
             }
          }
       }
