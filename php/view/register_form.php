@@ -1,79 +1,63 @@
 <?php
 function register_form($address, $msg){
 ?>
-<p>
-<h4>Already a member? <a href="../controller/login.php">Sign in</a></h4><hr>
-</p>
-<div class="row">
-    <div class="span7">
-        <form action="" method="post" class="form-horizontal">
+<div class="container">
+    <form class="form-horizintal" method="post" action="" role="form">
+        <div class="row">
+            <h2 class="form-signin-heading">Sign up<br /> <small>[ Already a member? <a href="login.php">Sign in</a> ]</small></h2>
             <input type="hidden" id="hide" name="hide" />
-            <div class="control-group">
-                <label for="email" class="control-label">Email:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-envelope"></i></span>
-                        <input type="email" name="email" id="email" value="<?php echo trim(Input::get('email')); ?>" autocomplete="off" required/>
+            <div class="col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label for="fname" class="col-sm-3 control-label">First Name:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="fname" id="fname" class="form-control" placeholder="First Name" value="<?php echo trim (Input::get('fname')); ?>" required autofocus/>
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="password" class="control-label">Password:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-pencil"></i></span>
-                        <input type="password" name="password" id="password" required/>
+                  </div>
+                  <div class="form-group">
+                    <label for="lname" class="col-sm-3 control-label">Last Name:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="lname" id="lname" class="form-control" placeholder="Last Name"  value="<?php echo trim (Input::get('lname')); ?>" required />
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="confirmpassword" class="control-label">Confirm Password:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-pencil"></i></span>
-                        <input type="password" name="confirmpassword" id="confirmpassword" required/>
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">Email:</label>
+                    <div class="col-sm-9">
+                      <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="fname" class="control-label">First Name:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-user"></i></span>
-                        <input type="text" name="fname" id="fname" value="<?php echo trim (Input::get('fname')); ?>" required/>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Password:</label>
+                    <div class="col-sm-9">
+                      <input type="password" id="password" name = "password" class="form-control" placeholder="Password" required />
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="lname" class="control-label">Last Name:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-user"></i></span>
-                        <input type="text" name="lname" id="lname" value="<?php echo trim (Input::get('lname')); ?>" required/>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="confirmpassword" class="col-sm-3 control-label">Confirm Password:</label>
+                    <div class="col-sm-9">
+                      <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="Confirm Password" required />
                     </div>
-                </div>
+                  </div>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="sex">Sex:</label>
-                <div class="controls">
-                    <select name='sex' class="input-medium">
-                        <option value='M'>Male</option>
-                        <option value='F'>Female</option>
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="contact_no">Contact Number:</label>
-                <div class="controls">
-                    <input type="text" name="contact_no" id="contact_no" value="<?php echo trim (Input::get('contact_no')); ?>" placeholder="Office, Mobile" required/>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="city">City:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-map-marker"></i></span>
-                        <select name='city' class="input-medium">
+            <div class="col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label for="contact_no" class="col-sm-3 control-label">Contact No:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="contact_no" id="contact_no" class="form-control" value="<?php echo trim (Input::get('contact_no')); ?>" placeholder="Contat No." required/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="sex" class="col-sm-3 control-label">Sex:</label>
+                    <div class="col-sm-9">
+                        <select name='sex' class="form-control">
+                            <option value='M'>Male</option>
+                            <option value='F'>Female</option>
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label for="city" class="col-sm-3 control-label">City:</label>
+                    <div class="col-sm-9">
+                        <select name='city' class="form-control">
                             <?php
                                 $city = array();
                                 for($i = 0; $i < count($address); $i++){
@@ -85,14 +69,11 @@ function register_form($address, $msg){
                             ?>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="district">District:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-map-marker"></i></span>
-                        <select name='district' class="input-medium">
+                  </div>
+                  <div class="form-group">
+                    <label for="district" class="col-sm-3 control-label">District:</label>
+                    <div class="col-sm-9">
+                        <select name='district' class="form-control">
                             <?php
                                 $district = array();
                                 for($i = 0; $i < count($address); $i++){
@@ -104,42 +85,43 @@ function register_form($address, $msg){
                             ?>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="country">Country:</label>
-                <div class="controls">
-                    <select name='country' class="input-medium">
-                        <?php
-                            $country = array();
-                            for($i = 0; $i < count($address); $i++){
-                                if(!in_array($address[$i]->country, $country)){
-                                    echo'<option>'. $address[$i]->country .'</option>';
-                                    array_push($country, $address[$i]->country);
+                  </div>
+                  <div class="form-group">
+                    <label for="country" class="col-sm-3 control-label">Country:</label>
+                    <div class="col-sm-9">
+                        <select name='country' class="form-control">
+                            <?php
+                                $country = array();
+                                for($i = 0; $i < count($address); $i++){
+                                    if(!in_array($address[$i]->country, $country)){
+                                        echo'<option>'. $address[$i]->country .'</option>';
+                                        array_push($country, $address[$i]->country);
+                                    }
                                 }
-                            }
-                        ?>
-                    </select>
+                            ?>
+                        </select>
+                    </div>
+                  </div>
+                <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div class="form-actions">
+                <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 </div>
             </div>
-            <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" name="register" class="btn btn-info">Submit</button>
-                </div>
-            </div>
-        </form>
+        </div>
+    </form>
+
 <?php
-        if(!empty($msg)){
+    if(!empty($msg)){
 ?>
-            <div class='control-group error'>
-                <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
-            </div>
-<?php
-        }
-?>
+    <div class="alert alert-danger">
+        <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
     </div>
-</div> 
+</div>
 <?php
+    }
 }
 ?>

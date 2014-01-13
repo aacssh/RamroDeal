@@ -1,5 +1,6 @@
 <?php
 function deallist($deals){
+    //echo '<pre>'.print_r($deals, true).'</pre>';
     $count = count($deals);
     for($i = 0; $i <= $count; $i=$i+4){
         echo '<section class="row">';
@@ -8,16 +9,16 @@ function deallist($deals){
         for($j = $i; $j <= $k; $j++){
             if ($j >= $count) break;
 ?>
-    <section class="span3">
-        <section class="img">
-            <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" />
-            <div class="desc"><h4><?php echo $deals[$j]->name ?></h4></div>
-            <div class="desc"><strong>Start Date:<?php echo $deals[$j]->start_date; ?></strong></div>
-            <div class="desc"><strong>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></strong></div>
-            <div class="desc"><strong>Offered price: Rs. <?php echo $deals[$j]->offered_price; ?></strong></div>
-            <div class="desc" style=" text-align: center;"><a href="php/controller/deals.php?deal=<?php echo $deals[$j]->deal_id; ?>"><button type="submit" name="buy" class="btn btn-info">View</button></a></div>
+    <article class="col-lg-6 col-sm-6 col-xs-6">
+        <section class="thumbnail">
+            <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" class="img-responsive img-circle" />
+            <h4 class="caption"><?php echo $deals[$j]->name ?></h4>
+            <p>Start Date:<?php echo strftime("%B %d %Y at %I:%M %p", strtotime($deals[$j]->start_date)); ?></p>
+            <p>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></p>
+            <p>Offered price: Rs. <?php echo $deals[$j]->offered_price; ?></p>
+            <div class="caption" style=" text-align: center;"><a href="php/controller/deals.php?deal=<?php echo $deals[$j]->deal_id; ?>"><button type="submit" name="buy" class="btn btn-info">View</button></a></div>
         </section>
-    </section>    
+    </article>    
 <?php
         }
         echo '</section>';

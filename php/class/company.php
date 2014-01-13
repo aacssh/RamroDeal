@@ -27,40 +27,6 @@ class Company
         return self::$_companyInstance;
     }
     
-    public function setProperty($args){
-        if (is_array($args)){
-            if (isset($args['address_id'])){
-                $this->_address_id = $args['address_id'];
-            }
-            
-            if (isset($args['type'])){
-                $this->_type = $args['type'];
-            }
-
-            if (isset($args['name'])){
-                $this->_name = $args['name'];
-            }
-            
-            if (isset($args['email'])){
-                $this->_email = $args['email'];
-            }
-            
-            if (isset($args['mobileno'])){
-                $this->_mobileno = $args['mobileno'];
-            }
-            
-            if (isset($args['phoneno'])){
-                $this->_phoneno = $args['phoneno'];
-            }
-            
-            if (isset($args['code'])){
-                $this->_code = $args['code'];
-            }
-        } else{
-            throw new Exception("Arguments should be an array");
-        }
-    }
-    
     public function create($fields = array()){
         if(!$this->_db->insert($this->_table, $fields)){
             throw new Excepton('There was a problem registering the company');
@@ -77,8 +43,8 @@ class Company
         return false;
     }
     
-    public function getAllCompany(){
-        $this->_db->get($this->_table, 'company_id, name, address');
+    public function getAllCompany($values = null){
+        $this->_db->get($this->_table, $values);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -88,7 +54,7 @@ class Company
     }
     
     public function getId($where = array()){
-        $this->_db->get($this->_table, $this->_company_id, $where);
+        $this->_db->get($this->_table, $this->_companyId, $where);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -98,7 +64,11 @@ class Company
     }
     
     public function deleteCompany($value){
-        $this->_db->delete($this->_table, array($this->_company_id, '=', $value));
+        $this->_db->delete($this->_table, array(
+            'where_clause' => array(
+                $this->_companyId, '=', $value
+            )
+        ));
 
         if($this->_db->count()){
             return true;

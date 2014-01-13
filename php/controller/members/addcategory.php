@@ -1,7 +1,6 @@
 <?php
 include '../../init.php';
 
-$category = Category::getCategoryInstance();
 if(Input::exists()){
    if(Input::get('hide') === ''){
       if(Token::check(Input::get('token'))){
@@ -33,10 +32,10 @@ if(Input::exists()){
    }
 }
 
-$categorylist = $category->getCategory();
+$category = $categorylist->getCategory();
 ramrodeal_header("RamroDeal - Great Deal, Great Price"); //Displaying heading part of html
 nav(); //Displaying navigation part of html
 addCategory(); //displaying add category form
-categoryTable($categorylist->data());
+categoryTable($category->data());
 ramrodeal_footer(); //Displaying footer of html
 ?>

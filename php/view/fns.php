@@ -19,4 +19,5 @@ require_once 'adminlist_view.php';
 require_once 'deals_view.php';
 require_once 'comment_form.php';
 require_once 'pagination_view.php';
+require_once 'forgot_password_view.php';
 ?>

@@ -63,20 +63,29 @@ if(Input::exists()){
                        'image2' => Input::get('second_image')
                    ));
                    if($result){
-                       $img_id = $img->getSingleId(array('cover_image', '=', Input::get('cover_image')));
+                       echo 'im here<br>';
+                       $img_id = $img->getSingleId(array(
+                          'where_clause' => array(
+                            'cover_image', '=', Input::get('cover_image')
+                          )
+                        ));
                        $deal_id = RandomCode::randCode(18);
-                       $category_id = Category::getCategoryInstance()->getSingleId(array('name', '=', Input::get('category_name')));
+                       $category_id = Category::getCategoryInstance()->getSingleId(array(
+                          'where_clause' => array(
+                              'name', '=', Input::get('category_name')
+                          )
+                        ));
                        $deal = Deal::getDealInstance()->add(array(
                            'deal_id' => $deal_id,
                            'name' => Input::get('name'),
                            'actual_price' => Input::get('org_price'),
                            'offered_price' => Input::get('off_price'),
-                           'start_date' => Input::get('s_date'),
-                           'end_date' => Input::get('e_date'),
+                           'start_date' => date('Y-m-d H:i:s'),
+                           'end_date' => date('Y-m-d H:i:s'),
                            'minimum_purchase_requirement' => Input::get('min_people'),
                            'maximum_purchase_requirement' => Input::get('max_people'),
-                           'coupon_start_date' => Input::get('coupon_valid_from'),
-                           'coupon_end_date' => Input::get('coupon_valid_till'),
+                           'coupon_start_date' => date('Y-m-d H:i:s'),
+                           'coupon_end_date' => date('Y-m-d H:i:s'),
                            'company_id' => $user->data()->company,
                            'category_id' => $category_id->data()->category_id,
                            'image_id' => $img_id->data()->image_id

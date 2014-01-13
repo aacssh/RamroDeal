@@ -1,54 +1,27 @@
 <?php
 function login_form($msg){
 ?>
-<p>
-<h4>Not a member? <a href="register.php">Sign up</a></h4>
-</p>
-<div class="row">
-    <div class="span7">
-        <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <legend class="control-group text-center">Login:</legend>
-            <input type="hidden" id="hide" name="hide" />
-            <div class="control-group">
-                <label class="control-label" for="email">Email:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-envelope"></i></span>
-                        <input type="email" id="email" name="email" placeholder="email" required>
-                    </div>
-                </div>	
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="password">Password:</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="icon-pencil"></i></span>
-                        <input type="password" id="password" name = "password" placeholder="Password" required />
-                    </div>
-                </div>
-            </div>
-             <div class="control-group">
-                <label class="control-label" for="remember"></label>
-                <div class="controls">
-                    <input type="checkbox" name="remember" id="remember" autocomplete="off" />Remember me
-                </div>
-            </div>
-            <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>" />
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" id="submit" name="submit" class="btn btn-info">Submit</button>
-                </div>
-            </div>
-        </form>
-        <?php
-            if(!empty($msg)){
-        ?>
-                <div class='control-group error'>
-                    <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
-                </div>
-        <?php
-            }
-        ?>
-    </div>
+<div class="container">
+    <form class="form-signin" method="post" action="" role="form">
+        <h2 class="form-signin-heading">Sign in<br /> <small>[ Not a member? <a href="register.php">Sign up</a> ]</small></h2>
+        <input type="hidden" id="hide" name="hide" />
+        <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" id="password" name = "password" class="form-control" placeholder="Password" required>
+        <label class="checkbox">
+          <input type="checkbox" name="remember" id="remember" autocomplete="off"> Remember me
+        </label>
+        <p><a href="forgotpassword.php">Forgot Password?</a></p>
+        <input type="hidden" name="token" id="token" value="<?php echo Token::generate(); ?>" />
+        <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+<?php
+    if(!empty($msg)){
+?>
+        <div class="alert alert-danger">
+            <h1 class='control-label text-center btn btn-large btn-block'><?php echo $msg; ?></h1>
+        </div>
+<?php
+    }
+?>
 </div>
 <?php } ?>

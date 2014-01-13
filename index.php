@@ -1,22 +1,31 @@
 <?php
-include 'php/init_index.php';
+include 'php/init.php';
 
 $user = new User();
 if($user->isLoggedIn()){
     if($user->hasPermission('admin')){
         Redirect::to('members/homepage_admin.php');
     }elseif($user->hasPermission('sub-admin')){
-        Redirect::to('');
+        Redirect::to('members/homepage_subadmin.php');
     } elseif($user->hasPermission('mer_admin')){
-        Redirect::to('');
+        Redirect::to('members/homepage_merchant.php');
     } elseif($user->hasPermission('moderator')){
         Redirect::to('');
     } elseif($user->hasPermission('normal_user')){
-        Redirect::to('');
+        Redirect::to('members/homepage_normalUser');
     }
 } else{
+    $categorylist = Category::getCategoryInstance()->getCategory();
     ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
-    nav();  //navigation part of html
+    nav($categorylist->data());  //navigation part of html
+
+    if(Session::exists('home')){
+?>
+    <div class='alert alert-success'>
+        <h1 class='control-label text-center btn btn-large btn-block'><?php echo Session::flash('home'); ?></h1>
+        </div>
+<?php
+    }
     banner();   //banner part of html
     
     $deal = Deal::getDealInstance();

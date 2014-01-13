@@ -31,7 +31,7 @@ if(Input::exists()){
                     } elseif($user->hasPermission('moderator')){
                         Redirect::to('/admin/merModerator _homepage.php');
                     } elseif($user->hasPermission('normal_user')){
-                        Redirect::to('/admin/normalUser _homepage.php');
+                        Redirect::to('members/homepage_normalUser.php');
                     }
                 } else{
                     $msg = 'Incorrect email or password.';
@@ -48,7 +48,7 @@ if(Input::exists()){
 }
 
 ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
-nav();  //Displaying navigation part of html
+nav($categorylist->data());  //Displaying navigation part of html
 login_form($msg);   //Displaying login form
 ramrodeal_footer(); //Displaying footer of html
 ?>

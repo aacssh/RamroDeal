@@ -113,6 +113,7 @@ class Database
                     break;
                 default:
                     $type = PDO::PARAM_STR;
+                    break;
             }
         }
         $this->_query->bindValue($param, $value, $type);
@@ -225,7 +226,7 @@ class Database
                 }
                 $x++;
             }
-            
+
             $sql = "INSERT INTO {$table} (`". implode('`, `', $keys) ."`) VALUES ({$values})";
 
             if(!$this->query($sql, $fields)->error()){

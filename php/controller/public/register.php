@@ -66,8 +66,8 @@ if(Input::exists()){
                         'address' => $address->data()->address_id,
                         'email' => $email,
                         'join_date' => date('Y-m-d H:i:s'),
-                        'company' => 'suho8IQ1QatZwtxi9C',
-                        'groups' => 4
+                        'company' => 'jfhK8KSn38kfuwKEj',
+                        'groups' => 3
                     ));
                     Session::flash('home', 'You have been registered and can log in!');
                     Redirect::to('index.php');
@@ -87,7 +87,7 @@ if(Input::exists()){
 
 if($address->getAddress('*')){
     ramrodeal_header("Login - RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
-    nav();  //Displaying navigation part of html
+    nav($categorylist->data());  //Displaying navigation part of html
     register_form($address->data(), $msg);   //Displaying login form
     ramrodeal_footer(); //Displaying footer of html
 }

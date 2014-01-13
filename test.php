@@ -3,7 +3,7 @@
 $user = 'aacssh@otmail.com';
     $field = (substr_count($user, '@')) ? 'email' : ((strlen($user) == 18 ) ? 'user_id' : 'username');
     echo $field;
-    */
+
 $orders = array('order by' => 'created', 'order' => 'ASC');
 $data = 'ORDER BY';
 if(is_array($orders) && !empty($orders)){
@@ -34,4 +34,13 @@ $deal->getAllDeal(array(
             'order' => 'DESC'
         )
     ));
+
+*/
+
+$value = 'aashsish';
+if(!$value){
+    echo 'bigfoot';
+} else{
+    echo 'gravity';
+}
 ?>

@@ -2,34 +2,35 @@
 include '../../init.php';
 
 $company = Company::getCompanyInstance();
-
 if(Input::exists()){
     $db = Database::getDBInstance();
-    $company->getCompanyId(array(
+    $company->getId(array(
         'where_clause' => array(
             'name', '=', Input::get('company_name')
         )
     ));
     $id = $company->data();
-    
+
     if(Input::get('delete') != ''){
         $user = new User();
         try{
             $db->beginTransaction();
-            $user->delete(array('company', '=', $id[0]->company_id));
+            $user->delete(array(
+                'where_clause' => array(
+                    'company', '=', $id[0]->company_id
+                )
+            ));
             $company->deleteCompany($id[0]->company_id);
-            Session::flash('home', 'New company has been deleted!');
+            Session::flash('home', Input::get('company_name'). ' company has been deleted!');
             $db->endTransaction();
         } catch(PDOException $e){
             $db->cancelTransaction();
             die($e->getMessage());
         }
-    } elseif(Input::get('change_pw') != ''){
-        Redirect::to('members/update.php', 'company_id='.$id[0]->company_id);
     }
 }
 
-$list = $company->getAllCompany();
+$list = $company->getAllCompany('name');
 $companies = array();
 foreach($list->data() as $datalist){
     foreach($datalist as $data){

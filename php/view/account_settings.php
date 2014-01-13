@@ -1,6 +1,45 @@
 <?php
 function account(){
 ?>
+<div class="container">
+    <form class="form-horizintal" method="post" action="" role="form">
+        <div class="row">
+<?php
+    if(Session::exists('home')){
+?>
+            <div class='alert alert-danger'>
+                <h1 class='control-label text-center btn btn-large btn-block'><?php echo Session::flash('home'); ?></h1>
+            </div>
+<?php } ?>
+            <h2 class="text-center">Add Admin</h2><hr />
+            <input type="hidden" id="hide" name="hide" />
+            <div class="col-lg-6 col-sm-6">
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">Name:</label>
+                    <div class="col-sm-9">
+                      <input type="text" name="name" id="name" class="form-control" placeholder="Name" value="<?php echo trim (Input::get('name')); ?>" required autofocus/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="col-sm-3 control-label">Email:</label>
+                    <div class="col-sm-9">
+                      <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">Password:</label>
+                    <div class="col-sm-9">
+                      <input type="password" id="password" name = "password" class="form-control" placeholder="Password" required />
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="confirmpassword" class="col-sm-3 control-label">Confirm Password:</label>
+                    <div class="col-sm-9">
+                      <input type="password" name="confirmpassword" id="confirmpassword" class="form-control" placeholder="Confirm Password" required />
+                    </div>
+                  </div>
+            </div>
     <form action="" method="post">
         <div class="field">
             <label for="name">Name</label>

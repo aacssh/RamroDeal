@@ -10,15 +10,20 @@ $admin->getUsers('user_id, first_name, last_name', array(
 $admins = $admin->data();
 
 if(Input::exists()){
+    echo Input::get('lname');
     if(Input::get('delete') != ''){
         try{
-            $admin->delete(array('user_id', '=', $admins[0]->user_id));
-            Session::flash('home', 'Admin has been deleted!');
+            $admin->delete(array(
+                'where_clause' => array(
+                    array('first_name', '=', Input::get('fname')),
+                    array('last_name', '=', Input::get('lname'))
+                )
+            ));
+            Session::flash('home', Input::get('fname').' '.Input::get('lname').' admin has been deleted!');
+            Redirect::to('members/adminlist.php');
         } catch(Exception $e){
             die($e->getMessage());
         }
-    } elseif(Input::get('change_pw') != ''){
-        Redirect::to('members/update.php', 'user_id='.$admins[0]->user_id);
     }
 }
 

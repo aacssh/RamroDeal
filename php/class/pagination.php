@@ -14,6 +14,10 @@ class Pagination{
         return ceil($this->_totalCount/$this->_perPage);
     }
     
+    public function currentPage(){
+        return $this->_currentPage;
+    }
+
     public function offset(){
         return ($this->_currentPage -1) * $this->_perPage;
     }

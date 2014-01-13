@@ -30,52 +30,6 @@ class Deal
         return self::$_deal_instance;
     }
     
-    public function setProperty($args = array()){
-        if (is_array($args)){
-            if(isset($args['id'])){
-                $this->_category_id = $args['id'];
-            }
-            if(isset($args['deal_id'])){
-                $this->_deal_id = $args['deal_id'];
-            }
-            if(isset($args['name'])){
-                $this->_name = $args['name'];
-            }
-            if(isset($args['org_price'])){
-                $this->_org_price = $args['org_price'];
-            }
-            if(isset($args['off_price'])){
-                $this->_off_price = $args['off_price'];
-            }
-            if(isset($args['min_people'])){
-                $this->_min_people = $args['min_people'];
-            }
-            if(isset($args['max_people'])){
-                $this->_max_people = $args['max_people'];
-            }
-            if(isset($args['s_date'])){
-                $this->_s_date = $args['s_date'];
-            }
-            if(isset($args['e_date'])){
-                $this->_e_date = $args['e_date'];
-            }
-            if(isset($args['coupon_valid_from'])){
-                $this->_coupon_valid_from = $args['coupon_valid_from'];
-            }
-            if(isset($args['coupon_valid_till'])){
-                $this->_coupon_valid_till = $args['coupon_valid_till'];
-            }
-            if(isset($args['merchant_id'])){
-                $this->_merchant_id = $args['merchant_id'];
-            }
-            if(isset($args['image_id'])){
-                $this->_image_id = $args['image_id'];
-            }
-        } else{
-            throw new Exception('Argument should be an array');
-        }
-    }
-    
     public function add($fields = array()){
         if(!$this->_db->insert($this->_table, $fields)){
             throw new Excepton('There was a problem registering the company');

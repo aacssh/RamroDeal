@@ -18,7 +18,7 @@ $GLOBALS['config'] = array(
     )
 );
 
-define('BASE_URL', '/RamroDeal/');
+define('BASE_URL', '/RamroDeal-Boot3/');
 
 spl_autoload_register(function ($obj)
 {
@@ -36,12 +36,16 @@ spl_autoload_register(function ($obj)
 
 include 'view/fns.php';
 
-define('UPLOADPATH', '/RamroDeal/images/'); # upload path for image
+define('UPLOADPATH', '/RamroDeal-Boot3/images/'); # upload path for image
 define('MAXFILESIZE', 2097152);      // 2 MB
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){
     $hash = Cookie::get(Config::get('remember/cookie_name'));
-    $hash = Database::getDBInstance()->get('user_session', 'user_id', array('hash', '=', $hash));
+    $hash = Database::getDBInstance()->get('user_session', 'user_id', array(
+        'where_clause' => array(
+            'hash', '=', $hash
+        )
+    ));
 
     if($hash->count()){
         $user = new User($hash->fetchSingle()->user_id);

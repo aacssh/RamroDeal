@@ -4,7 +4,7 @@ include '../init_index.php';
 
 $comment = Comment::getCommentInstance();
 $deals= Deal::getDealInstance()->getAllDeal();
-$company = Company::getCompanyInstance()->getAllCompany();
+$company = Company::getCompanyInstance()->getAllCompany('company_id, name, address');
 $comment = Comment::getCommentInstance()->getAll();
 $deal_json = array();
 

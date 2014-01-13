@@ -45,13 +45,13 @@ class Image
                     return false;
                 }
         
-                $target_path[$i] = UPLOADPATH. $this->_filename[$i];
+                $target_path[$i] = '/var/www'.UPLOADPATH. $this->_filename[$i];
         
                 if(file_exists($target_path[$i])) {
                     $this->addError("The file {$this->_filename[$i]} already exists.");
                     return false;
                 }
-                
+
                 if(!move_uploaded_file($this->_temp_path[$i], $target_path[$i])) {
                     $this->addError('The file upload failed, possibly due to incorrect permissions on the upload folder.');
                     return false;

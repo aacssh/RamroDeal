@@ -26,11 +26,13 @@ class User {
         }
     }
     
-    public function update($fields = array(), $id = null){
-        if(!$id && $this->isLoggedIn()){
-            $id = $this->data()->user_id;
+    public function update($fields = array(), $value = null){
+        //if(!$value && $this->isLoggedIn()){
+        if($this->isLoggedIn()){
+            $value = $this->data()->user_id;
         }
-        if(!$this->_db->update('user', $id, $fields)){
+
+        if(!$this->_db->update('user', $value, $fields)){
             throw new Exception('There was a problem updating.');
         } else{
            return true;
@@ -61,17 +63,17 @@ class User {
     }
     
     public function getUsers($values = null, $where = array()){
-            $data = $this->_db->get('user', $values, $where);
+        $data = $this->_db->get('user', $values, $where);
 
-            if($this->_db->count()){
-                $this->_data = $this->_db->fetchAll();
-                return true;
-            }
-            return false;
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return true;
+        }
+        return false;
     }
     
-    public function delete($value = array()){
-        $this->_db->delete('user', $value);
+    public function delete($where = array()){
+        $this->_db->delete('user', $where);
         
         if($this->_db->count()){
             return true;
