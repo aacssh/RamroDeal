@@ -63,6 +63,7 @@ if(Input::exists()){
                   'office_no' => Input::get('phoneno'),
                   'mobile_no' => Input::get('mobileno'),
                   'join_date' => date('Y-m-d H:i:s'),
+                  $password = Input::get('password');
                   'address' => $address_id,
                   'email' => $email,
                   'total_users' => 3
@@ -73,7 +74,7 @@ if(Input::exists()){
                   'username' => $username[0],
                   'first_name' => $username[0],
                   'last_name' => $username[0],
-                  'password' => Hash::make(Input::get('password'), $salt),
+                  'password' => Hash::make($password, $salt),
                   'salt' => $salt,
                   'gender' => 'M',
                   'contact_no' => Input::get('phoneno'),
@@ -83,9 +84,12 @@ if(Input::exists()){
                   'company' => $company_id,
                   'groups' => 4
                ));
-         
                $db->endTransaction();
-               Session::flash('home', 'New company has been registered!');
+
+               $mail = new Email();
+               if($mail->welcomeMail($fname.' '.$lname, $password, $email)){
+                  Session::flash('home', 'New company has been registered and email has been sent!');
+               }
             }catch (PDOException $e){
                $db->cancelTransaction();
                die($e->getMessage());

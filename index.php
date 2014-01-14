@@ -15,7 +15,8 @@ if($user->isLoggedIn()){
         Redirect::to('members/homepage_normalUser');
     }
 } else{
-    $categorylist = Category::getCategoryInstance()->getCategory();
+    $categorylist = Category::getCategoryInstance();
+    $categorylist->getCategory();
     ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
     nav($categorylist->data());  //navigation part of html
 
@@ -32,18 +33,49 @@ if($user->isLoggedIn()){
     $currentPage = Input::get('page');
     $currentPage = empty($currentPage) ? 1 : $currentPage;
     $perPage = 2;
-    $totalCount = $deal->countAll();
-    foreach($totalCount->data() as $count){
-        $totalCount = $count;
+    
+    if(Input::exists('get')){
+        if(Input::get('category')){
+            $selected_category = clone $categorylist;
+            $category_id = $selected_category->getSingleId(array(
+                'where_clause' => array(
+                    'name', '=', Input::get('category')
+                )
+            ));
+
+            $totalCount = $deal->countAll(array(
+                'where_clause' => array(
+                    'category_id', '=', $selected_category->data()->category_id
+                ),
+            ));
+            foreach($totalCount->data() as $count){
+                $totalCount = $count;
+            }
+            $pagination = new Pagination($currentPage, $perPage, $totalCount);
+            $deal->getAllDeal(array(
+                'limit_clause' => array(
+                    'LIMIT' => $perPage,
+                    'OFFSET' => $pagination->offset()
+                ),
+                'where_clause' => array(
+                    'category_id', '=',  $selected_category->data()->category_id
+                )
+            ));
+        }
+    }else{
+        $totalCount = $deal->countAll();
+        foreach($totalCount->data() as $count){
+            $totalCount = $count;
+        }
+        $pagination = new Pagination($currentPage, $perPage, $totalCount);
+        $deal->getAllDeal(array(
+            'limit_clause' => array(
+                'LIMIT' => $perPage,
+                'OFFSET' => $pagination->offset()
+            ),
+            'where_clause' => array()
+        ));
     }
-    $pagination = new Pagination($currentPage, $perPage, $totalCount);
-    $deal->getAllDeal(array(
-        'limit_clause' => array(
-            'LIMIT' => $perPage,
-            'OFFSET' => $pagination->offset()
-        ),
-        'where_clause' => array()
-    ));
     $list = $deal->data();
     $deals_list = array();
     foreach($list as $deals){
@@ -58,5 +90,5 @@ if($user->isLoggedIn()){
     deallist($deals_list);
     pagination($pagination);
     ramrodeal_footer(); //footer of html
-    }
+}
 ?>

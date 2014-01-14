@@ -18,7 +18,7 @@ $GLOBALS['config'] = array(
     )
 );
 
-define('BASE_URL', '/RamroDeal-Boot3/');
+define('BASE_URL', '/RamroDeal/');
 
 spl_autoload_register(function ($obj)
 {
@@ -36,7 +36,7 @@ spl_autoload_register(function ($obj)
 
 include 'view/fns.php';
 
-define('UPLOADPATH', '/RamroDeal-Boot3/images/'); # upload path for image
+define('UPLOADPATH', '/RamroDeal/images/'); # upload path for image
 define('MAXFILESIZE', 2097152);      // 2 MB
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))){

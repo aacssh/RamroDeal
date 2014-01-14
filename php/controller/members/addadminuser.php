@@ -41,13 +41,15 @@ if(Input::exists()){
             $salt = Hash::salt(32);
             $email = Input::get('email');
             $username = explode('@', $email);
+            $fname = Input::get('fname');
+            $lname = Input::get('lname');
             
             try{
                $user->create(array(
                   'user_id' => RandomCode::randCode(18),
                   'username' => $username[0],
-                  'first_name' => Input::get('fname'),
-                  'last_name' => Input::get('lname'),
+                  'first_name' => $fname,
+                  'last_name' => $lname,
                   'password' => Hash::make($username[0], $salt),
                   'salt' => $salt,
                   'gender' => 'M',
@@ -58,8 +60,10 @@ if(Input::exists()){
                   'company' => 'sheo8IQ1QsvZsefi9C',
                   'groups' => 2
                ));
-               
-               Session::flash('home', 'New admin has been registered!');
+               $mail = new Email();
+               if($mail->welcomeMail($fname.' '.$lname, $username[0], $email)){
+                  Session::flash('home', 'New admin has been registered and email has been sent!');
+               }
             }catch (PDOException $e){
                die($e->getMessage());
             }

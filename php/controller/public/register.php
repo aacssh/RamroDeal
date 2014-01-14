@@ -52,6 +52,7 @@ if(Input::exists()){
                 $salt = Hash::salt(32);
                 $email = Input::get('email');
                 $username = explode('@', $email);
+                $password = Input::get('password');
     
                 try{
                     $user->create(array(
@@ -59,7 +60,7 @@ if(Input::exists()){
                         'username' => $username[0],
                         'first_name' => Input::get('fname'),
                         'last_name' => Input::get('lname'),
-                        'password' => Hash::make(Input::get('password'), $salt),
+                        'password' => Hash::make($password, $salt),
                         'salt' => $salt,
                         'gender' => Input::get('sex'),
                         'contact_no' => Input::get('contact_no'),
@@ -69,7 +70,10 @@ if(Input::exists()){
                         'company' => 'jfhK8KSn38kfuwKEj',
                         'groups' => 3
                     ));
-                    Session::flash('home', 'You have been registered and can log in!');
+                    $mail = new Email();
+                    if($mail->welcomeMail(Input::get('fname').' '.Input::get('lname'), $password, $email)){
+                        Session::flash('home', 'Welcome to RamroDeal family. \n You have been registered and can log in!');
+                    }
                     Redirect::to('index.php');
                 }catch(Exception $e){
                     die($e->getMessage());

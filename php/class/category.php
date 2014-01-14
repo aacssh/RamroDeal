@@ -4,6 +4,7 @@ class Category
     private $_nameField = 'name',
             $_table = 'category',
             $_categoryId = 'category_id',
+            $_db = null,
             $_data;
     
     private static $_categoryinstance;
@@ -42,6 +43,10 @@ class Category
             return $this;
         }
         return false;
+    }
+    
+    public function __clone(){
+        
     }
     
     public function data(){

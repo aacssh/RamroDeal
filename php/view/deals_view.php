@@ -19,35 +19,39 @@ function deals($dealDetails, $commentList){
             </section>
             <section class="col-lg-6 col-sm-6">
                 <div class="table-responsive">
-                    <table class="table table-condensed">
-                        <tr id="offer">
-                            <td><h3><b>Offered Value:</b></h3></td>
-                            <td><h3><b><?php echo $dealDetails->offered_price; ?></b></h3></td>
-                        </tr>
-                        <tr>
-                            <td>Actual Vaule:</td>                        
-                            <td><?php echo $dealDetails->actual_price; ?></td>
-                        </tr>
-                        <tr>
-                            <td>You Save:</td>
-                            <td><?php echo $dealDetails->actual_price - $dealDetails->offered_price; ?></td>
-                        </tr>
-                        <tr>
-                            <td><h3>Coupon Remaining:</h3></td>
-                            <td><h3><?php echo $dealDetails->minimum_purchase_requirement - $dealDetails->total_people; ?></h3></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="desc">
-                                    <a href="#"><button type="submit" name="buy" class="btn btn-info btn-lg btn-block">Buy</button></a>
-                                </div>
-                            </td>
-                        </tr>   
-                        <tr>
-                            <td>Remaining Time:</td>
-                            <td><?php echo time(); ?></td>
-                        </tr>
-                    </table>
+                    <form action='' method='post'>
+                        <input type="hidden" id="hide" name="hide" />
+                        <table class="table table-condensed">
+                            <tr id="offer">
+                                <td><h3><b>Offered Value:</b></h3></td>
+                                <td><h3><b><?php echo $dealDetails->offered_price; ?></b></h3></td>
+                            </tr>
+                            <tr>
+                                <td>Actual Vaule:</td>                        
+                                <td><?php echo $dealDetails->actual_price; ?></td>
+                            </tr>
+                            <tr>
+                                <td>You Save:</td>
+                                <td><?php echo $dealDetails->actual_price - $dealDetails->offered_price; ?></td>
+                            </tr>
+                            <tr>
+                                <td><h3>Coupon Remaining:</h3></td>
+                                <td><h3><?php echo $dealDetails->minimum_purchase_requirement - $dealDetails->total_people; ?></h3></td>
+                            </tr>
+                            <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
+                            <tr>
+                                <td>
+                                    <div class="desc">
+                                        <a href="#"><button type="submit" name="submit" value="buy" class="btn btn-info btn-lg btn-block">Buy</button></a>
+                                    </div>
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td>Remaining Time:</td>
+                                <td><?php echo time(); ?></td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
             </section>
         </section><br /><br /><br />

@@ -60,8 +60,8 @@ class Deal
         return false;
     }
 
-    public function countAll(){
-        $this->_db->get('deal','COUNT(*)');
+    public function countAll($where = array()){
+        $this->_db->get('deal','COUNT(*)', $where);
         
         if ($this->_db->count()){
             $this->_data = $this->_db->fetchSingle();

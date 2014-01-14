@@ -30,9 +30,15 @@ if(Input::exists()){
                         try{
                             $user->update(array(
                                 'password' => Hash::make($password, $salt),
-                                'salt' => $salt,
-                            ), $user->data()->user_id);
-                            Session::flash('home', 'Password has been changed. Check your email');
+                                'salt' => $salt), 
+                                $user->data()->user_id
+                            );
+                            $mail = new Email();
+                            if($mail->forgotPassword($password, $email)){
+                                Session::flash('home', 'Password has been changed. Check your email');
+                            }else{
+                                Session::flash('home', 'Password has been changed but, mail couldn\'t be sent. \n Please try again');
+                            }
                         }catch(Exception $e){
                             die($e->getMessage());
                         }

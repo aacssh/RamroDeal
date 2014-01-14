@@ -11,10 +11,9 @@ function comment_form($commentList){
                 <textarea name="comment" rows='6' placeholder="Write something..." required></textarea>
             </div></p>
         </div>
-        <input type="hidden" name="token" value="<?php echo Token::generate(); ?>" />
         <div class="control-group">
             <div class="controls">
-                <button type="submit" name="submit" id="submit" class="btn btn-large btn-primary input-large"/>Submit</button>
+                <button type="submit" name="submit" value="comment" id="submit" class="btn btn-large btn-primary input-large"/>Submit</button>
             </div>	
         </div>
     </form>
