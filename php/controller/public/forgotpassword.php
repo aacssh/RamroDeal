@@ -25,7 +25,7 @@ if(Input::exists()){
                     $getUser = $user->find($email);
                     if($getUser){
                         $salt = Hash::salt(32);
-                        echo $password = RandomCode::randCode(10);
+                        $password = RandomCode::randCode(10);
             
                         try{
                             $user->update(array(

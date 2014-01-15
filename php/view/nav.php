@@ -109,7 +109,7 @@
 <?php 
               while($i < count($category) ){ 
 ?>
-                  <li><a href="index.php?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
+                  <li><a href="?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
 <?php
                 $i++;
               }
@@ -128,7 +128,7 @@
                         <li><a href="profile.php?user=<?php echo trim($user->data()->username); ?>">Profile</a></li>
                         <li><a href="update.php">Account Setting</a></li>
                         <li class="divider"></li>
-                        <li><a href="logout.php"> Logout</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>php/controller/members/logout.php"> Logout</a></li>
                       </ul>
                   </li>
                 </ul>

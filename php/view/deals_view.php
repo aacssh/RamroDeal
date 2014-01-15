@@ -1,5 +1,6 @@
 <?php
 function deals($dealDetails, $commentList){
+    $paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
 ?>
     <section>
         <?php if(Session::exists('home')){ ?>
@@ -19,7 +20,18 @@ function deals($dealDetails, $commentList){
             </section>
             <section class="col-lg-6 col-sm-6">
                 <div class="table-responsive">
-                    <form action='' method='post'>
+                    <form action='<?php echo $paypal_url; ?>' method='post'>
+<!--
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="6BRGXB47C8HHW">
+                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+-->
+
+
+
                         <input type="hidden" id="hide" name="hide" />
                         <table class="table table-condensed">
                             <tr id="offer">
@@ -42,7 +54,17 @@ function deals($dealDetails, $commentList){
                             <tr>
                                 <td>
                                     <div class="desc">
-                                        <a href="#"><button type="submit" name="submit" value="buy" class="btn btn-info btn-lg btn-block">Buy</button></a>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-sm-6">
+                                                <input type="hidden" name="cmd" value="_s-xclick">
+                                                <input type="hidden" name="hosted_button_id" value="6BRGXB47C8HHW">
+                                                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                                                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                                            </div>
+                                            <div class="col-lg-6 col-sm-6">
+                                                <a href="#"><button type="submit" name="submit" value="buy" class="btn btn-info btn-lg btn-block">Buy</button></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>   

@@ -16,7 +16,7 @@ class Deal
     private $_image_id;
     private $_db;
     private $_data;
-    private $_allValues = 'deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, description, company_id, image_id';
+    private $_allValues = 'deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, coupon_start_date, coupon_end_date, description, company_id, category_id, image_id';
     private static $_deal_instance;
     
     private function __construct(){
@@ -30,10 +30,14 @@ class Deal
         return self::$_deal_instance;
     }
     
-    public function add($fields = array()){
-        if(!$this->_db->insert($this->_table, $fields)){
-            throw new Excepton('There was a problem registering the company');
+    public function add($deal_id = NULL, $name = null, $actual_price = null, $offered_price = null, $start_date =null, $end_date = null, $min_requirement = null, $max_requirement = null, $s_coupon = null, $e_coupon = null, $desc = null, $company_id = null, $category_id = null, $image_id = null){
+        if(!$this->_db->addDeal("INSERT INTO deal ($this->_allValues)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+            array($deal_id, $name, $actual_price, $offered_price, $start_date, $end_date, $min_requirement, $max_requirement,0, $s_coupon, $e_coupon, $desc, $company_id, $category_id, $image_id)
+        )){
+            return false;
         }
+        return true;
     }
     
     public function getAllDeal($where = array()){

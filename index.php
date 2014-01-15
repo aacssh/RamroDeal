@@ -34,34 +34,32 @@ if($user->isLoggedIn()){
     $currentPage = empty($currentPage) ? 1 : $currentPage;
     $perPage = 2;
     
-    if(Input::exists('get')){
-        if(Input::get('category')){
-            $selected_category = clone $categorylist;
-            $category_id = $selected_category->getSingleId(array(
-                'where_clause' => array(
-                    'name', '=', Input::get('category')
-                )
-            ));
+    if(Input::get('category')){
+        $selected_category = clone $categorylist;
+        $category_id = $selected_category->getSingleId(array(
+            'where_clause' => array(
+                'name', '=', Input::get('category')
+            )
+        ));
 
-            $totalCount = $deal->countAll(array(
-                'where_clause' => array(
-                    'category_id', '=', $selected_category->data()->category_id
-                ),
-            ));
-            foreach($totalCount->data() as $count){
-                $totalCount = $count;
-            }
-            $pagination = new Pagination($currentPage, $perPage, $totalCount);
-            $deal->getAllDeal(array(
-                'limit_clause' => array(
-                    'LIMIT' => $perPage,
-                    'OFFSET' => $pagination->offset()
-                ),
-                'where_clause' => array(
-                    'category_id', '=',  $selected_category->data()->category_id
-                )
-            ));
+        $totalCount = $deal->countAll(array(
+            'where_clause' => array(
+                'category_id', '=', $selected_category->data()->category_id
+            ),
+        ));
+        foreach($totalCount->data() as $count){
+            $totalCount = $count;
         }
+        $pagination = new Pagination($currentPage, $perPage, $totalCount);
+        $deal->getAllDeal(array(
+            'limit_clause' => array(
+                'LIMIT' => $perPage,
+                'OFFSET' => $pagination->offset()
+            ),
+            'where_clause' => array(
+                'category_id', '=',  $selected_category->data()->category_id
+            )
+        ));
     }else{
         $totalCount = $deal->countAll();
         foreach($totalCount->data() as $count){

@@ -40,11 +40,15 @@ class Image
             }
             
             for($i = 0; $i < count($img); $i++){
+                if(!$this->landscape($this->_temp_path[$i])){
+                    $this->addError('Please use landscape image only.');
+                    return false;
+                }
                 if(empty($this->_filename[$i]) || empty($this->_temp_path[$i])) {
                     $this->addError('The file location was not available.');
                     return false;
                 }
-        
+
                 $target_path[$i] = '/var/www'.UPLOADPATH. $this->_filename[$i];
         
                 if(file_exists($target_path[$i])) {
@@ -69,7 +73,6 @@ class Image
     public function attach_file($item = array()) {
         $x = 0;
         foreach($item as $file){
-            
             if(!$file || empty($file) || !is_array($file)) {
                 $this->addError('No file was uploaded.');
                 return false;
@@ -90,6 +93,14 @@ class Image
                 }
             }
             $x++;
+        }
+        return true;
+    }
+
+    protected function landscape($imgSrc) {
+        list($width_orig, $height_orig) = getimagesize($imgSrc);   
+        if($width_orig < $height_orig){
+            return false;
         }
         return true;
     }

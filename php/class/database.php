@@ -253,6 +253,26 @@ class Database
             return true;
         }
     }
+
+    public function addDeal($query = null, $values = array()){
+        $this->_query = $this->_db->prepare($query);
+        $x = 1;
+        foreach ($values as $value) {
+            $this->_query->bindValue($x, $value);
+            $x++;
+        }
+        $this->_query->execute();
+        /*
+        $db = mysqli_connect(Config::get('mysql/host'), Config::get('mysql/username'), Config::get('mysql/password'), Config::get('mysql/db'));
+        if (mysqli_connect_errno()) {
+            echo 'Error: Could not connect to database. Please try again later.';
+            exit;
+        }
+        mysqli_query($db,$query) or die("Error: ".mysqli_error($db));
+        mysqli_close($db);
+        */
+        return true;
+    }
     
     public function results(){
         return $this->_results;

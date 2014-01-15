@@ -39,37 +39,37 @@ function addDeal($categorylist, $msg = ''){
             <div class="form-group">
               <label for="org_price" class="col-sm-5 control-label">Original Price:</label>                  
               <div class="col-sm-7">
-                <input type="number" name="org_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('org_price'); ?>" placeholder="Actual Price" required>
+                <input type="text" name="org_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('org_price'); ?>" placeholder="Actual Price" required>
               </div>
             </div>
             <div class="form-group">
               <label for="off_price" class="col-sm-5 control-label">Offered Price:</label>                  
               <div class="col-sm-7">
-                <input type="number" name="off_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('off_price'); ?>" placeholder="Offered Price" required>
+                <input type="text" name="off_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('off_price'); ?>" placeholder="Offered Price" required>
               </div>
             </div>
             <div class="form-group">
               <label for="min_people" class="col-sm-5 control-label">Minimum no. of People:</label>                  
               <div class="col-sm-7">
-                <input type="number" name="min_people" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('min_people'); ?>" placeholder="Minimum requirement" required>
+                <input type="text" name="min_people" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('min_people'); ?>" placeholder="Minimum requirement" required>
               </div>
             </div>
             <div class="form-group">
               <label for="min_people" class="col-sm-5 control-label">Maxmum no. of People:</label>                  
               <div class="col-sm-7">
-                <input type="number" name="max_people" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value="<?php echo Input::get('max_people'); ?>" placeholder="Maximum requirement" required>
+                <input type="text" name="max_people" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value="<?php echo Input::get('max_people'); ?>" placeholder="Maximum requirement" required>
               </div>
             </div>
             <div class="form-group">
               <label for="s_date" class="col-sm-5 control-label">Start date:</label>
               <div class="col-sm-7">
-                <input type="date" name="s_date" class="form-control" value ="<?php echo Input::get('s_date'); ?>" required/>
+                <input type="date" name="s_date" id="datepicker" class="form-control" value ="<?php echo Input::get('s_date'); ?>" required/>
               </div>
             </div>
             <div class="form-group">
               <label for="e_date" class="col-sm-5 control-label">End date:</label>
               <div class="col-sm-7">
-                <input type="date" name="e_date" class="form-control" value ="<?php echo Input::get('e_date'); ?>" required/>
+                <input type="date" name="e_date" id="datepicker" class="form-control" value ="<?php echo Input::get('e_date'); ?>" required/>
               </div>
             </div>
           </div>
@@ -77,13 +77,13 @@ function addDeal($categorylist, $msg = ''){
             <div class="form-group">
               <label for="coupon_valid_from" class="col-sm-5 control-label">Coupon valid from:</label>
               <div class="col-sm-7">
-                <input type="date" name="coupon_valid_from" class="form-control" value ="<?php echo Input::get('coupon_valid_from'); ?>" required/>
+                <input type="date" name="coupon_valid_from" id="datepicker" class="form-control" value ="<?php echo Input::get('coupon_valid_from'); ?>" required/>
               </div>
             </div>
             <div class="form-group">
               <label for="coupon_valid_till" class="col-sm-5 control-label">Coupon valid till:</label>
               <div class="col-sm-7">
-                <input type="date" name="coupon_valid_till" class="form-control" value ="<?php echo Input::get('coupon_valid_till'); ?>" required/>
+                <input type="date" name="coupon_valid_till" id="datepicker" class="form-control" value ="<?php echo Input::get('coupon_valid_till'); ?>" required/>
               </div>
             </div>
             <div class="form-group">

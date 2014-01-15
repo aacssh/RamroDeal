@@ -2,14 +2,14 @@
 include '../init_index.php';
 
 $user = new User();
-
 $comment = Comment::getCommentInstance();
 if(Input::exists()){
     if(Input::get('hide') === ''){
         if(Input::get('submit') === 'buy'){
             if(Token::check(Input::get('token'))){
                 if($user->isLoggedIn()){
-                    echo "<script>alert('You can Buy');</script>";
+
+                    echo "<script>alert('$user->data()->username');</script>";
                 } else{
                     echo "<script>alert('Please log in to buy');</script>";
                 }
@@ -28,7 +28,7 @@ if(Input::exists()){
                 $comment->add(array(
                     'deal_id' => Input::get('deal'),
                     'created' => strftime("%Y-%m-%d %I:%M:%S", time()),
-                    'user_id' => 'mIh5V7wsHE7LAfS90I',
+                    'user_id' => $user->data()->user_id,
                     'body' => Input::get('comment')
                 ));
                 //Session::flash('home', 'Comment added!');
@@ -81,14 +81,15 @@ $comment->getAll(array(
 $commentUser = $comment->data();
 $x = 0;
 while($x < count($commentUser)){
-    $user->getUsers('username', array(
-        'where_clause' => array(
-            'user_id', '=', $commentUser[$x]->user_id
-        )
-    ));
-    $data = $user->data();
-    $commentUser[$x]->username = $data[0]->username;
-    $x++;
+  $commenter = clone $user;  
+  $commenter->getUsers('username', array(
+      'where_clause' => array(
+          'user_id', '=', $commentUser[$x]->user_id
+      )
+  ));
+  $data = $commenter->data();
+  $commentUser[$x]->username = $data[0]->username;
+  $x++;
 }
 ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
 nav();  //navigation part of html

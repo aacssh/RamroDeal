@@ -8,7 +8,13 @@
 	</div>
 	<script type="text/javascript" src="<?php echo BASE_URL; ?>bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" src="<?php echo BASE_URL; ?>bootstrap/js/bootstrap.js"></script>
+	<script src="jquery-ui.js"></script>
 	<!--<script type="text/javascript" src="<?php echo BASE_URL; ?>js/primary.js"></script>-->
+	<script>
+		  $(function() {
+		    $( "#datepicker" ).datepicker();
+		  });
+  	</script>
 	<script>
 		function contTime(unix_timestamp){
 			// create a new javascript Date object based on the timestamp

@@ -1,5 +1,6 @@
 <?php
 function deallist($deals){
+    $user = new User();
     //echo '<pre>'.print_r($deals, true).'</pre>';
     $count = count($deals);
     for($i = 0; $i <= $count; $i=$i+4){
@@ -16,7 +17,15 @@ function deallist($deals){
             <p>Start Date:<?php echo strftime("%B %d %Y at %I:%M %p", strtotime($deals[$j]->start_date)); ?></p>
             <p>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></p>
             <p>Offered price: Rs. <?php echo $deals[$j]->offered_price; ?></p>
-            <div class="caption" style=" text-align: center;"><a href="php/controller/deals.php?deal=<?php echo $deals[$j]->deal_id; ?>"><button type="submit" name="buy" class="btn btn-info">View</button></a></div>
+            <?php 
+                if($user->isLoggedIn()){
+                    echo "<div class='caption' style='text-align: center;'><a href='../deals.php?deal=".$deals[$j]->deal_id."'>
+                        <button type='submit' name='buy' class='btn btn-info'>View</button></a></div>";
+                }else{
+                    echo "<div class='caption' style='text-align: center;'><a href='php/controller/deals.php?deal=".$deals[$j]->deal_id."'>
+                        <button type='submit' name='buy' class='btn btn-info'>View</button></a></div>";
+                }
+            ?>">
         </section>
     </article>    
 <?php

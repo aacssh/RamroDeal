@@ -26,6 +26,8 @@ spl_autoload_register(function ($obj)
     include 'class/'.$class.'.php';
 });
 
+Session::regenerate();
+
 /*
  * Server Configuration Details:
  * $mysql_host = "mysql10.000webhost.com";

@@ -52,21 +52,23 @@ if(Input::exists()){
             ));
       
            if($validation->passed()){
-               $img = Image::getImageInstance();
-               $db = Database::getDBInstance();
+              $img = Image::getImageInstance();
+              $db = Database::getDBInstance();
+              $cover_image = Input::get('cover_image');
+              $first_image = Input::get('first_image');
+              $second_image = Input::get('second_image');
 
                try{
                    $db->beginTransaction();
                    $result = $img->add(array(
-                       'cover_image' => Input::get('cover_image'),
-                       'image1' => Input::get('first_image'),
-                       'image2' => Input::get('second_image')
+                       'cover_image' => $cover_image['name'],
+                       'image1' => $first_image['name'],
+                       'image2' => $second_image['name']
                    ));
                    if($result){
-                       echo 'im here<br>';
                        $img_id = $img->getSingleId(array(
                           'where_clause' => array(
-                            'cover_image', '=', Input::get('cover_image')
+                            'cover_image', '=', $cover_image['name']
                           )
                         ));
                        $deal_id = RandomCode::randCode(18);
@@ -75,21 +77,26 @@ if(Input::exists()){
                               'name', '=', Input::get('category_name')
                           )
                         ));
-                       $deal = Deal::getDealInstance()->add(array(
-                           'deal_id' => $deal_id,
-                           'name' => Input::get('name'),
-                           'actual_price' => Input::get('org_price'),
-                           'offered_price' => Input::get('off_price'),
-                           'start_date' => date('Y-m-d H:i:s'),
-                           'end_date' => date('Y-m-d H:i:s'),
-                           'minimum_purchase_requirement' => Input::get('min_people'),
-                           'maximum_purchase_requirement' => Input::get('max_people'),
-                           'coupon_start_date' => date('Y-m-d H:i:s'),
-                           'coupon_end_date' => date('Y-m-d H:i:s'),
-                           'company_id' => $user->data()->company,
-                           'category_id' => $category_id->data()->category_id,
-                           'image_id' => $img_id->data()->image_id
-                       ));
+                       $deal = Deal::getDealInstance()->add(
+                           $deal_id,
+                           Input::get('name'),
+                           Input::get('org_price'),
+                           Input::get('off_price'),
+                           Input::get('s_date'),
+                           Input::get('e_date'),
+                           Input::get('min_people'),
+                           Input::get('max_people'),
+                           Input::get('coupon_valid_from'),
+                           Input::get('coupon_valid_till'),
+                           Input::get('desc'),
+                           $user->data()->company,
+                           $category_id->data()->category_id,
+                           $img_id->data()->image_id
+                       );
+                       if(!$deal){
+                          echo 'Unable to add deal. Please try again';
+                       }
+                       
                       $db->endTransaction();
                        Session::flash('home', 'New deal has been added');
                     } else{
