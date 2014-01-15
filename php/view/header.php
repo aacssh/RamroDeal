@@ -24,7 +24,7 @@
     <link href="<?php echo BASE_URL; ?>bootstrap/css/signin.css" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo BASE_URL; ?>favicon.ico" />
   </head>
-  <body  class="container">
+  <body id="container" class="container">
   <header class="row">
       <section class="col-lg-3 col-sm-3 col-xs-8 hidden-xs">
         <a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="<?php echo BASE_URL; ?>bootstrap/img/ramrodeal_icon.png" /></a>

@@ -16,7 +16,8 @@ if(Input::exists()){
             $admin->delete(array(
                 'where_clause' => array(
                     array('first_name', '=', Input::get('fname')),
-                    array('last_name', '=', Input::get('lname'))
+                    array('last_name', '=', Input::get('lname')),
+                    array('groups', '=', 2)
                 )
             ));
             Session::flash('home', Input::get('fname').' '.Input::get('lname').' admin has been deleted!');

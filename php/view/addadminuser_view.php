@@ -1,5 +1,5 @@
 <?php function addAdminUser($address, $msg){ ?>
-<div class="container">
+<div id="container" class="container">
     <form class="form-horizintal" method="post" action="" role="form">
         <div class="row">
 <?php

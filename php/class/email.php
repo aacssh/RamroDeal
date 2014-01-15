@@ -1,7 +1,7 @@
 <?php
 
 class Email{
-	private $_host = "smtp.sendgrid.net";
+	private $_host = 'smtp.sendgrid.net';
 	private $_port = 587;
 	private $_username = 'iat';
 	private $_password = 'Barracuda01';
@@ -9,18 +9,21 @@ class Email{
 	private $_mail;
 
 	public function __construct(){
+		/*
 		$this->includes();
 		$this->_mail = new PHPMailer(); // create a new object
-		$this->setConfig();
+		*/
 	}
 
 	private function includes(){
-		require_once('../includes/PHPMailer/class.phpmailer.php');
-		require_once('../includes/PHPMailer/class.smtp.php');
-		require_once('../includes/PHPMailer/class.phpmailer.php');
+		require_once('../../includes/PHPMailer/class.phpmailer.php');
+		require_once('../../includes/PHPMailer/class.smtp.php');
+		require_once('../../includes/PHPMailer/class.phpmailer.php');
 	}
 
 	protected function setConfig(){
+		$this->includes();
+		$this->_mail = new PHPMailer();
 		$this->_mail->IsSMTP(); // enable SMTP
 		$this->_mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
 		$this->_mail->SMTPAuth = true; // authentication enabled
@@ -33,6 +36,20 @@ class Email{
 	}
 
 	public function welcomeMail($name = null, $password = null, $email = null){
+		echo $name.'<br>';
+		echo $password.'<br>';
+		echo $email.'<br>';
+		$this->includes();
+		$this->_mail = new PHPMailer();
+		$this->_mail->IsSMTP(); // enable SMTP
+		$this->_mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+		$this->_mail->SMTPAuth = true; // authentication enabled
+		$this->_mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+		$this->_mail->Host = $this->_host;
+		$this->_mail->Port = $this->_port;
+		$this->_mail->IsHTML(true);
+		$this->_mail->Username = $this->_username;
+		$this->_mail->Password = $this->_password;
 		$this->_body = "
 		<html>
 			<body>
@@ -43,13 +60,33 @@ class Email{
 			</body>
 		</html>
 		";
+		$this->_mail->AddAddress($email);
+ 		if($this->_mail->Send()){
+	    	return true;
+	    }
+	    return false;
+	    /*
 		if($this->sendMail($email)){
 			return true;
 		}
 		return false;
+		*/
 	}
 
 	public function forgotPassword($value = null, $email = null){
+		echo '<br>'.$value.'<br>';
+		echo $email.'<br>';
+		$this->includes();
+		$this->_mail = new PHPMailer();
+		$this->_mail->IsSMTP(); // enable SMTP
+		$this->_mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+		$this->_mail->SMTPAuth = true; // authentication enabled
+		$this->_mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+		$this->_mail->Host = $this->_host;
+		$this->_mail->Port = $this->_port;
+		$this->_mail->IsHTML(true);
+		$this->_mail->Username = $this->_username;
+		$this->_mail->Password = $this->_password;
 		$this->_body = "
 		<html>
 			<body>
@@ -59,10 +96,17 @@ class Email{
 			</body>
 		</html>
 		";
+		$this->_mail->AddAddress($email);
+ 		if($this->_mail->Send()){
+	    	return true;
+	    }
+	    return false;
+	    /*
 		if($this->sendMail($email)){
 			return true;
 		}
 		return false;
+		*/
 	}
 
 	private function sendMail($email=''){

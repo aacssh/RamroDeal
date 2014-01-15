@@ -10,11 +10,11 @@ if(Input::exists()){
          $validation = $validate->check($_POST, array(
             'fname' => array(
                'required' => true,
-               'min' => 5
+               'min' => 3
             ),
             'lname' => array(
                'required' => true,
-               'min' => 5
+               'min' => 3
             ),
             'email' => array(
                'required' => true,
@@ -63,6 +63,8 @@ if(Input::exists()){
                $mail = new Email();
                if($mail->welcomeMail($fname.' '.$lname, $username[0], $email)){
                   Session::flash('home', 'New admin has been registered and email has been sent!');
+               }else{
+                  Session::flash('home', 'New admin has been registered and email couldn\'t be sent!');
                }
             }catch (PDOException $e){
                die($e->getMessage());

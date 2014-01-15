@@ -1,6 +1,7 @@
 <?php
 class RandomCode {
     public static function randCode($length, $charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'){
+        $code = null;
         if(is_int($length)){
             $count = strlen($charset)-1;
             while ($length--)

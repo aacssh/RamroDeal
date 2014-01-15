@@ -54,6 +54,7 @@ if(Input::exists()){
             $company_id = RandomCode::randCode(18);
             $address_id = $address->data()->address_id;
             $db = Database::getDBInstance();
+            $password = Input::get('password');
             
             try{
                $db->beginTransaction();
@@ -63,7 +64,6 @@ if(Input::exists()){
                   'office_no' => Input::get('phoneno'),
                   'mobile_no' => Input::get('mobileno'),
                   'join_date' => date('Y-m-d H:i:s'),
-                  $password = Input::get('password');
                   'address' => $address_id,
                   'email' => $email,
                   'total_users' => 3
@@ -85,11 +85,13 @@ if(Input::exists()){
                   'groups' => 4
                ));
                $db->endTransaction();
-
+/*
                $mail = new Email();
                if($mail->welcomeMail($fname.' '.$lname, $password, $email)){
                   Session::flash('home', 'New company has been registered and email has been sent!');
                }
+               */
+               Session::flash('home', 'New company has been registered and email has been sent!');
             }catch (PDOException $e){
                $db->cancelTransaction();
                die($e->getMessage());

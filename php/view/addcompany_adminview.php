@@ -12,8 +12,7 @@
         </div>
 <?php
       } 
-?>
-      <div class="container">
+?>   
       <form class="form-horizintal" method="post" action="" role="form">
         <div class="row">
             <div class="text-center"><legend>New Company</legend></div>

@@ -33,8 +33,8 @@ if(Input::exists()){
                                 'salt' => $salt), 
                                 $user->data()->user_id
                             );
-                            $mail = new Email();
-                            if($mail->forgotPassword($password, $email)){
+                            
+                            if(forgotPassword($email, $password)){
                                 Session::flash('home', 'Password has been changed. Check your email');
                             }else{
                                 Session::flash('home', 'Password has been changed but, mail couldn\'t be sent. \n Please try again');
