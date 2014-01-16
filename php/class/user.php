@@ -32,7 +32,7 @@ class User {
             $value = $this->data()->user_id;
         }
 
-        if(!$this->_db->update('user', $value, $fields)){
+        if(!$this->_db->update('user','user_id', $value, $fields)){
             throw new Exception('There was a problem updating.');
         } else{
            return true;

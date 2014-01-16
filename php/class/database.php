@@ -236,7 +236,7 @@ class Database
         return false;
     }
     
-    public function update($table, $id, $fields){
+    public function update($table = null, $field = null, $id = null, $fields = array()){
         $set = '';
         $x = 1;
         
@@ -247,7 +247,7 @@ class Database
             }
             $x++;
         }
-        $sql = "UPDATE {$table} SET {$set} WHERE user_id = '{$id}'";
+        $sql = "UPDATE {$table} SET {$set} WHERE {$field} = '{$id}'";
         
         if(!$this->query($sql, $fields)->error()){
             return true;
@@ -262,15 +262,6 @@ class Database
             $x++;
         }
         $this->_query->execute();
-        /*
-        $db = mysqli_connect(Config::get('mysql/host'), Config::get('mysql/username'), Config::get('mysql/password'), Config::get('mysql/db'));
-        if (mysqli_connect_errno()) {
-            echo 'Error: Could not connect to database. Please try again later.';
-            exit;
-        }
-        mysqli_query($db,$query) or die("Error: ".mysqli_error($db));
-        mysqli_close($db);
-        */
         return true;
     }
     

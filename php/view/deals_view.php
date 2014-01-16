@@ -1,6 +1,8 @@
 <?php
 function deals($dealDetails, $commentList){
-    $paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
+    $user = new User();
+    //$paypal_url='https://www.sandbox.paypal.com/cgi-bin/webscr';
+    $paypal_url = BASE_URL.'php/controller/members/topaypal.php';
 ?>
     <section>
         <?php if(Session::exists('home')){ ?>
@@ -14,24 +16,13 @@ function deals($dealDetails, $commentList){
         </header>
         <section class="row">
             <section class="col-lg-6 col-sm-6">
-                <img src="<?php echo $dealDetails->cover; ?>" class="img-responsive img-rounded"/>
+                <img src="<?php echo $dealDetails->cover; ?>" id = "img" class="img-responsive img-rounded"/>
                 <!--<img src="<?php echo $dealDetails->firstImage; ?>" class="img-responsive"/>
                 <img src="<?php echo $dealDetails->secondImage; ?>" class="img-responsive"/>-->
             </section>
             <section class="col-lg-6 col-sm-6">
                 <div class="table-responsive">
                     <form action='<?php echo $paypal_url; ?>' method='post'>
-<!--
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="hosted_button_id" value="6BRGXB47C8HHW">
-                            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                        </form>
--->
-
-
-
                         <input type="hidden" id="hide" name="hide" />
                         <table class="table table-condensed">
                             <tr id="offer">
@@ -55,14 +46,22 @@ function deals($dealDetails, $commentList){
                                 <td>
                                     <div class="desc">
                                         <div class="row">
+                                            <?php if($user->isLoggedIn()){ ?>
                                             <div class="col-lg-6 col-sm-6">
+                                                <input type='hidden' name='deal_id' value="<?php echo $dealDetails->deal_id; ?>" />
+                                                <input type="hidden" name="itemname" value="<?php echo $dealDetails->name; ?>" />
+                                                <input type="hidden" name="itemnumber" value="1" />
+                                                <input type="hidden" name="itemprice" value="10" />
                                                 <input type="hidden" name="cmd" value="_s-xclick">
                                                 <input type="hidden" name="hosted_button_id" value="6BRGXB47C8HHW">
                                                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                                                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                                             </div>
-                                            <div class="col-lg-6 col-sm-6">
-                                                <a href="#"><button type="submit" name="submit" value="buy" class="btn btn-info btn-lg btn-block">Buy</button></a>
+                                            <div class="col-lg-4 col-lg-offset-2 col-sm-6">
+                                                    <button type="submit" name="submit" value="buy" class="btn btn-info btn-lg btn-block">Buy</button>
+                                            <?php }else{ ?>
+                                                <span class="btn btn-info btn-lg btn-block text-center">Log-In to buy</span>
+                                            <?php } ?>
                                             </div>
                                         </div>
                                     </div>

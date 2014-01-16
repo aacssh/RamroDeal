@@ -43,7 +43,7 @@
                         <li><a href="#">Reviews and Rating</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Customers</a></li>  
+                <li><a href="customerlist.php">Customers</a></li>  
                 <li class="dropdown" id="accountmenu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin Users<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -76,10 +76,10 @@
                         <li class="divider"></li>
                         <li><a href="addcompany.php">Add New Company</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Reviews and Rating</a></li>
+                        <li><a href="customerlist.php">Reviews and Rating</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Customers</a></li>  
+                <li><a href="customerlist.php">Customers</a></li>  
             </ul>
           <?php
                 } elseif($user->hasPermission('mer_admin')){
@@ -94,14 +94,14 @@
                       <li><a href="#">Reviews and Rating</a></li>
                     </ul>
                   </li>
-                  <li><a href="#">Customers</a></li>
+                  <li><a href="customerlist.php">Customers</a></li>
                   <li><a href="#">Transaction Histroy</a></li> 
               </ul>
           <?php
                 } elseif($user->hasPermission('normal_user')){
           ?>
                   <li class=""><a href="<?php echo BASE_URL; ?>index.php">All Deals</a></li>
-                  <li><a href="#">Today's deals</a></li>  
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/homepage_normalUser.php?deal=active">Active deals</a></li>  
                   <li><a href="#">Top Deals</a></li>
                   <li class="dropdown" id="accountmenu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Category<b class="caret"></b></a>
@@ -109,13 +109,14 @@
 <?php 
               while($i < count($category) ){ 
 ?>
-                  <li><a href="?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/homepage_normalUser.php?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
 <?php
                 $i++;
               }
 ?>
                   </ul>
                 </li>
+                <li><a href="">My Purchase</a></li>
               </ul>
           <?php
                 }
@@ -125,8 +126,8 @@
                   <li class="dropdown pull-right" id="accountmenu">
                       <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->data()->username; ?><b class="caret"></b></a>
                       <ul class="dropdown-menu">
-                        <li><a href="profile.php?user=<?php echo trim($user->data()->username); ?>">Profile</a></li>
-                        <li><a href="update.php">Account Setting</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>php/controller/members/profile.php?user=<?php echo trim($user->data()->username); ?>">Profile</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>php/controller/members/update.php">Account Setting</a></li>
                         <li class="divider"></li>
                         <li><a href="<?php echo BASE_URL; ?>php/controller/members/logout.php"> Logout</a></li>
                       </ul>
@@ -140,7 +141,7 @@
           } else{
         ?>
               <li class=""><a href="<?php echo BASE_URL; ?>index.php">All Deals</a></li>
-              <li><a href="#">Today's deals</a></li>  
+              <li><a href="<?php echo BASE_URL; ?>index.php?deal=active">Active deals</a></li>  
               <li><a href="#">Top Deals</a></li>
               <li class="dropdown" id="accountmenu">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Category<b class="caret"></b></a>
@@ -148,7 +149,7 @@
 <?php 
               while($i < count($category) ){ 
 ?>
-                  <li><a href="index.php?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
+                  <li><a href="<?php echo BASE_URL; ?>index.php?category=<?php echo $category[$i]->name; ?>"><?php echo $category[$i]->name; ?></a></li>
 <?php
                 $i++;
               }

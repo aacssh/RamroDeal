@@ -1,6 +1,9 @@
 <?php
 include '../../init.php';
-
+$user = new User();
+if(!$user->isLoggedIn()){
+   Redirect::to('index.php');
+}
 ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
 nav($categorylist->data());  //navigation part of html
 $deal = Deal::getDealInstance();

@@ -1,6 +1,18 @@
 <?php
 include '../../init.php';
 
+$user = new User();
+if($user->isLoggedIn()){
+    if($user->hasPermission('admin')){
+        Redirect::to('members/homepage_admin.php');
+    }elseif($user->hasPermission('sub-admin')){
+        Redirect::to('members/homepage_subadmin.php');
+    } elseif($user->hasPermission('mer_admin')){
+        Redirect::to('members/homepage_merchant.php');
+    } elseif($user->hasPermission('normal_user')){
+        Redirect::to('members/homepage_normalUser');
+    }
+}
 $msg = '';
 $address = Address::getAddressInstance();
 
@@ -66,21 +78,26 @@ if(Input::exists()){
                         'contact_no' => Input::get('contact_no'),
                         'address' => $address->data()->address_id,
                         'email' => $email,
-                        'join_date' => date('Y-m-d H:i:s'),
+                        'join_date' => date("Y-m-d"),
                         'company' => 'jfhK8KSn38kfuwKEj',
                         'groups' => 3
                     ));
+                    /*
                     if(welcomeMail($email, $password, Input::get('fname').' '.Input::get('lname'))){
+                        //echo "true";
                         Session::flash('home', 'Welcome to RamroDeal family. You have been registered and can log in!');
                     }
+                    */
                     Redirect::to('index.php');
                 }catch(Exception $e){
+                    //echo $e->getMessage();
                     die($e->getMessage());
                 }
             } else{
                 foreach($validation->errors() as $error){
                     $msg = $error.'<br />';
                 }
+                echo $msg;
             }
         }
     } else{

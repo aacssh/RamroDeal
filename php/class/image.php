@@ -82,7 +82,7 @@ class Image
             } else {
                 if((($file['type'] == 'image/gif') || ($file['type'] == 'image/jpeg') ||
                     ($file['type'] == 'image/pjpeg') || ($file['type'] == 'image/png')) &&
-                    ($file['size'] > 0) && ($file['size'] <= MAXFILESIZE)){
+                    ($file['type'] == 'image/jpg') || ($file['size'] > 0) && ($file['size'] <= MAXFILESIZE)){
                     $this->_type[$x] = $file['type'];
                     $this->_size[$x] = $file['size'];
                     $this->_temp_path[$x]  = $file['tmp_name'];

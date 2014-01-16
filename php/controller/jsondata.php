@@ -56,4 +56,3 @@ foreach ($deals->data() as $dealValue) {
 $json = json_encode($deal_json);
 echo $json;
 //echo '<pre>'.print_r($deal_json, true).'</pre>';
-?>

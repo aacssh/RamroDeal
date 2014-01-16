@@ -112,7 +112,7 @@
         <div class="row">
           <div class="col-lg-12 col-sm-12">
             <div class="form-actions">
-              <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+              <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
             </div>
           </div>
         </div>

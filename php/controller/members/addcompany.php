@@ -1,6 +1,9 @@
 <?php
 include '../../init.php';
-
+$user = new User();
+if(!$user->isLoggedIn()){
+   Redirect::to('index.php');
+}
 $msg = '';
 $address = Address::getAddressInstance();
 if(Input::exists()){
@@ -85,13 +88,12 @@ if(Input::exists()){
                   'groups' => 4
                ));
                $db->endTransaction();
-/*
-               $mail = new Email();
-               if($mail->welcomeMail($fname.' '.$lname, $password, $email)){
-                  Session::flash('home', 'New company has been registered and email has been sent!');
-               }
-               */
-               Session::flash('home', 'New company has been registered and email has been sent!');
+
+               if(forgotPassword($email, $password)){
+                    Session::flash('home', 'New company has been added. Email sent.');
+                }else{
+                    Session::flash('home', 'New company has been added.');
+                }
             }catch (PDOException $e){
                $db->cancelTransaction();
                die($e->getMessage());

@@ -28,13 +28,14 @@ spl_autoload_register(function ($obj)
 
 Session::regenerate();
 
-/*
- * Server Configuration Details:
- * $mysql_host = "mysql10.000webhost.com";
- * $mysql_database = "a7977676_project";
- * $mysql_user = "a7977676_project";
- * $mysql_password = "gces16";
-*/
+// For paypal
+$PayPalMode         = 'sandbox'; // sandbox or live
+$PayPalApiUsername  = 'aashish.ghale-facilitator_api1.gmail.com'; //PayPal API Username
+$PayPalApiPassword  = '1389101617'; //Paypal API password
+$PayPalApiSignature     = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AisvknBnflU33MhThlVgsDn9ZBBE'; //Paypal API Signature
+$PayPalCurrencyCode     = 'USD'; //Paypal Currency Code
+$PayPalReturnURL    = 'http://ramrodeal.com'.BASE_URL.'php/controller/members/success.php'; //Point to process.php page
+$PayPalCancelURL    = 'http://ramrodeal.com'.BASE_URL.'php/controller/members/cancel_url.php'; //Cancel URL if user clicks cancel
 
 include 'view/fns.php';
 
@@ -54,3 +55,34 @@ if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Confi
         $user->login();
     }
 }
+
+$date = date("Y-m-d");
+$deal = Deal::getDealInstance();
+$deal->getDate('end_date, total_people, minimum_purchase_requirement, maximum_purchase_requirement', array(
+    'where_clause' => array(
+        'end_date', '=', date('Y-m-d')
+    )
+));
+
+$data = (array)$deal->data();
+if(!empty($data)){
+    $i = 0;
+    while($i < count($data)){
+        if($data[$i]->total_people === $data[$i]->maximum_purchase_requirement){
+            $deal->updateStatus('end_date', $data[$i]->end_date, array(
+                'status' => '2'
+            )); //2 for success
+        }elseif ((strtotime(date('Y-m-d')) > strtotime($data[$i]->end_date)) && ($data[$i]->total_people >= $data[$i]->minimum_purchase_requirement)) {
+            $deal->updateStatus('end_date', $data[$i]->end_date, array(
+                'status' => '2'
+            ));
+        }
+        elseif((strtotime(date('Y-m-d')) > strtotime($data[$i]->end_date)) && ($data[$i]->total_people < $data[$i]->minimum_purchase_requirement)){
+            $deal->updateStatus('end_date', $data[$i]->end_date, array(
+                'status' => '1' //1 for failure
+            ));
+        }
+        $i++;
+    }
+}
+    

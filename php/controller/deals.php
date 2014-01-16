@@ -47,7 +47,7 @@ if(Input::exists()){
     }
  }
 
-$deals= Deal::getDealInstance()->getSingleDeal(array(
+$deals = Deal::getDealInstance()->getSingleDeal(array(
     'where_clause' => array(
         'deal_id', '=', Input::get('deal')
     )
@@ -91,8 +91,11 @@ while($x < count($commentUser)){
   $commentUser[$x]->username = $data[0]->username;
   $x++;
 }
+
+$categorylist = Category::getCategoryInstance();
+$categorylist->getCategory();
 ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
-nav();  //navigation part of html
+nav($categorylist->data());  //navigation part of html
 deals($deal, $commentUser);
 ramrodeal_footer(); //footer of html
 ?>

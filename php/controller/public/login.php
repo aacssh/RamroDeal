@@ -1,6 +1,17 @@
 <?php
 include '../../init.php';
-
+$user = new User();
+if($user->isLoggedIn()){
+    if($user->hasPermission('admin')){
+        Redirect::to('members/homepage_admin.php');
+    }elseif($user->hasPermission('sub-admin')){
+        Redirect::to('members/homepage_subadmin.php');
+    } elseif($user->hasPermission('mer_admin')){
+        Redirect::to('members/homepage_merchant.php');
+    } elseif($user->hasPermission('normal_user')){
+        Redirect::to('members/homepage_normalUser');
+    }
+}
 $msg = '';
 if(Input::exists()){
     if(Input::get('hide') === ''){

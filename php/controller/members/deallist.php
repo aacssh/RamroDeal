@@ -1,6 +1,9 @@
 <?php
 include '../../init.php';
-
+$user = new User();
+if(!$user->isLoggedIn()){
+   Redirect::to('index.php');
+}
 $deal = Deal::getDealInstance();
 $currentPage = Input::get('page');
 $currentPage = empty($currentPage) ? 1 : $currentPage;

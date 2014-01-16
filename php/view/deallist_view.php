@@ -12,7 +12,7 @@ function deallist($deals){
 ?>
     <article class="col-lg-6 col-sm-6 col-xs-6">
         <section class="thumbnail">
-            <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" class="img-responsive img-circle" />
+            <img src="<?php echo $deals[$j]->cover; ?>" alt="Klematis" id="img" class="img-responsive img-rounded" />
             <h4 class="caption"><?php echo $deals[$j]->name ?></h4>
             <p>Start Date:<?php echo strftime("%B %d %Y at %I:%M %p", strtotime($deals[$j]->start_date)); ?></p>
             <p>Actual price: <del>Rs. <?php echo $deals[$j]->actual_price; ?></del></p>
@@ -25,7 +25,7 @@ function deallist($deals){
                     echo "<div class='caption' style='text-align: center;'><a href='php/controller/deals.php?deal=".$deals[$j]->deal_id."'>
                         <button type='submit' name='buy' class='btn btn-info'>View</button></a></div>";
                 }
-            ?>">
+            ?>
         </section>
     </article>    
 <?php

@@ -1,9 +1,11 @@
 <?php
 require_once '../../init.php';
-
-if(!$username = Input::get('user')){
-    echo 'Khattam';
-} else{
+$user = new User();
+if(!$user->isLoggedIn()){
+   Redirect::to('index.php');
+}
+if(Input::exists('get')){
+    $username = Input::get('user');
     $user = new User($username);
     if(!$user->exists()){
         Redirect::to(404);

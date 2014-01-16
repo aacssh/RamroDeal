@@ -1,6 +1,10 @@
 <?php
 include '../../init.php';
 
+$user = new User();
+if(!$user->isLoggedIn()){
+    Redirect::to('index.php');
+}
 $admin = new User();
 $admin->getUsers('user_id, first_name, last_name', array(
     'where_clause' => array(

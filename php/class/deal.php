@@ -41,11 +41,48 @@ class Deal
     }
     
     public function getAllDeal($where = array()){
-        try{
-            $this->_db->get('deal',$this->_allValues, $where);
-        } catch(PDOException $e){
-            die($e->getMessage());
+        $data = $this->getAll($this->_allValues, $where);
+        return $data;
+    }
+
+    public function getNoOfPeople($where = array()){
+        $data = $this->getSingle('total_people', $where);
+        return $data;
+    }
+    
+    public function getSingleDeal($where =  array()){
+        $data = $this->getSingle($this->_allValues, $where);
+        return $data;
+    }
+
+    public function getDate($value = null, $where =  array()){
+        $data = $this->getAll($value, $where);
+        return $data;
+    }
+
+    public function updateNoOfPeople($where_name, $where_value, $where){
+        if(!$this->_db->update('deal', $where_name, $where_value, $where)){
+            throw new Exception('There was a problem updating.');
+        } else{
+           return true;
         }
+    }
+
+    public function updateStatus($where_name = null, $where_value = null, $where = array()){
+        if(!$this->_db->update('deal', $where_name, $where_value, $where)){
+            throw new Exception('There was a problem updating.');
+        } else{
+           return true;
+        }
+    }
+
+    public function countAll($where = array()){
+        $data = $this->getSingle('COUNT(*)', $where);
+        return $data;
+    }
+
+    protected function getAll($value = null, $where = array()){
+        $this->_db->get('deal',$value, $where);
         
         if ($this->_db->count()){
             $this->_data = $this->_db->fetchAll();
@@ -53,19 +90,9 @@ class Deal
         }
         return false;
     }
-    
-    public function getSingleDeal($where =  array()){
-        $this->_db->get('deal',$this->_allValues, $where);
-        
-        if ($this->_db->count()){
-            $this->_data = $this->_db->fetchSingle();
-            return  $this;
-        }
-        return false;
-    }
 
-    public function countAll($where = array()){
-        $this->_db->get('deal','COUNT(*)', $where);
+    protected function getSingle($values, $where){
+        $this->_db->get('deal',$values, $where);
         
         if ($this->_db->count()){
             $this->_data = $this->_db->fetchSingle();
@@ -78,5 +105,4 @@ class Deal
         return $this->_data;
     }
 }
-
 ?>

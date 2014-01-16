@@ -1,4 +1,5 @@
 <?php
+echo date("Y-m-d");
 /*
 $header = "From: {$from} \n";
 //$header .= "Reply-to: {$from} \n";
@@ -38,10 +39,10 @@ if (PEAR::isError($mail)) {
     echo('<p>Message successfully sent!</p>');
 }
 **/
-
+/*
 mail('aashish.ghale@gmail.com',"just testing email send function",'email test from ghale laptop');
 echo 'Email send to: aashish.ghale@gmail.com';
-/*
+
 $user = 'aacssh@otmail.com';
     $field = (substr_count($user, '@')) ? 'email' : ((strlen($user) == 18 ) ? 'user_id' : 'username');
     echo $field;

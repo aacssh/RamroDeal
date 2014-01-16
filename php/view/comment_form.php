@@ -1,5 +1,5 @@
 <?php
-function comment_form($commentList){
+function comment_form($commentList = null){
     $user = new User();
     if($user->isLoggedIn()){
 ?>
@@ -19,11 +19,19 @@ function comment_form($commentList){
     </form>
 <?php } ?>
     <section class='class= "col-lg-6 col-sm-6'>
-        <?php foreach($commentList as $comment): ?>
-            <?php echo '<b>'.$comment->username.'</b>    <i>'. strftime("%B %d %Y at %I:%M %p", strtotime($comment->created)).'</i><br />';
-            echo $comment->body.'<br><br>'; ?>
-        <?php endforeach; ?>
-    </section>
+<?php 
+        if(!empty($commentList)){
+            foreach($commentList as $comment){
+                echo '<b>'.$comment->username.'</b>    <i>'. strftime("%B %d %Y at %I:%M %p", strtotime($comment->created)).'</i><br />';
+                echo $comment->body.'<br><br>';
+            }
+        }else{
+?>
+            <div class='alert alert-info'>
+                <h1 class='control-label text-center btn btn-large btn-block'><?php echo 'No comments for this deal'; ?></h1>
+            </div>
 <?php
+        }
+    echo "</section>";
 }
 ?>
