@@ -23,4 +23,6 @@ require_once 'forgot_password_view.php';
 require_once 'includes/sendmail.php';
 require_once 'customer_view.php';
 require_once 'success_view.php';
+require_once 'couponlist_view.php';
+require_once 'checkcoupon_view.php';
 ?>

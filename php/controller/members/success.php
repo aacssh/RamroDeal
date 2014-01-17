@@ -37,7 +37,7 @@ if(Input::exists('get')){
         if('Completed' == $httpParsedResponseAr["PAYMENTSTATUS"]){
             $msg[] = 'Payment Received! Your product will be sent to you very soon!';
         }elseif('Pending' == $httpParsedResponseAr["PAYMENTSTATUS"]){
-            $msg[] = 'Transaction Complete, but payment is still pending! You need to manually authorize this payment in your <a target="_new" href="http://www.paypal.com">Paypal Account</a>';
+            $msg[] = 'Transaction Complete, but payment is still pending! You need to manually authorize this payment in your <a target="_new" href="http://www.sandbox.paypal.com">Paypal Account</a>';
         }
 
         if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
@@ -47,6 +47,7 @@ if(Input::exists('get')){
             $coupon_code = RandomCode::randCode(10);
             $coupon->add(array(
             	'coupon_no' => $coupon_code,
+                'date' => date('Y-m-d'),
             	'deal_id' => $deal_id,
             	'user_id' => $user->data()->user_id
             ));

@@ -83,8 +83,9 @@ if(Input::exists()){
    }
 }
 
+$category = $categorylist->getCategory();
 ramrodeal_header("RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
-nav();  //Displaying navigation part of html
+nav($categorylist->data());  //Displaying navigation part of html
 if($address->getAddress('*')){
     addAdminUser($address->data(), $msg); //displaying add category form
 }

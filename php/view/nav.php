@@ -94,8 +94,8 @@
                       <li><a href="#">Reviews and Rating</a></li>
                     </ul>
                   </li>
-                  <li><a href="customerlist.php">Customers</a></li>
-                  <li><a href="#">Transaction Histroy</a></li> 
+                  <li><a href="#">Transaction Histroy</a></li>
+                  <li><a href="checkcoupon.php">Check Coupon</a></li> 
               </ul>
           <?php
                 } elseif($user->hasPermission('normal_user')){
@@ -116,7 +116,7 @@
 ?>
                   </ul>
                 </li>
-                <li><a href="">My Purchase</a></li>
+                <li><a href="<?php echo BASE_URL; ?>php/controller/members/mypurchase.php">My Purchase</a></li>
               </ul>
           <?php
                 }

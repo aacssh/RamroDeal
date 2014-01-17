@@ -25,13 +25,31 @@ class Coupon{
     }
 
      public function getSingleCoupon($where = array()){
-        $this->_db->get($this->_table, $this->_coupon, $where);
+        $this->_db->get($this->_table, 'coupon_no, date, status, deal_id', $where);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchSingle();
             return $this;
         }
         return false;
+    }
+
+    public function getAllData($where = array()){
+        $this->_db->get($this->_table, 'coupon_no, date, deal_id', $where);
+        
+        if($this->_db->count()){
+            $this->_data = $this->_db->fetchAll();
+            return $this;
+        }
+        return false;
+    }
+
+    public function updateStatus($where_name = null, $where_value = null, $where = array()){
+        if(!$this->_db->update('coupon', $where_name, $where_value, $where)){
+            throw new Exception('There was a problem updating.');
+        } else{
+           return true;
+        }
     }
     
     public function getAll($values = null){
