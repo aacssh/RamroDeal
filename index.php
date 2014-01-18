@@ -19,6 +19,7 @@ if($user->isLoggedIn()){
     $categorylist->getCategory();
     ramrodeal_header("Welcome to RamroDeal - Great Deal, Great Price"); //heading part of html
     nav($categorylist->data());  //navigation part of html
+    banner();   //banner part of html
 
     if(Session::exists('home')){
 ?>
@@ -27,12 +28,11 @@ if($user->isLoggedIn()){
         </div>
 <?php
     }
-    banner();   //banner part of html
     
     $deal = Deal::getDealInstance();
     $currentPage = Input::get('page');
     $currentPage = empty($currentPage) ? 1 : $currentPage;
-    $perPage = 3;
+    $perPage = 4;
     
     if(Input::get('category')){
         $selected_category = clone $categorylist;
@@ -60,7 +60,30 @@ if($user->isLoggedIn()){
                 'category_id', '=',  $selected_category->data()->category_id
             )
         ));
-    }elseif(Input::get('deal')){
+    }elseif(Input::get('deal') == 'top'){
+        $totalCount = $deal->countAll(array(
+            'where_clause' => array(
+                'status', '=', 0
+            )
+        ));
+        foreach($totalCount->data() as $count){
+            $totalCount = $count;
+        }
+        $pagination = new Pagination($currentPage, $perPage, $totalCount);
+        $deal->getAllDeal(array(
+            'limit_clause' => array(
+                'LIMIT' => $perPage,
+                'OFFSET' => $pagination->offset()
+            ),
+            'where_clause' => array(
+                'status', '=',  0
+            ),
+            'order_clause' => array(
+                'order by' => 'total_people',
+                'order' => 'DESC'
+            )
+        ));
+    }else{
         $totalCount = $deal->countAll(array(
             'where_clause' => array(
                 'status', '=', 0
@@ -78,19 +101,6 @@ if($user->isLoggedIn()){
             'where_clause' => array(
                 'status', '=',  0
             )
-        ));
-    }else{
-        $totalCount = $deal->countAll();
-        foreach($totalCount->data() as $count){
-            $totalCount = $count;
-        }
-        $pagination = new Pagination($currentPage, $perPage, $totalCount);
-        $deal->getAllDeal(array(
-            'limit_clause' => array(
-                'LIMIT' => $perPage,
-                'OFFSET' => $pagination->offset()
-            ),
-            'where_clause' => array()
         ));
     }
     $list = $deal->data();

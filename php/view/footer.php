@@ -14,6 +14,11 @@
 		  $(function() {
 		    $( "#datepicker" ).datepicker();
 		  });
+
+		  function reverseDate(mydate){
+		  	var currntDate = mydate;
+		  	document.write(currntDate);
+		  }
   	</script>
 	<script>
 	/*

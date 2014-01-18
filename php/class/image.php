@@ -1,7 +1,6 @@
 <?php
 class Image
 {
-    private $_image_id;
     private $_type = array();
     private $_size = array();
     private $_filename = array();

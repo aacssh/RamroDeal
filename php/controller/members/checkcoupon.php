@@ -28,7 +28,7 @@ if(Input::exists()){
 	      	if(!$coupon_data){
 	      		$msg =  'Coupon is invalid or expired';
 	      	}else{
-	      		if((strtotime('2014-02-20') >= strtotime($deal_id->data()->coupon_start_date)) && (strtotime('2014-02-20') <= strtotime($deal_id->data()->coupon_end_date))){
+	      		if((strtotime('Y-m-d') >= strtotime($deal_id->data()->coupon_start_date)) && (strtotime('Y-m-d') <= strtotime($deal_id->data()->coupon_end_date))){
 	      			$msg = 'true';
 	      		}else{
 	      			$msg = 'Coupon validity time is not met or it has been expired';

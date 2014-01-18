@@ -9,10 +9,6 @@ class Email{
 	private $_mail;
 
 	public function __construct(){
-		/*
-		$this->includes();
-		$this->_mail = new PHPMailer(); // create a new object
-		*/
 	}
 
 	private function includes(){
@@ -35,120 +31,145 @@ class Email{
 		$this->_mail->Password = $this->_password;
 	}
 
-	public function welcomeMail($name = null, $password = null, $email = null){
-		echo $name.'<br>';
-		echo $password.'<br>';
-		echo $email.'<br>';
-		$this->includes();
-		$this->_mail = new PHPMailer();
-		$this->_mail->IsSMTP(); // enable SMTP
-		$this->_mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
-		$this->_mail->SMTPAuth = true; // authentication enabled
-		$this->_mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
-		$this->_mail->Host = $this->_host;
-		$this->_mail->Port = $this->_port;
-		$this->_mail->IsHTML(true);
-		$this->_mail->Username = $this->_username;
-		$this->_mail->Password = $this->_password;
-		$this->_body = "
+	<?php
+require_once('PHPMailer/class.phpmailer.php');
+require_once('PHPMailer/class.smtp.php');
+require_once('PHPMailer/class.phpmailer.php');
+
+function forgotPassword($email = null, $password = null){
+	$mail = new PHPMailer(); // create a new object
+	$mail->IsSMTP(); // enable SMTP
+	$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPAuth = true; // authentication enabled
+	$mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+	$mail->Host = "smtp.sendgrid.net";
+	$mail->Port = 587; // or 587
+	$mail->IsHTML(true);
+	$mail->Username = "iat";
+	$mail->Password = "Barracuda01";
+	$mail->SetFrom("support@ramrodeal.com");
+	$mail->Subject = 'Your password has been changed';
+	$mail->Body = <<<EOF
 		<html>
 			<body>
-			<p style='background-color: blue;'><img src='http://meadhikari.insomnia247.nl/ramrodeal_icon.png' style='width:35em; height:10em;' /></p><br /><br />
-			<h1>Welcome to RamroDeal <i>{$name}!!! </i></h1>
-			<p>Your password is: <em>{$password}</em></p>
-			<p>Explore the great quality deals in unbelieveable price</p>
+				<p><img src="http://meadhikari.insomnia247.nl/ramrodeal_icon.png" style="width:35em; height:10em;" /></p><br /><br />
+				<h2><p>Your password is: <strong><em>{$password}</em></strong></p></h2>
+				<p><em><strong>Do not forget to change the password</strong></em></p>
 			</body>
+			<address>
+				Written by <a href="ramrodeal.com">RamroDeal Team</a>.<br> 
+				Visit us at:<br>
+				ramrodeal.com<br>
+				Lamachaur, Pokhara<br>
+				Nepal
+			</address>
 		</html>
-		";
-		$this->_mail->AddAddress($email);
- 		if($this->_mail->Send()){
+EOF;
+	$mail->AddAddress($email);
+	 if(!$mail->Send())
+	    {
+	    echo "Mailer Error: " . $mail->ErrorInfo;
+	    }
+	    	return false;
+	    {
 	    	return true;
 	    }
-	    return false;
-	    /*
-		if($this->sendMail($email)){
-			return true;
-		}
-		return false;
-		*/
-	}
-
-	public function forgotPassword($value = null, $email = null){
-		echo '<br>'.$value.'<br>';
-		echo $email.'<br>';
-		$this->includes();
-		$this->_mail = new PHPMailer();
-		$this->_mail->IsSMTP(); // enable SMTP
-		$this->_mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
-		$this->_mail->SMTPAuth = true; // authentication enabled
-		$this->_mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
-		$this->_mail->Host = $this->_host;
-		$this->_mail->Port = $this->_port;
-		$this->_mail->IsHTML(true);
-		$this->_mail->Username = $this->_username;
-		$this->_mail->Password = $this->_password;
-		$this->_body = "
-		<html>
-			<body>
-			<p style='background-color: blue;'><img src='http://meadhikari.insomnia247.nl/ramrodeal_icon.png' style='width:35em; height:10em;' /></p><br /><br />
-			<h1>Your new password is {$value} </i></h1>
-			<p>Do not forget to change the password after logging in</p>
-			</body>
-		</html>
-		";
-		$this->_mail->AddAddress($email);
- 		if($this->_mail->Send()){
-	    	return true;
-	    }
-	    return false;
-	    /*
-		if($this->sendMail($email)){
-			return true;
-		}
-		return false;
-		*/
-	}
-
-	private function sendMail($email=''){
-		$this->_mail->AddAddress($email);
- 		if($this->_mail->Send()){
-	    	return true;
-	    }
-	    return false;
-	}
 }
 
-/*
-$mail = new PHPMailer(); // create a new object
-$mail->IsSMTP(); // enable SMTP
-$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
-$mail->SMTPAuth = true; // authentication enabled
-$mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
-$mail->Host = "smtp.sendgrid.net";
-$mail->Port = 587; // or 587
-$mail->IsHTML(true);
-$mail->Username = "iat";
-$mail->Password = "Barracuda01";
-$mail->SetFrom("aacssh@hotmail.com");
-$mail->Subject = "BigFoot softwares";
-$mail->Body = <<<EOF
-	<html>
-		<body>
-		<p><img src="http://meadhikari.insomnia247.nl/ramrodeal_icon.png" style="width:35em; height:10em;" /></p><br /><br />
-		<p><h2>Welcom to RamroDeal<b></h2>
-
-		<p><i>My name is Ghale and I'm awesome</i></p>
-
-		</body>
-	</html>
+function welcomeMail($email = null, $password = null, $name = null){
+	$mail = new PHPMailer(); // create a new object
+	$mail->IsSMTP(); // enable SMTP
+	$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPAuth = true; // authentication enabled
+	$mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+	$mail->Host = "smtp.sendgrid.net";
+	$mail->Port = 587; // or 587
+	$mail->IsHTML(true);
+	$mail->Username = "iat";
+	$mail->Password = "Barracuda01";
+	$mail->SetFrom("support@ramrodeal.com");
+	$mail->Subject = "Welcome to RamroDeal";
+	$mail->Body = <<<EOF
+		<html>
+			<body>
+				<p><img src="http://meadhikari.insomnia247.nl/ramrodeal_icon.png" style="width:35em; height:10em;" /></p><br /><br />
+				<h1>Welcome to RamroDeal, {$name}</h1>
+				<h3>explore the quality deals in great price</h3>
+				<p>Your password is: <strong><em>{$password}</em></strong></p>
+				<p><em><strong>Do not forget to change the password</strong></em></p>
+				<address>
+					Written by <a href="ramrodeal.com">RamroDeal</a>.<br> 
+					Visit us at:<br>
+					ramrodeal.com<br>
+					Lamachaur, Pokhara<br>
+					Nepal
+				</address>
+			</body>
+		</html>
 EOF;
-$mail->AddAddress("aashish.ghale@gmail.com");
- if(!$mail->Send())
+	$mail->AddAddress($email);
+	 if(!$mail->Send())
     {
-    echo "Mailer Error: " . $mail->ErrorInfo;
+    	echo "Mailer Error: " . $mail->ErrorInfo;
     }
-    else
+    	return false;
     {
-    echo "Message has been sent";
+    	return true;
     }
-*/
+}
+
+function couponMail($email = null, $coupon = null, $itemname = null, $itemprice = null){
+	$mail = new PHPMailer(); // create a new object
+	$mail->IsSMTP(); // enable SMTP
+	$mail->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPAuth = true; // authentication enabled
+	$mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+	$mail->Host = "smtp.sendgrid.net";
+	$mail->Port = 587; // or 587
+	$mail->IsHTML(true);
+	$mail->Username = "iat";
+	$mail->Password = "Barracuda01";
+	$mail->SetFrom("support@ramrodeal.com");
+	$mail->Subject = "Welcome to RamroDeal";
+	$mail->Body = <<<EOF
+		<html>
+			<body>
+				<p><img src="http://meadhikari.insomnia247.nl/ramrodeal_icon.png" style="width:35em; height:10em;" /></p><br /><br />
+				<h1>Thank you for buying</i></h1>
+				<h2>Purchase Details:</h2>
+				<p>Your coupon: $coupon</p>
+				<p>Item Name: $itemname</p>
+				<p>Item Price: $itemprice</p>
+				<p><em><strong>Remember to use your coupon within the specified time period mentioned by the merchant.</strong></em></p>
+				<p><em><strong>RamroDeal won\'t be responsible for expired coupon.</strong></em></p>
+				<p><b>Thank you</b></p>
+				<address>
+					Written by <a href="ramrodeal.com">RamroDeal</a>.<br> 
+					Visit us at:<br>
+					ramrodeal.com<br>
+					Lamachaur, Pokhara<br>
+					Nepal
+				</address>
+			</body>
+		</html>
+EOF;
+	$mail->AddAddress($email);
+	 if(!$mail->Send())
+	    {
+	    	echo "Mailer Error: " . $mail->ErrorInfo;
+	    }
+	    	return false;
+	    {
+	    	return true;
+	    }
+
+}
+
+
+
+//sendMail("dealramro@gmail.com", "Your password has been changed", "Aashish Ghale", "123456");
+
+?>
+
+
+}

@@ -27,29 +27,19 @@
   </head>
   <body id="container" class="container">
   <header class="row">
-      <section class="col-lg-3 col-sm-3 col-xs-8 hidden-xs">
-        <a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="<?php echo BASE_URL; ?>bootstrap/img/ramrodeal_icon.png" /></a>
+      <section class="col-lg-3 col-md-3 col-sm-5 col-xs-8 hidden-xs">
+        <a href="<?php echo $_SERVER['PHP_SELF'];?>"><img src="<?php echo BASE_URL; ?>bootstrap/img/ramrodeal_icon.png" class="img-responsive"/></a>
       </section>
-      <section class="col-lg-9 col-sm-9">
-        <form class="form-search hidden-xs">
-          <section class="col-lg-4 col-sm-6">
+      <section class="col-lg-4 col-lg-offset-1 col-md-4 hidden-sm hidden-xs">
             <span class="btn btn-info text-center">Refer Friends. Get bonus*</span>&nbsp;
           </section>
-          <section class="col-lg-4 col-sm-3">
-            <section class="input-group">
-              <input type="text" <input class="form-control" placeholder="Search: hotels" />
-              <span class="input-group-btn">
-                <button type="submit" class="btn btn-info">Search</button>
-              </span>
-            </section>
-          </section>
-          <section class="col-lg-4 col-sm-3">
-            <section class="input-group">
-            <input type="text" class="form-control" placeholder="Location: Pokhara">
+      <section class="col-lg-4 col-md-5 col-sm-6">
+        <form class="form-search" action='<?php echo BASE_URL; ?>php/controller/searchdeal.php'>
+          <section class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="    Deals">
             <span class="input-group-btn">
               <button type="submit" class="btn btn-info">Search</button>
             </span>
-          </section>
           </section>
         </form>
       </section>

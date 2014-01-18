@@ -24,7 +24,13 @@ if(Input::exists()){
                 )
             ));
             $company->deleteCompany($id[0]->company_id);
-            Session::flash('home', Input::get('company_name'). ' company has been deleted!');
+
+            if(deleteMail(Input::get('email'), Input::get('fname').' '.Input::get('lname'))){
+                Session::flash('home', Input::get('company_name'). ' company has been deleted!');
+            }else{
+                Session::flash('home', 'New company has been added.');
+            }
+            
             $db->endTransaction();
         } catch(PDOException $e){
             $db->cancelTransaction();
@@ -33,16 +39,16 @@ if(Input::exists()){
     }
 }
 
-$list = $company->getAllCompany('name');
-$companies = array();
-foreach($list->data() as $datalist){
+$list = $company->getAllCompany('name, email');
+//$companies = array();
+/*foreach($list->data() as $datalist){
     foreach($datalist as $data){
         array_push($companies, $data);
     }
-}
+}*/
 
 ramrodeal_header("RamroDeal - Great Deal, Great Price");    //Displaying heading part of html
 nav(); //Displaying navigation part of html
-companyList($companies);
+companyList($list->data());
 ramrodeal_footer(); //Displaying footer of html
 ?>

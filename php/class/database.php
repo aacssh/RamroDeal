@@ -99,7 +99,7 @@ class Database
      * @param  string  $value  The actual values that will be bind to the placeholder
      * @param  string  $type   The datatype of the parameter
      */
-    public function bind($param, $value, $type = null){
+    private function bind($param, $value, $type = null){
         if (is_null($type)) {
             switch (true) {
                 case is_int($value):
@@ -119,10 +119,11 @@ class Database
         $this->_query->bindValue($param, $value, $type);
     }
     
-    public function action($action, $table, $clause = array()){
+    private function action($action, $table, $clause = array()){
         $where_clause ='';
         $order_clause = '';
         $limit_clause = '';
+        $search_clause = '';
         $i = 1;
         $values = array();
         if(!empty($clause)){
@@ -138,6 +139,14 @@ class Database
                             $order_clause = 'ORDER BY';
                             foreach($item as $value){
                                 $order_clause .= ' '.$value;
+                            }
+                        }
+                        break;
+                    case 'search_clause':
+                        if(is_array($item) && !empty($item)){
+                            $search_clause = 'WHERE';
+                            foreach($item as $value){
+                                $search_clause .= ' '.$value;
                             }
                         }
                         break;
@@ -179,12 +188,12 @@ class Database
                                 }
                             }
 
-                            $sql = "{$action} FROM {$table} {$where_clause} {$order_clause} {$limit_clause}";
+                            $sql = "{$action} FROM {$table} {$where_clause} {$search_clause} {$order_clause} {$limit_clause}";
                             if(!$this->query($sql, $values)->error()){
                                 return $this;
                             }
                         }else{
-                            $sql = "{$action} FROM {$table} {$order_clause} {$limit_clause}";
+                            $sql = "{$action} FROM {$table}  {$search_clause} {$order_clause} {$limit_clause}";
                 
                             if(!$this->query($sql)){
                                 return $this;
@@ -254,7 +263,7 @@ class Database
         }
     }
 
-    public function addDeal($query = null, $values = array()){
+    public function addDeal($query = null, $values = array(), $where){
         $this->_query = $this->_db->prepare($query);
         $x = 1;
         foreach ($values as $value) {

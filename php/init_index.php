@@ -26,7 +26,7 @@ spl_autoload_register(function ($obj)
     include 'class/'.$class.'.php';
 });
 
-Session::regenerate();
+//Session::regenerate();
 
 // For paypal
 $PayPalMode         = 'sandbox'; // sandbox or live
@@ -35,7 +35,7 @@ $PayPalApiPassword  = '1389101617'; //Paypal API password
 $PayPalApiSignature     = 'AFcWxV21C7fd0v3bYYYRCpSSRl31AisvknBnflU33MhThlVgsDn9ZBBE'; //Paypal API Signature
 $PayPalCurrencyCode     = 'USD'; //Paypal Currency Code
 $PayPalReturnURL    = 'http://ramrodeal.com'.BASE_URL.'php/controller/members/success.php'; //Point to process.php page
-$PayPalCancelURL    = 'http://ramrodeal.com'.BASE_URL.'php/controller/members/cancel_url.php'; //Cancel URL if user clicks cancel
+$PayPalCancelURL    = 'http://ramrodeal.com'.BASE_URL.'php/controller/members/homepage_normalUser.php?cancel=paypal'; //Cancel URL if user clicks cancel
 
 include 'view/fns.php';
 
@@ -55,6 +55,8 @@ if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Confi
         $user->login();
     }
 }
+
+$categorylist = Category::getCategoryInstance();
 
 $date = date("Y-m-d");
 $deal = Deal::getDealInstance();

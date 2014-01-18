@@ -1,10 +1,10 @@
 <?php
 class Coupon{
 	private $_couponId;
-	private $_dealId;
-	private $_userId;
 	private $_coupon = 'coupon_no';
 	private $_table = 'coupon';
+    private $_db = null;
+    private $_data = null;
 	private static $_couponInstance;
 
 	private function __construct(){
@@ -35,7 +35,7 @@ class Coupon{
     }
 
     public function getAllData($where = array()){
-        $this->_db->get($this->_table, 'coupon_no, date, deal_id', $where);
+        $this->_db->get($this->_table, 'coupon_no, date, deal_id, user_id', $where);
         
         if($this->_db->count()){
             $this->_data = $this->_db->fetchAll();

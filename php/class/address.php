@@ -1,13 +1,8 @@
 <?php
 class Address
 {
-    private $_zip;
-    private $_country;
-    private $_state;
-    private $_city;
     private $_db;
     private $_data;
-    private $_address = array();
     private static $_addressinstance;
     
     private function __construct(){
@@ -19,33 +14,6 @@ class Address
             self::$_addressinstance = new Address();
         }
         return self::$_addressinstance;
-    }
-    
-    public function setProperty($args = null){
-        if (is_array($args))
-        {  
-            if (isset($args['city']))
-            {
-                $this->_city = $args['city'];
-            }
-            
-            if (isset($args['state']))
-            {
-                $this->_state = $args['state'];
-            }
-            
-            if (isset($args['country']))
-            {
-                $this->_country = $args['country'];
-            }
-            
-            if (isset($args['zip']))
-            {
-                $this->_zip = $args['zip'];
-            }
-        } else{
-            throw new Exception("Arguments should be an array");
-        }
     }
     
     public function checkAddress($add = array()){

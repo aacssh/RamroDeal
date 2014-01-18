@@ -1,15 +1,7 @@
 <?php
 class Company
 {
-    private $_type;
-    private $_name;
-    private $_email;
-    private $_mobileno;
-    private $_phoneno;
     private $_db;
-    private $_addressId;
-    private $_code;
-    private $_log;
     private $_data;
     private $_table = 'company';
     protected $_companyId = 'company_id';

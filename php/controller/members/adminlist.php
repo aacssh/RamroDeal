@@ -6,15 +6,13 @@ if(!$user->isLoggedIn()){
     Redirect::to('index.php');
 }
 $admin = new User();
-$admin->getUsers('user_id, first_name, last_name', array(
+$admin->getUsers('user_id, first_name, last_name, email', array(
     'where_clause' => array(
         'groups', '=', 2
     )
 ));
-$admins = $admin->data();
 
 if(Input::exists()){
-    echo Input::get('lname');
     if(Input::get('delete') != ''){
         try{
             $admin->delete(array(
@@ -24,7 +22,13 @@ if(Input::exists()){
                     array('groups', '=', 2)
                 )
             ));
-            Session::flash('home', Input::get('fname').' '.Input::get('lname').' admin has been deleted!');
+
+            if(deleteMail(Input::get('email'), Input::get('fname').' '.Input::get('lname'))){
+                Session::flash('home', Input::get('fname').' '.Input::get('lname').' admin has been deleted!');
+            }else{
+                Session::flash('home', 'New company has been added.');
+            }
+
             Redirect::to('members/adminlist.php');
         } catch(Exception $e){
             die($e->getMessage());

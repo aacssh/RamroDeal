@@ -1,22 +1,9 @@
 <?php
 class Deal
 {
-    private $_category_id;
-    private $_deal_id;
-    private $_name;
-    private $_org_price;
-    private $_off_price;
-    private $_min_people;
-    private $_max_people;
-    private $_s_date;
-    private $_e_date;
-    private $_coupon_valid_from;
-    private $_coupon_valid_till;
-    private $_merchant_id;
-    private $_image_id;
     private $_db;
-    private $_data;
-    private $_allValues = 'deal_id, name, actual_price, offered_price, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, coupon_start_date, coupon_end_date, description, company_id, category_id, image_id';
+    private $_data = null;
+    private $_allValues = 'deal_id, name, actual_price, actual_price_in_dollar, offered_price, offered_price_in_dollar, start_date, end_date, minimum_purchase_requirement, maximum_purchase_requirement, total_people, coupon_start_date, coupon_end_date, description, company_id, category_id, image_id, status';
     private static $_deal_instance;
     
     private function __construct(){
@@ -30,10 +17,10 @@ class Deal
         return self::$_deal_instance;
     }
     
-    public function add($deal_id = NULL, $name = null, $actual_price = null, $offered_price = null, $start_date =null, $end_date = null, $min_requirement = null, $max_requirement = null, $s_coupon = null, $e_coupon = null, $desc = null, $company_id = null, $category_id = null, $image_id = null){
+    public function add($deal_id = NULL, $name = null, $actual_price = null, $offered_price = null, $actual_price_dollar = null, $offered_price_dollar = null, $start_date =null, $end_date = null, $min_requirement = null, $max_requirement = null, $s_coupon = null, $e_coupon = null, $desc = null, $company_id = null, $category_id = null, $image_id = null){
         if(!$this->_db->addDeal("INSERT INTO deal ($this->_allValues)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-            array($deal_id, $name, $actual_price, $offered_price, $start_date, $end_date, $min_requirement, $max_requirement,0, $s_coupon, $e_coupon, $desc, $company_id, $category_id, $image_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+            array($deal_id, $name, $actual_price,  $actual_price_dollar, $offered_price, $offered_price_dollar, $start_date, $end_date, $min_requirement, $max_requirement,0, $s_coupon, $e_coupon, $desc, $company_id, $category_id, $image_id, 0)
         )){
             return false;
         }
@@ -74,6 +61,11 @@ class Deal
         } else{
            return true;
         }
+    }
+
+    public function search($where){
+        $data = $this->getAll('*', $where);
+        return $data;   
     }
 
     public function countAll($where = array()){

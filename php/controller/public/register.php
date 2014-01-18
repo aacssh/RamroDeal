@@ -82,12 +82,10 @@ if(Input::exists()){
                         'company' => 'jfhK8KSn38kfuwKEj',
                         'groups' => 3
                     ));
-                    /*
+
                     if(welcomeMail($email, $password, Input::get('fname').' '.Input::get('lname'))){
-                        //echo "true";
                         Session::flash('home', 'Welcome to RamroDeal family. You have been registered and can log in!');
                     }
-                    */
                     Redirect::to('index.php');
                 }catch(Exception $e){
                     //echo $e->getMessage();

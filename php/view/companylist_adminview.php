@@ -1,6 +1,7 @@
 <?php
 function companyList($companylist){
     $i=1;
+    //echo '<pre>'.print_r($companylist, true).'</pre>';
 ?>
 <div class="row">
     <div class="col-lg-5 col-lg-offset-3 col-sm-5 col-lg-offset-3">
@@ -14,13 +15,14 @@ function companyList($companylist){
                 </tr>
             <?php
                 foreach($companylist as $company){
-                    if($company != 'admins' && $company != 'normal users'){
+                    if($company->name != 'admins' && $company->name != 'normal users'){
             ?>
                 <tr>
                     <td><?php echo $i; ?></td>
-                    <td><?php echo $company; ?></td>
+                    <td><?php echo $company->name; ?></td>
                     <td>
-                        <form method='post' action = '<?php echo $_SERVER['PHP_SELF']."?company_name=$company"; ?>'>
+                        <form method='post' action = '<?php echo $_SERVER['PHP_SELF']."?company_name=$company->name"; ?>'>
+                            <input type="hidden" name='email' value="<?php echo $company->email; ?>">
                             <button class = 'btn btn-min btn-info' type='submit' name='delete' id='delete' value="delete" >Delete</button>
                         </form>
                     </td>

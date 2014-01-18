@@ -18,6 +18,7 @@ function adminList($adminlist){
                     <td name"<?php echo $admin->first_name.' '. $admin->last_name;  ?>"><?php echo $admin->first_name.' '. $admin->last_name;  ?></td>
                     <td>
                         <form method='post' action = '<?php echo $_SERVER['PHP_SELF']."?fname=$admin->first_name&lname=$admin->last_name"; ?>'>
+                            <input type="hidden" name='email' value="<?php echo $admin->email; ?>">
                             <button class = 'btn btn-min btn-info' type='submit' name='delete' id='delete' value="delete">Delete</button>
                         </form>
                     </td>

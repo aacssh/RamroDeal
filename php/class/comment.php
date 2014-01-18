@@ -7,6 +7,7 @@ class Comment {
             $_created,
             $_userId,
             $_body;
+    private $_data;
     private static $_commentInstance = null;
     
     private function __construct(){

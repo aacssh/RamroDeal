@@ -25,4 +25,5 @@ require_once 'customer_view.php';
 require_once 'success_view.php';
 require_once 'couponlist_view.php';
 require_once 'checkcoupon_view.php';
+require_once 'transaction_view.php';
 ?>

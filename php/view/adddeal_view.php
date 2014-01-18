@@ -37,15 +37,27 @@ function addDeal($categorylist, $msg = ''){
               </div>
             </div>
             <div class="form-group">
-              <label for="org_price" class="col-sm-5 control-label">Original Price:</label>                  
+              <label for="org_price" class="col-sm-5 control-label">Original Price(Nrs):</label>                  
               <div class="col-sm-7">
-                <input type="text" name="org_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('org_price'); ?>" placeholder="Actual Price" required>
+                <input type="number" step='any' name="org_price" title="Number Only" class="form-control" value ="<?php echo Input::get('org_price'); ?>" placeholder="Nepali Rs" required>
               </div>
             </div>
             <div class="form-group">
-              <label for="off_price" class="col-sm-5 control-label">Offered Price:</label>                  
+              <label for="off_price" class="col-sm-5 control-label">Offered Price(Nrs):</label>  
               <div class="col-sm-7">
-                <input type="text" name="off_price" pattern="[0-9]{2,9}" title="Number Only" class="form-control" value ="<?php echo Input::get('off_price'); ?>" placeholder="Offered Price" required>
+                <input type="number" step='any' name="off_price" title="Number Only" class="form-control" value ="<?php echo Input::get('off_price'); ?>" placeholder="Nepali Rs" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="org_price" class="col-sm-5 control-label">Original Price($):</label>                  
+              <div class="col-sm-7">
+                <input type="number" step='any' name="org_price_dollar" title="Number Only" class="form-control" value ="<?php echo Input::get('org_price'); ?>" placeholder="US Dollar" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="off_price" class="col-sm-5 control-label">Offered Price($):</label>  
+              <div class="col-sm-7">
+                <input type="number" step='any' name="off_price_dollar" title="Number Only" class="form-control" value ="<?php echo Input::get('off_price'); ?>" placeholder="US Dollar" required>
               </div>
             </div>
             <div class="form-group">

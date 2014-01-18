@@ -60,6 +60,12 @@ if(Input::exists('get')){
             		'total_people' => ($deal->data()->total_people + 1)
             ));
 
+            if(couponMail($user->data()->email, $coupon_code, $ItemName, $ItemPrice)){
+                Session::flash('home', 'An email with your coupon is sent to you. Check your mail!!!');
+            }else{
+                Session::flash('home', 'Email couldn\'t be sent. Check your coupon in your account!!!');
+            }
+
             success($msg);
             Session::delete('itemprice');
             Session::delete('totalamount');

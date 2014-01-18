@@ -12,8 +12,6 @@ $coupon->getAllData(array(
 	)
 ));
 
-$coupon_details = $coupon->data();
-$i = 0;
 $deal_details = array();
 foreach ($coupon->data() as $value) {
 	$deal->getSingleDeal(array(
@@ -25,7 +23,6 @@ foreach ($coupon->data() as $value) {
 	$coupon_data['coupon_no'] = $value->coupon_no;
 	$coupon_data['purchase_date'] = $value->date;
 	array_push($deal_details, (object)$coupon_data);
-	$i++;
 }
 
 $category = $categorylist->getCategory();

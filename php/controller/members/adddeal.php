@@ -20,6 +20,14 @@ if(Input::exists()){
                   'required' => true,
                   'min' => 2
                ),
+               'org_price_dollar' => array(
+                  'required' => true,
+                  'min' => 1
+               ),
+               'off_price_dollar' => array(
+                  'required' => true,
+                  'min' => 1
+               ),
                'min_people' => array(
                   'required' => true,
                   'min' => 1
@@ -82,6 +90,8 @@ if(Input::exists()){
                            Input::get('name'),
                            Input::get('org_price'),
                            Input::get('off_price'),
+                           Input::get('org_price_dollar'),
+                           Input::get('off_price_dollar'),
                            Input::get('s_date'),
                            Input::get('e_date'),
                            Input::get('min_people'),
@@ -99,6 +109,7 @@ if(Input::exists()){
                        
                       $db->endTransaction();
                        Session::flash('home', 'New deal has been added');
+                       Redirect::to('members/adddeal.php');
                     } else{
                         Session::flash('home', 'Image couldn\'t be uploaded.');
                     }

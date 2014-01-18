@@ -84,25 +84,24 @@
           <?php
                 } elseif($user->hasPermission('mer_admin')){
           ?>
-                  <li><a href="homepage_merchant.php">Dashboard</a></li>
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/homepage_merchant.php">Dashboard</a></li>
                   <li class="dropdown" id="accountmenu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Deals<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li><a href="deallist.php">Deal list</a></li>
-                      <li><a href="adddeal.php">Add Deal</a></li>
+                      <li><a href="<?php echo BASE_URL; ?>php/controller/members/deallist.php?id=<?php echo $user->data()->company; ?>">Deal list</a></li>
+                      <li><a href="<?php echo BASE_URL; ?>php/controller/members/adddeal.php">Add Deal</a></li>
                       <li class="divider"></li>
                       <li><a href="#">Reviews and Rating</a></li>
                     </ul>
                   </li>
-                  <li><a href="#">Transaction Histroy</a></li>
-                  <li><a href="checkcoupon.php">Check Coupon</a></li> 
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/transaction.php">Transaction Histroy</a></li>
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/checkcoupon.php">Check Coupon</a></li> 
               </ul>
           <?php
                 } elseif($user->hasPermission('normal_user')){
           ?>
                   <li class=""><a href="<?php echo BASE_URL; ?>index.php">All Deals</a></li>
-                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/homepage_normalUser.php?deal=active">Active deals</a></li>  
-                  <li><a href="#">Top Deals</a></li>
+                  <li><a href="<?php echo BASE_URL; ?>php/controller/members/homepage_normalUser.php?deal=top">Top Deals</a></li>
                   <li class="dropdown" id="accountmenu">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="">Category<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -141,8 +140,7 @@
           } else{
         ?>
               <li class=""><a href="<?php echo BASE_URL; ?>index.php">All Deals</a></li>
-              <li><a href="<?php echo BASE_URL; ?>index.php?deal=active">Active deals</a></li>  
-              <li><a href="#">Top Deals</a></li>
+              <li><a href="<?php echo BASE_URL; ?>index.php?deal=top">Top Deals</a></li>
               <li class="dropdown" id="accountmenu">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Category<b class="caret"></b></a>
                 <ul class="dropdown-menu">

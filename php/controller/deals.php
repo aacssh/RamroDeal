@@ -5,17 +5,7 @@ $user = new User();
 $comment = Comment::getCommentInstance();
 if(Input::exists()){
     if(Input::get('hide') === ''){
-        if(Input::get('submit') === 'buy'){
-            if(Token::check(Input::get('token'))){
-                if($user->isLoggedIn()){
-
-                    echo "<script>alert('$user->data()->username');</script>";
-                } else{
-                    echo "<script>alert('Please log in to buy');</script>";
-                }
-            }
-        }
-        elseif(Input::get('submit') === 'comment'){
+        if(Input::get('submit') === 'comment'){
           $validate = Validate::getValidateInstance();
           $validation = $validate->check($_POST, array(
              'comment' => array(

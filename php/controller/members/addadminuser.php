@@ -40,7 +40,6 @@ if(Input::exists()){
          ));
    
          if($validation->passed()){
-            $user = new User();
             $salt = Hash::salt(32);
             $email = Input::get('email');
             $username = explode('@', $email);
@@ -63,8 +62,7 @@ if(Input::exists()){
                   'company' => 'sheo8IQ1QsvZsefi9C',
                   'groups' => 2
                ));
-               $mail = new Email();
-               if($mail->welcomeMail($fname.' '.$lname, $username[0], $email)){
+               if(welcomeMail($email, $username[0], $fname.' '.$lname)){
                   Session::flash('home', 'New admin has been registered and email has been sent!');
                }else{
                   Session::flash('home', 'New admin has been registered and email couldn\'t be sent!');

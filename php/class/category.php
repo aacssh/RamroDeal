@@ -45,10 +45,6 @@ class Category
         return false;
     }
     
-    public function __clone(){
-        
-    }
-    
     public function data(){
         return $this->_data;
     }

@@ -89,7 +89,7 @@ if(Input::exists()){
                ));
                $db->endTransaction();
 
-               if(forgotPassword($email, $password)){
+               if(welcomeMail($email, $password, Input::get('name'))){
                     Session::flash('home', 'New company has been added. Email sent.');
                 }else{
                     Session::flash('home', 'New company has been added.');
