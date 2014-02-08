@@ -108,7 +108,7 @@ function register_form($address, $msg){
         <div class="row">
             <div class="col-lg-12 col-sm-12">
                 <div class="form-actions">
-                <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block submit" type="submit">Sign in</button>
+                <button type="submit" id="submit" name="submit"  class="btn btn-lg btn-primary btn-block submit" type="submit">Sign Up</button>
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@ function register_form($address, $msg){
     if(!empty($msg)){
 ?>
     <div class="alert alert-danger">
-        <span class='control-label text-center btn btn-large btn-block error'></span>
+        <span class='control-label text-center btn btn-large btn-block error'><?php echo $msg;?></span>
     </div>
 </div>
 <?php

@@ -26,7 +26,7 @@ spl_autoload_register(function ($obj)
     include 'class/'.$class.'.php';
 });
 
-//Session::regenerate();
+Session::regenerate();
 
 // For paypal
 $PayPalMode         = 'sandbox'; // sandbox or live

@@ -17,14 +17,14 @@ class Session{
             unset($_SESSION[$name]);
         }
     }
-/*
+
     public static function regenerate(){
         if(self::exists($name)){
             session_regenerate_id();
         }
         return $_SESSION[$name] = session_id();
-    }*/
-    
+    }
+  
     public static function flash($name, $string = ''){
         if(self::exists($name)){
             $session = self::get($name);

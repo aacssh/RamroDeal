@@ -93,9 +93,8 @@ if(Input::exists()){
                 }
             } else{
                 foreach($validation->errors() as $error){
-                    $msg = $error.'<br />';
+                    $msg .= $error.'<br />';
                 }
-                echo $msg;
             }
         }
     } else{
