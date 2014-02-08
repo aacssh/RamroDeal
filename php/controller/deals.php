@@ -1,5 +1,5 @@
 <?php
-include '../init_index.php';
+include '../init.php';
 
 $user = new User();
 $comment = Comment::getCommentInstance();

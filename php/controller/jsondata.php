@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-include '../init_index.php';
+include '../init.php';
 
 $comment = Comment::getCommentInstance();
 $deals= Deal::getDealInstance()->getAllDeal();
