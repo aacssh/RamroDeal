@@ -65,7 +65,6 @@ if(Input::exists()){
                 $email = Input::get('email');
                 $username = explode('@', $email);
                 $password = Input::get('password');
-    
                 try{
                     $user->create(array(
                         'user_id' => RandomCode::randCode(18),
@@ -82,10 +81,11 @@ if(Input::exists()){
                         'company' => 'jfhK8KSn38kfuwKEj',
                         'groups' => 3
                     ));
-
+                    /*
                     if(welcomeMail($email, $password, Input::get('fname').' '.Input::get('lname'))){
                         Session::flash('home', 'Welcome to RamroDeal family. You have been registered and can log in!');
                     }
+                    */
                     Redirect::to('index.php');
                 }catch(Exception $e){
                     //echo $e->getMessage();

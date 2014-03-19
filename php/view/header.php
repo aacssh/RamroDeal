@@ -22,7 +22,7 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo BASE_URL; ?>bootstrap/css/custom.css" rel="stylesheet">
     <link href="<?php echo BASE_URL; ?>bootstrap/css/signin.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>bootstrap/css/jquery-ui.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo BASE_URL; ?>favicon.ico" />
   </head>
   <body id="container" class="container">

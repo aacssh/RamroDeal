@@ -1,6 +1,7 @@
 <?php
 function success($message){
 ?>
+<br />
 <div class="container">
 	<span class='btn btn-info btn-lg btn-block text-center'>Success!!!</span>
 	<div class='alert alert-success'>

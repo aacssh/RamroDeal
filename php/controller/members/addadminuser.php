@@ -62,6 +62,7 @@ if(Input::exists()){
                   'company' => 'sheo8IQ1QsvZsefi9C',
                   'groups' => 2
                ));
+
                if(welcomeMail($email, $username[0], $fname.' '.$lname)){
                   Session::flash('home', 'New admin has been registered and email has been sent!');
                }else{
